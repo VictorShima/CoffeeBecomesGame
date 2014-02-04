@@ -1,7 +1,7 @@
 package com.md.mechevo.game;
 
-public class Obstacle extends Solid implements CollisionVisitor {
-    public Obstacle(float width, float height, Coordinate initialCoordinate) {
+public abstract class Projectile extends Solid implements CollisionVisitor {
+    public Projectile(float width, float height, Coordinate initialCoordinate) {
         super(width, height, initialCoordinate);
     }
 
