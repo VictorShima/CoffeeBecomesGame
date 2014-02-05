@@ -11,21 +11,21 @@ public final class AIAlgorithm {
 
 	/**
 	 * Constructor with specified owner.
+	 * 
 	 * @param owner Owner of the AI
 	 */
-	public AIAlgorithm( Player owner ) {
+	public AIAlgorithm(Player owner) {
 		this.owner = owner;
 	}
-	
-	
+
+
 	/**
 	 * Goes through all AI Entries in order and selects the best Action
+	 * 
 	 * @param state Current state of the game
 	 * @return The proposed Action
 	 */
-	public calculateBestAction( State state ) {
-	}
-
+	public calculateBestAction(State state) {}
 
 
 
