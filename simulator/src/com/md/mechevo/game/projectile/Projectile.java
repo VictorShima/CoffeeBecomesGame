@@ -12,22 +12,20 @@ public abstract class Projectile extends Solid implements CollisionVisitor {
 	}
 
 	@Override
-	public void collidesWith(Player p){
-        p.takeDamage(weapon.getDamage());
-    }
+	public abstract void collidesWith(State state, Player p);
 
 	@Override
-	public abstract void collidesWith(Projectile p);
+	public abstract void collidesWith(State state, Projectile p);
 
 	@Override
-	public abstract void collidesWith(Obstacle o);
+	public abstract void collidesWith(State State, Obstacle o);
 
 	@Override
-	public abstract void collidesWith(Sentry s);
+	public abstract void collidesWith(State state, Sentry s);
 
 	@Override
-	public void accept(CollisionVisitor s) {
-		s.collidesWith(this);
+	public void accept(CollisionVisitor s, State state) {
+		s.collidesWith(state, this);
 	}
 
 	public void play(State state) {

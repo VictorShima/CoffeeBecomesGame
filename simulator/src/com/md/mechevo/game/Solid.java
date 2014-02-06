@@ -85,10 +85,11 @@ public abstract class Solid {
 
 	/**
 	 * Implements the visitor design pattern to enable new operations on solids.
-	 * 
-	 * @param s the visitor
-	 */
-	public abstract void accept(CollisionVisitor s);
+	 *
+     * @param s the visitor
+     * @param state the state after moving
+     */
+	public abstract void accept(CollisionVisitor s, State state);
 
 	Position nextPosition(float time) {
 		float x = (float) Math.cos(getAngle()) * getSpeed() * time;
