@@ -5,21 +5,23 @@ import com.md.mechevo.game.sentry.Sentry;
 import com.md.mechevo.game.weapon.Weapon;
 
 public abstract class Projectile extends Solid implements CollisionVisitor {
-    private Weapon weapon;
+	private Weapon weapon;
 
 
-	protected Projectile(Position position, float width, float height, float speed, float angle, Weapon weapon) {
-		super(position, width, height, speed, angle);
-        this.weapon = weapon;
+	protected Projectile(Position position, float width, float height, float speed, float angle,
+					Weapon weapon) {
+		super(width, height, speed, angle);
+		super.setPosition(position);
+		this.weapon = weapon;
 	}
 
-    public Weapon getWeapon() {
-        return weapon;
-    }
+	public Weapon getWeapon() {
+		return weapon;
+	}
 
-    public void setWeapon(Weapon weapon) {
-        this.weapon = weapon;
-    }
+	public void setWeapon(Weapon weapon) {
+		this.weapon = weapon;
+	}
 
 	@Override
 	public abstract void collidesWith(State state, Player p);
@@ -31,7 +33,7 @@ public abstract class Projectile extends Solid implements CollisionVisitor {
 	public abstract void collidesWith(State State, Obstacle o);
 
 	@Override
-    /* TODO */
+	/* TODO */
 	public abstract void collidesWith(State state, Sentry s);
 
 	@Override
@@ -40,9 +42,9 @@ public abstract class Projectile extends Solid implements CollisionVisitor {
 	}
 
 
-    //TODO
-    @Override
-	public void play(State state) {
+	// TODO
+	@Override
+	public void update(State state, float elapsedTime) {
 
 	}
 }

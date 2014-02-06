@@ -8,36 +8,36 @@ import com.md.mechevo.game.sentry.Sentry;
 import com.md.mechevo.game.weapon.Weapon;
 
 public class ParalyseShot extends Projectile {
-    public static final int INITIAL_WIDTH = 30;
-    public static final int INITIAL_HEIGHT = 30;
-    public static final int INITIAL_SPEED = 30;
+	public static final int INITIAL_WIDTH = 30;
+	public static final int INITIAL_HEIGHT = 30;
+	public static final int INITIAL_SPEED = 30;
 
-    public ParalyseShot(Position position, float angle, Weapon weapon) {
-        super(position, INITIAL_WIDTH, INITIAL_HEIGHT, INITIAL_SPEED, angle, weapon);
-    }
+	public ParalyseShot(Position position, float angle, Weapon weapon) {
+		super(position, INITIAL_WIDTH, INITIAL_HEIGHT, INITIAL_SPEED, angle, weapon);
+	}
 
-    @Override
-    public void collidesWith(State state, Player p){
-        p.takeDamage(this.getWeapon().getDamage());
-        p.paralyse();
-        this.setDestroy(true);
-    }
+	@Override
+	public void collidesWith(State state, Player p) {
+		p.takeDamage(this.getWeapon().getDamage());
+		p.paralyse();
+		this.setDestroy(true);
+	}
 
-    @Override
-    public void collidesWith(State state, Projectile p) {}
+	@Override
+	public void collidesWith(State state, Projectile p) {}
 
-    @Override
-    public void collidesWith(State State, Obstacle o){
-        this.setDestroy(true);
-    }
+	@Override
+	public void collidesWith(State State, Obstacle o) {
+		this.setDestroy(true);
+	}
 
-    @Override
-    public void collidesWith(State state, Sentry s) {}
+	@Override
+	public void collidesWith(State state, Sentry s) {}
 
-    @Override
-    /* TODO */
-    public void play(State state) {
+	@Override
+	/* TODO */
+	public void update(State state, float elapsedTime) {
 
-    }
+	}
 
 }

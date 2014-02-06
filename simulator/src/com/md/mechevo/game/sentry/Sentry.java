@@ -11,7 +11,9 @@ public abstract class Sentry extends Solid implements CollisionVisitor {
 
 	protected Sentry(Position position, float width, float height, float speed, float angle,
 					Player owner, float timeToLive, int damage) {
-		super(position, width, height, speed, angle);
+		super(width, height, speed, angle);
+		super.setPosition(position);
+
 		this.owner = owner;
 		this.timeToLive = timeToLive;
 		this.damage = damage;
@@ -70,7 +72,7 @@ public abstract class Sentry extends Solid implements CollisionVisitor {
 		return timeToLive <= 0;
 	}
 
-	public void play(State state) {
+	public void update(State state, float elapsedTime) {
 		this.updateTTL(state.getTime());
 		if (this.timeToDie()) {
 			owner.removeSentry(this);

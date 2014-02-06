@@ -35,8 +35,8 @@ public class Player extends Solid implements CollisionVisitor {
 	private ArrayList<Weapon> weapons;
 	private ArrayList<Sentry> sentries;
 	private AIAlgorithm algorithm;
-    private boolean paralysed = false;
-    private boolean confused = false;
+	private boolean paralysed = false;
+	private boolean confused = false;
 
 	public Player(int id) {
 		super(INITIAL_WIDTH, INITIAL_HEIGHT, INITIAL_SPEED, INITIAL_ANGLE);
@@ -57,27 +57,27 @@ public class Player extends Solid implements CollisionVisitor {
 
 	public void setHealth(int health) {
 		this.health = health;
-    }
+	}
 
 	public void addWeapon(Weapon w) {
 		weapons.add(w);
 	}
 
-    public boolean isParalysed() {
-        return paralysed;
-    }
+	public boolean isParalysed() {
+		return paralysed;
+	}
 
-    public void setParalysed(boolean paralysed) {
-        this.paralysed = paralysed;
-    }
+	public void setParalysed(boolean paralysed) {
+		this.paralysed = paralysed;
+	}
 
-    public boolean isConfused() {
-        return confused;
-    }
+	public boolean isConfused() {
+		return confused;
+	}
 
-    public void setConfused(boolean confused) {
-        this.confused = confused;
-    }
+	public void setConfused(boolean confused) {
+		this.confused = confused;
+	}
 
 	public void addSentry(Sentry s) {
 		sentries.add(s);
@@ -85,7 +85,8 @@ public class Player extends Solid implements CollisionVisitor {
 
 	public void removeSentry(Sentry s) {
 		sentries.remove(s);
-    
+	}
+
 	public void takeDamage(int damage) {
 		health -= damage;
 		if (health < 0) {
@@ -110,19 +111,19 @@ public class Player extends Solid implements CollisionVisitor {
 	@Override
 	public void collidesWith(State state, Sentry s) {}
 
-    public void confuse() {
-        this.setConfused(true);
-    }
+	public void confuse() {
+		this.setConfused(true);
+	}
 
-    public void paralyse() {
-        this.setParalysed(true);
-    }
+	public void paralyse() {
+		this.setParalysed(true);
+	}
 
-    @Override
-	public void play(State state) {
+	@Override
+	public void update(State state, float elapsedTime) {
 		// update sentries
 		for (Sentry s : sentries) {
-			s.play(state);
+			s.update(state, elapsedTime);
 		}
 
 		// TODO

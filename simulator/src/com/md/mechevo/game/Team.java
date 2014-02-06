@@ -27,10 +27,4 @@ public final class Team {
 
 		return null;
 	}
-
-	public void play(State state) {
-		for (Player p : players) {
-			p.play(state);
-		}
-	}
 }

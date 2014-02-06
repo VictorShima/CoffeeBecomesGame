@@ -19,7 +19,7 @@ public class Map {
 
 	public void update(State state, float elapsedTime) {
 		for (Solid s : elements) {
-			s.play(state, elapsedTime);
+			s.update(state, elapsedTime);
 		}
 	}
 }
