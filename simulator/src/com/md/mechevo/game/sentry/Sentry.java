@@ -1,4 +1,7 @@
-package com.md.mechevo.game;
+package com.md.mechevo.game.sentry;
+
+import com.md.mechevo.game.*;
+import com.md.mechevo.game.projectile.Projectile;
 
 public abstract class Sentry extends Solid implements CollisionVisitor {
 	private Player owner;
@@ -6,9 +9,11 @@ public abstract class Sentry extends Solid implements CollisionVisitor {
 	private float cooldown;
 	private float timeToLive;
 
-	protected Sentry(Coordinate coordinate, float width, float height, float speed, float angle,
+	protected Sentry(Position position, float width, float height, float speed, float angle,
 					Player owner, float timeToLive, int damage) {
-		super(coordinate, width, height, speed, angle);
+		super(width, height, speed, angle);
+		super.setPosition(position);
+
 		this.owner = owner;
 		this.timeToLive = timeToLive;
 		this.damage = damage;
@@ -43,20 +48,20 @@ public abstract class Sentry extends Solid implements CollisionVisitor {
 	}
 
 	@Override
-	public abstract void collidesWith(Player p);
+	public abstract void collidesWith(State state, Player p);
 
 	@Override
-	public abstract void collidesWith(Projectile p);
+	public abstract void collidesWith(State state, Projectile p);
 
 	@Override
-	public abstract void collidesWith(Obstacle o);
+	public abstract void collidesWith(State State, Obstacle o);
 
 	@Override
-	public abstract void collidesWith(Sentry s);
+	public abstract void collidesWith(State state, Sentry s);
 
 	@Override
-	void accept(CollisionVisitor s) {
-		s.collidesWith(this);
+	public void accept(CollisionVisitor s, State state) {
+		s.collidesWith(state, this);
 	}
 
 	private void updateTTL(float time) {
@@ -67,8 +72,8 @@ public abstract class Sentry extends Solid implements CollisionVisitor {
 		return timeToLive <= 0;
 	}
 
-	public void play(float time) {
-		this.updateTTL(time);
+	public void update(State state, float elapsedTime) {
+		this.updateTTL(state.getTime());
 		if (this.timeToDie()) {
 			owner.removeSentry(this);
 			return;

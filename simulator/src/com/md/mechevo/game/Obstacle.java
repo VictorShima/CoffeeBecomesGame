@@ -1,25 +1,29 @@
 package com.md.mechevo.game;
 
+import com.md.mechevo.game.projectile.Projectile;
+import com.md.mechevo.game.sentry.Sentry;
+
 public abstract class Obstacle extends Solid implements CollisionVisitor {
-	protected Obstacle(Coordinate centerCoordinate, float width, float height, float speed,
-					int health, float angle) {
-		super(centerCoordinate, width, height, speed, angle);
+	protected Obstacle(Position centerPosition, float width, float height, float speed, int health,
+					float angle) {
+		super(width, height, speed, angle);
+		super.setPosition(centerPosition);
 	}
 
 	@Override
-	public abstract void collidesWith(Player p);
+	public abstract void collidesWith(State state, Player p);
 
 	@Override
-	public abstract void collidesWith(Projectile p);
+	public abstract void collidesWith(State state, Projectile p);
 
 	@Override
-	public abstract void collidesWith(Obstacle o);
+	public abstract void collidesWith(State State, Obstacle o);
 
 	@Override
-	public abstract void collidesWith(Sentry s);
+	public abstract void collidesWith(State state, Sentry s);
 
 	@Override
-	void accept(CollisionVisitor s) {
-		s.collidesWith(this);
+	public void accept(CollisionVisitor s, State state) {
+		s.collidesWith(state, this);
 	}
 }

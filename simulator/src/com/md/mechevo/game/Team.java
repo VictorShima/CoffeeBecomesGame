@@ -13,9 +13,18 @@ public final class Team {
 		players.add(player);
 	}
 
-	public void play(float time) {
+	/**
+	 * 
+	 * @param id
+	 * @return a player if a player with the id exists in the team, null otherwise
+	 */
+	public Player getPlayer(int id) {
 		for (Player p : players) {
-			p.play(time);
+			if (p.getID() == id) {
+				return p;
+			}
 		}
+
+		return null;
 	}
 }

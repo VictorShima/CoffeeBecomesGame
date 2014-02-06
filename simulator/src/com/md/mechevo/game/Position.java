@@ -3,11 +3,11 @@ package com.md.mechevo.game;
 /**
  * A coordinate represents a 2D position that is composed by a x and y positions.
  */
-public final class Coordinate {
+public final class Position {
 	private float x;
 	private float y;
 
-	public Coordinate(float x, float y) {
+	public Position(float x, float y) {
 		this.x = x;
 		this.y = y;
 

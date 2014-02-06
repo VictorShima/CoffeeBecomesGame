@@ -8,19 +8,33 @@ public class Simulator {
 
 	public Simulator() {}
 
-	public Map getMap() {
-		return map;
-	}
-
-	public void setMap(Map map) {
-		this.map = map;
-	}
-
 	public ArrayList<Team> getTeams() {
 		return teams;
 	}
 
-	public void addTeam(Team t) {
-		teams.add(t);
+	private boolean gameHasFinished() {
+		// TODO
+		return false;
+	}
+
+	public Report runGame(State initialState) {
+		Report report = new Report();
+		report.addState(initialState);
+
+		// initialize variables with the initial state
+		this.map = initialState.getMap();
+		this.teams = initialState.getTeams();
+
+		// game loop
+		while (!gameHasFinished()) {
+			State lastState = report.getLastState();
+			float time = System.currentTimeMillis();
+
+			map.update(lastState, time - lastState.getTime());
+			// State currentState = (Map) map.clone();
+			// report.addState(currentState);
+		}
+
+		return report;
 	}
 }
