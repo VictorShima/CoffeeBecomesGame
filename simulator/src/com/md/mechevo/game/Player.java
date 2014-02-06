@@ -8,19 +8,41 @@ import com.md.mechevo.game.sentry.Sentry;
 import com.md.mechevo.game.weapon.Weapon;
 
 public class Player extends Solid implements CollisionVisitor {
+	public static final int INITIAL_HEALTH = 100;
+
+	/**
+	 * Width is measured in pixels
+	 */
+	public static final float INITIAL_WIDTH = 30;
+
+	/**
+	 * Height is measured in pixels
+	 */
+	public static final float INITIAL_HEIGHT = 30;
+
+	/**
+	 * Speed is measured by number of pixels per second
+	 */
+	public static final float INITIAL_SPEED = 5;
+
+	/**
+	 * Angle is measured in degrees.
+	 */
+	public static final float INITIAL_ANGLE = 0;
+
 	private int id;
 	private int health;
 	private ArrayList<Weapon> weapons;
 	private ArrayList<Sentry> sentries;
 	private AIAlgorithm algorithm;
 
-	public Player(Position centerPosition, float width, float height, float speed, int health,
-					float angle, int id, ArrayList<Weapon> weapons, AIAlgorithm algorithm) {
-		super(centerPosition, width, height, speed, angle);
+	public Player(int id) {
+		super(INITIAL_WIDTH, INITIAL_HEIGHT, INITIAL_SPEED, INITIAL_ANGLE);
 		this.id = id;
-		this.health = health;
-		this.weapons = weapons;
-		this.algorithm = algorithm;
+		this.health = INITIAL_HEALTH;
+		this.weapons = new ArrayList<>();
+		this.sentries = new ArrayList<>();
+		this.algorithm = new AIAlgorithm();
 	}
 
 	public int getID() {
@@ -39,16 +61,15 @@ public class Player extends Solid implements CollisionVisitor {
 		return weapons;
 	}
 
-	public void setWeapons(ArrayList<Weapon> weapons) {
-		this.weapons = weapons;
+	public void addWeapon(Weapon w) {
+		weapons.add(w);
 	}
 
-	public void addSentry(Sentry s) {
-		sentries.add(s);
-	}
-
-	public void removeSentry(Sentry s) {
-		sentries.remove(s);
+	public void takeDamage(int damage) {
+		health -= damage;
+		if (health < 0) {
+			health = 0;
+		}
 	}
 
 	@Override

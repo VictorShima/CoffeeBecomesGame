@@ -3,17 +3,23 @@ package com.md.mechevo.game;
 import java.util.ArrayList;
 
 public class Map {
-	private ArrayList<Obstacle> obstacles;
+	private ArrayList<Solid> elements;
 
-	public Map(ArrayList<Obstacle> obstacles) {
-		this.obstacles = obstacles;
+	public Map() {
+		elements = new ArrayList<>();
 	}
 
-	public void addObstacle(Obstacle o) {
-		obstacles.add(o);
+	public void addSolid(Solid s) {
+		elements.add(s);
 	}
 
-	public void destroyObstacle(Obstacle o) {
-		obstacles.remove(o);
+	public void destroySolid(Solid s) {
+		elements.remove(s);
+	}
+
+	public void update(State state, float elapsedTime) {
+		for (Solid s : elements) {
+			s.play(state, elapsedTime);
+		}
 	}
 }

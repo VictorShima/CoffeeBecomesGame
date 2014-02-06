@@ -9,13 +9,13 @@ import java.util.ArrayList;
 public class State {
 	private Map map;
 	private ArrayList<Team> teams;
+
+	/**
+	 * Time is in milliseconds.
+	 */
 	private float time;
 
-	public State(Map map, ArrayList<Team> teams, float time) {
-		this.map = map;
-		this.teams = teams;
-		this.time = time;
-	}
+	public State() {}
 
 	public Map getMap() {
 		return map;

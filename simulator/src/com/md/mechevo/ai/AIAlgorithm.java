@@ -11,6 +11,10 @@ public final class AIAlgorithm {
 
 	private Player owner;
 
+	public AIAlgorithm() {
+
+	}
+
 
 	/**
 	 * Constructor with specified owner.
@@ -29,9 +33,9 @@ public final class AIAlgorithm {
 	 * @return The proposed Action
 	 */
 	public AIAction calculateBestAction(State state) {
-        // TODO
-        return null;
-    }
+		// TODO
+		return null;
+	}
 
 
 

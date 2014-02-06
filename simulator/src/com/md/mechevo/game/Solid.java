@@ -11,8 +11,7 @@ public abstract class Solid {
 	private float speed;
 	private float angle;
 
-	protected Solid(Position position, float width, float height, float speed, float angle) {
-		this.position = position;
+	protected Solid(float width, float height, float speed, float angle) {
 		this.width = width;
 		this.height = height;
 		this.speed = speed;
@@ -85,10 +84,10 @@ public abstract class Solid {
 
 	/**
 	 * Implements the visitor design pattern to enable new operations on solids.
-	 *
-     * @param s the visitor
-     * @param state the state after moving
-     */
+	 * 
+	 * @param s the visitor
+	 * @param state the state after moving
+	 */
 	public abstract void accept(CollisionVisitor s, State state);
 
 	Position nextPosition(float time) {
