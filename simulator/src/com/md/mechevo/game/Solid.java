@@ -100,11 +100,20 @@ public abstract class Solid {
 	 */
 	public abstract void accept(CollisionVisitor s, State state);
 
-	Position nextPosition(float time) {
-		float x = (float) Math.cos(getAngle()) * getSpeed() * time;
-		float y = (float) Math.sin(getAngle()) * getSpeed() * time;
-		return new Position(x, y);
-	}
 
-	public abstract void update(State state, float elapsedTime);
+    /**
+     * Default case for updating position. Used in everything that isn't homing.
+     * @param state
+     * @param elapsedTime
+     */
+	public void update(State state, float elapsedTime){
+        float velX = (float) Math.cos(angle);
+        float velY = (float) Math.sin(angle);
+        /* Normalization of the velocity vector */
+        float vel = velX + velY;
+        velX = (velX / vel) * elapsedTime * (speed/1000);
+        velY = -(velY / vel) * elapsedTime * (speed/1000);
+
+        this.setPosition(new Position(this.getPosition().getX() + velX, this.getPosition().getY() + velY));
+    }
 }
