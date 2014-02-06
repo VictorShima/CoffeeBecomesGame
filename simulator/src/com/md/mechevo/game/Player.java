@@ -13,6 +13,8 @@ public class Player extends Solid implements CollisionVisitor {
 	private ArrayList<Weapon> weapons;
 	private ArrayList<Sentry> sentries;
 	private AIAlgorithm algorithm;
+    private boolean paralysed = false;
+    private boolean confused = false;
 
 	public Player(Position centerPosition, float width, float height, float speed, int health,
 					float angle, int id, ArrayList<Weapon> weapons, AIAlgorithm algorithm) {
@@ -43,6 +45,22 @@ public class Player extends Solid implements CollisionVisitor {
 		this.weapons = weapons;
 	}
 
+    public boolean isParalysed() {
+        return paralysed;
+    }
+
+    public void setParalysed(boolean paralysed) {
+        this.paralysed = paralysed;
+    }
+
+    public boolean isConfused() {
+        return confused;
+    }
+
+    public void setConfused(boolean confused) {
+        this.confused = confused;
+    }
+
 	public void addSentry(Sentry s) {
 		sentries.add(s);
 	}
@@ -68,8 +86,13 @@ public class Player extends Solid implements CollisionVisitor {
 	@Override
 	public void collidesWith(State state, Sentry s) {}
 
-    //TODO
-    public void confuse() {}
+    public void confuse() {
+        this.setConfused(true);
+    }
+
+    public void paralyse() {
+        this.setParalysed(true);
+    }
 
     @Override
 	public void play(State state) {
