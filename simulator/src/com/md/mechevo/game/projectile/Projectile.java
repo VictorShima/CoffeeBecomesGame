@@ -7,9 +7,19 @@ import com.md.mechevo.game.weapon.Weapon;
 public abstract class Projectile extends Solid implements CollisionVisitor {
     private Weapon weapon;
 
-	protected Projectile(Position position, float width, float height, float speed, float angle) {
+
+	protected Projectile(Position position, float width, float height, float speed, float angle, Weapon weapon) {
 		super(position, width, height, speed, angle);
+        this.weapon = weapon;
 	}
+
+    public Weapon getWeapon() {
+        return weapon;
+    }
+
+    public void setWeapon(Weapon weapon) {
+        this.weapon = weapon;
+    }
 
 	@Override
 	public abstract void collidesWith(State state, Player p);
@@ -21,6 +31,7 @@ public abstract class Projectile extends Solid implements CollisionVisitor {
 	public abstract void collidesWith(State State, Obstacle o);
 
 	@Override
+    /* TODO */
 	public abstract void collidesWith(State state, Sentry s);
 
 	@Override
@@ -28,6 +39,9 @@ public abstract class Projectile extends Solid implements CollisionVisitor {
 		s.collidesWith(state, this);
 	}
 
+
+    //TODO
+    @Override
 	public void play(State state) {
 
 	}

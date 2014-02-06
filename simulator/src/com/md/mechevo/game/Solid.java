@@ -10,6 +10,11 @@ public abstract class Solid {
 	private float height;
 	private float speed;
 	private float angle;
+    private boolean destroy = false;
+
+
+
+
 
 	protected Solid(Position position, float width, float height, float speed, float angle) {
 		this.position = position;
@@ -63,6 +68,13 @@ public abstract class Solid {
 		this.position = position;
 	}
 
+    public boolean isDestroy() {
+        return destroy;
+    }
+
+    public void setDestroy(boolean destroy) {
+        this.destroy = destroy;
+    }
 
 	/**
 	 * @return a position with the center point
@@ -96,4 +108,6 @@ public abstract class Solid {
 		float y = (float) Math.sin(getAngle()) * getSpeed() * time;
 		return new Position(x, y);
 	}
+
+    public abstract void play(State state);
 }

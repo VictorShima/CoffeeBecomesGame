@@ -68,6 +68,10 @@ public class Player extends Solid implements CollisionVisitor {
 	@Override
 	public void collidesWith(State state, Sentry s) {}
 
+    //TODO
+    public void confuse() {}
+
+    @Override
 	public void play(State state) {
 		// update sentries
 		for (Sentry s : sentries) {
