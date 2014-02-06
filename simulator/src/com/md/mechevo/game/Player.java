@@ -14,9 +14,9 @@ public class Player extends Solid implements CollisionVisitor {
 	private ArrayList<Sentry> sentries;
 	private AIAlgorithm algorithm;
 
-	public Player(Coordinate centerCoordinate, float width, float height, float speed, int health,
+	public Player(Position centerPosition, float width, float height, float speed, int health,
 					float angle, int id, ArrayList<Weapon> weapons, AIAlgorithm algorithm) {
-		super(centerCoordinate, width, height, speed, angle);
+		super(centerPosition, width, height, speed, angle);
 		this.id = id;
 		this.health = health;
 		this.weapons = weapons;

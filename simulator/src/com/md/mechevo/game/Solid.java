@@ -3,16 +3,16 @@ package com.md.mechevo.game;
 
 public abstract class Solid {
 	/**
-	 * This is the left-most and top-most coordinate.
+	 * This is the left-most and top-most position.
 	 */
-	private Coordinate coordinate;
+	private Position position;
 	private float width;
 	private float height;
 	private float speed;
 	private float angle;
 
-	protected Solid(Coordinate coordinate, float width, float height, float speed, float angle) {
-		this.coordinate = coordinate;
+	protected Solid(Position position, float width, float height, float speed, float angle) {
+		this.position = position;
 		this.width = width;
 		this.height = height;
 		this.speed = speed;
@@ -55,32 +55,32 @@ public abstract class Solid {
 		this.speed = speed;
 	}
 
-	public Coordinate getCoordinate() {
-		return coordinate;
+	public Position getPosition() {
+		return position;
 	}
 
-	public void setCoordinate(Coordinate coordinate) {
-		this.coordinate = coordinate;
+	public void setPosition(Position position) {
+		this.position = position;
 	}
 
 
 	/**
-	 * @return a coordinate with the center point
+	 * @return a position with the center point
 	 */
-	Coordinate getCenterPoint() {
-		return new Coordinate(coordinate.getX() + width / 2, coordinate.getY() + height / 2);
+	Position getCenterPoint() {
+		return new Position(position.getX() + width / 2, position.getY() + height / 2);
 	}
 
 	/**
-	 * @return two coordinates where the top-most and left-most coordinate and the bottom-most and
-	 *         right-most coordinate.
+	 * @return two coordinates where the top-most and left-most position and the bottom-most and
+	 *         right-most position.
 	 */
-	Coordinate[] getBoundingBox() {
-		Coordinate[] coordinates = new Coordinate[2];
-		coordinates[0] = this.getCoordinate();
-		coordinates[1] = new Coordinate(coordinate.getX() + width, coordinate.getY() + height);
+	Position[] getBoundingBox() {
+		Position[] positions = new Position[2];
+		positions[0] = this.getPosition();
+		positions[1] = new Position(position.getX() + width, position.getY() + height);
 
-		return coordinates;
+		return positions;
 	}
 
 	/**
@@ -90,9 +90,9 @@ public abstract class Solid {
 	 */
 	public abstract void accept(CollisionVisitor s);
 
-	Coordinate nextPosition(float time) {
+	Position nextPosition(float time) {
 		float x = (float) Math.cos(getAngle()) * getSpeed() * time;
 		float y = (float) Math.sin(getAngle()) * getSpeed() * time;
-		return new Coordinate(x, y);
+		return new Position(x, y);
 	}
 }

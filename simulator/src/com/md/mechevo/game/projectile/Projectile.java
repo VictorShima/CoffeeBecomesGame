@@ -4,8 +4,8 @@ import com.md.mechevo.game.*;
 import com.md.mechevo.game.sentry.Sentry;
 
 public abstract class Projectile extends Solid implements CollisionVisitor {
-	protected Projectile(Coordinate coordinate, float width, float height, float speed, float angle) {
-		super(coordinate, width, height, speed, angle);
+	protected Projectile(Position position, float width, float height, float speed, float angle) {
+		super(position, width, height, speed, angle);
 	}
 
 	@Override

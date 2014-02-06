@@ -9,9 +9,9 @@ public abstract class Sentry extends Solid implements CollisionVisitor {
 	private float cooldown;
 	private float timeToLive;
 
-	protected Sentry(Coordinate coordinate, float width, float height, float speed, float angle,
+	protected Sentry(Position position, float width, float height, float speed, float angle,
 					Player owner, float timeToLive, int damage) {
-		super(coordinate, width, height, speed, angle);
+		super(position, width, height, speed, angle);
 		this.owner = owner;
 		this.timeToLive = timeToLive;
 		this.damage = damage;

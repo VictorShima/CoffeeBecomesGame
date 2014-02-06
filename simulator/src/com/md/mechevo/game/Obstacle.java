@@ -4,9 +4,9 @@ import com.md.mechevo.game.projectile.Projectile;
 import com.md.mechevo.game.sentry.Sentry;
 
 public abstract class Obstacle extends Solid implements CollisionVisitor {
-	protected Obstacle(Coordinate centerCoordinate, float width, float height, float speed,
+	protected Obstacle(Position centerPosition, float width, float height, float speed,
 					int health, float angle) {
-		super(centerCoordinate, width, height, speed, angle);
+		super(centerPosition, width, height, speed, angle);
 	}
 
 	@Override
