@@ -3,6 +3,9 @@ package com.md.mechevo.game;
 import java.util.ArrayList;
 
 import com.md.mechevo.ai.AIAlgorithm;
+import com.md.mechevo.game.projectile.Projectile;
+import com.md.mechevo.game.sentry.Sentry;
+import com.md.mechevo.game.weapon.Weapon;
 
 public class Player extends Solid implements CollisionVisitor {
 	private int id;
@@ -49,7 +52,7 @@ public class Player extends Solid implements CollisionVisitor {
 	}
 
 	@Override
-	void accept(CollisionVisitor s) {
+	public void accept(CollisionVisitor s) {
 		s.collidesWith(this);
 	}
 
@@ -69,9 +72,10 @@ public class Player extends Solid implements CollisionVisitor {
 
 	}
 
-	public void play(float time) {
+	public void play(State state) {
+		// update sentries
 		for (Sentry s : sentries) {
-			s.play(time);
+			s.play(state);
 		}
 
 		// TODO

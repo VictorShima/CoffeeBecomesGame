@@ -1,4 +1,6 @@
-package com.md.mechevo.game;
+package com.md.mechevo.game.weapon;
+
+import com.md.mechevo.game.State;
 
 public abstract class Weapon {
 	private int damage;
@@ -25,7 +27,7 @@ public abstract class Weapon {
 		this.cooldown = cooldown;
 	}
 
-	public void play(float time) {
+	public void play(State state) {
 		// TODO
 	}
 }

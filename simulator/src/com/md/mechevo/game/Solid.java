@@ -88,7 +88,7 @@ public abstract class Solid {
 	 * 
 	 * @param s the visitor
 	 */
-	abstract void accept(CollisionVisitor s);
+	public abstract void accept(CollisionVisitor s);
 
 	Coordinate nextPosition(float time) {
 		float x = (float) Math.cos(getAngle()) * getSpeed() * time;

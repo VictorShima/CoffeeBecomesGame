@@ -1,8 +1,11 @@
-package com.md.mechevo.game;
+package com.md.mechevo.game.projectile;
+
+import com.md.mechevo.game.*;
+import com.md.mechevo.game.sentry.Sentry;
 
 public abstract class Projectile extends Solid implements CollisionVisitor {
-	public Projectile(float width, float height, Coordinate initialCoordinate) {
-		super(width, height, initialCoordinate);
+	protected Projectile(Coordinate coordinate, float width, float height, float speed, float angle) {
+		super(coordinate, width, height, speed, angle);
 	}
 
 	@Override
@@ -18,7 +21,11 @@ public abstract class Projectile extends Solid implements CollisionVisitor {
 	public abstract void collidesWith(Sentry s);
 
 	@Override
-	void accept(CollisionVisitor s) {
+	public void accept(CollisionVisitor s) {
 		s.collidesWith(this);
+	}
+
+	public void play(State state) {
+
 	}
 }

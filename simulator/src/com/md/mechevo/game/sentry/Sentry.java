@@ -1,4 +1,7 @@
-package com.md.mechevo.game;
+package com.md.mechevo.game.sentry;
+
+import com.md.mechevo.game.*;
+import com.md.mechevo.game.projectile.Projectile;
 
 public abstract class Sentry extends Solid implements CollisionVisitor {
 	private Player owner;
@@ -55,7 +58,7 @@ public abstract class Sentry extends Solid implements CollisionVisitor {
 	public abstract void collidesWith(Sentry s);
 
 	@Override
-	void accept(CollisionVisitor s) {
+	public void accept(CollisionVisitor s) {
 		s.collidesWith(this);
 	}
 
@@ -67,8 +70,8 @@ public abstract class Sentry extends Solid implements CollisionVisitor {
 		return timeToLive <= 0;
 	}
 
-	public void play(float time) {
-		this.updateTTL(time);
+	public void play(State state) {
+		this.updateTTL(state.getTime());
 		if (this.timeToDie()) {
 			owner.removeSentry(this);
 			return;

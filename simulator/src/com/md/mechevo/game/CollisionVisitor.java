@@ -1,5 +1,8 @@
 package com.md.mechevo.game;
 
+import com.md.mechevo.game.projectile.Projectile;
+import com.md.mechevo.game.sentry.Sentry;
+
 public interface CollisionVisitor {
 	void collidesWith(Player p);
 

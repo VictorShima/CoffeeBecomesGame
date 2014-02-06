@@ -1,6 +1,9 @@
 package com.md.mechevo.ai;
 
 
+import com.md.mechevo.game.Player;
+import com.md.mechevo.game.State;
+
 /**
  * AIAlgorithm will run its internal algorithm and pick an AIAction for the owner Solid to execute
  */
@@ -25,7 +28,10 @@ public final class AIAlgorithm {
 	 * @param state Current state of the game
 	 * @return The proposed Action
 	 */
-	public calculateBestAction(State state) {}
+	public AIAction calculateBestAction(State state) {
+        // TODO
+        return null;
+    }
 
 
 
