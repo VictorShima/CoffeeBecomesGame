@@ -6,7 +6,7 @@ public class Map {
 	private ArrayList<Solid> elements;
 
 	public Map() {
-		elements = new ArrayList<>();
+		elements = new ArrayList<Solid>();
 	}
 
 	public void addSolid(Solid s) {

@@ -42,8 +42,8 @@ public class Player extends Solid implements CollisionVisitor {
 		super(INITIAL_WIDTH, INITIAL_HEIGHT, INITIAL_SPEED, INITIAL_ANGLE);
 		this.id = id;
 		this.health = INITIAL_HEALTH;
-		this.weapons = new ArrayList<>();
-		this.sentries = new ArrayList<>();
+		this.weapons = new ArrayList<Weapon>();
+		this.sentries = new ArrayList<Sentry>();
 		this.algorithm = new AIAlgorithm();
 	}
 
