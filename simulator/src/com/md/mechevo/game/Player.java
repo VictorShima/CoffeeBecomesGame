@@ -52,25 +52,21 @@ public class Player extends Solid implements CollisionVisitor {
 	}
 
 	@Override
-	public void accept(CollisionVisitor s) {
-		s.collidesWith(this);
+	public void accept(CollisionVisitor s, State state) {
+		s.collidesWith(state, this);
 	}
 
 	@Override
-	public void collidesWith(Player p) {}
+	public void collidesWith(State state, Player p) {}
 
 	@Override
-	public void collidesWith(Projectile p) {}
+	public void collidesWith(State state, Projectile p) {}
 
 	@Override
-	public void collidesWith(Obstacle o) {
-
-	}
+	public void collidesWith(State State, Obstacle o) {}
 
 	@Override
-	public void collidesWith(Sentry s) {
-
-	}
+	public void collidesWith(State state, Sentry s) {}
 
 	public void play(State state) {
 		// update sentries

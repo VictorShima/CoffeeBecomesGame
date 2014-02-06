@@ -10,19 +10,19 @@ public abstract class Obstacle extends Solid implements CollisionVisitor {
 	}
 
 	@Override
-	public abstract void collidesWith(Player p);
+	public abstract void collidesWith(State state, Player p);
 
 	@Override
-	public abstract void collidesWith(Projectile p);
+	public abstract void collidesWith(State state, Projectile p);
 
 	@Override
-	public abstract void collidesWith(Obstacle o);
+	public abstract void collidesWith(State State, Obstacle o);
 
 	@Override
-	public abstract void collidesWith(Sentry s);
+	public abstract void collidesWith(State state, Sentry s);
 
 	@Override
-	public void accept(CollisionVisitor s) {
-		s.collidesWith(this);
+	public void accept(CollisionVisitor s, State state) {
+		s.collidesWith(state, this);
 	}
 }
