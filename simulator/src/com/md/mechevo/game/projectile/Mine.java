@@ -34,7 +34,6 @@ public class Mine extends Projectile {
 	public void collidesWith(State state, Sentry s) {}
 
 	@Override
-	/* TODO */
 	public void update(State state) {
 
 	}

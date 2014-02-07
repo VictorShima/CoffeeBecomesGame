@@ -1,22 +1,20 @@
 package com.md.mechevo.game.ai;
 
-<<<<<<< HEAD
+
 import java.util.ArrayList;
 
+import com.md.mechevo.game.Player;
+import com.md.mechevo.game.State;
 import com.md.mechevo.game.action.Action;
 import com.md.mechevo.game.condition.Condition;
-import com.md.mechevo.game.Player;
-=======
->>>>>>> origin
-import com.md.mechevo.game.State;
 
 public class AIEntry {
 
 	private AIAlgorithm algorithm;
 	private ArrayList<Condition> conditions;
 	private ArrayList<Action> actions;
-	
-	
+
+
 	/**
 	 * Constructor.
 	 * 
@@ -36,7 +34,7 @@ public class AIEntry {
 	 */
 	public boolean checkRequirements(State state) {
 		boolean pass = true;
-		for ( Condition cond : this.conditions ) {
+		for (Condition cond : this.conditions) {
 			pass = pass && cond.check(state);
 			if (!pass) {
 				break;
@@ -55,7 +53,7 @@ public class AIEntry {
 	 */
 	public Player findPreferredTarget(State state) {
 		Player preferred = null;
-		for ( Condition cond : this.conditions ) {
+		for (Condition cond : this.conditions) {
 			if (cond.getPreferredPlayer(state) != null) {
 				preferred = cond.getPreferredPlayer(state);
 			}

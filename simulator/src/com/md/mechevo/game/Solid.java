@@ -105,15 +105,15 @@ public abstract class Solid {
 	 * Default case for updating position. Used in everything that isn't homing.
 	 * 
 	 * @param state
-	 * @param elapsedTime
+	 * 
 	 */
-	public void update(State state, float elapsedTime) {
+	public void update(State state) {
 		float velX = (float) Math.cos(angle);
 		float velY = (float) Math.sin(angle);
 		/* Normalization of the velocity vector */
 		float vel = velX + velY;
-		velX = (velX / vel) * elapsedTime * (speed / 1000);
-		velY = -(velY / vel) * elapsedTime * (speed / 1000);
+		velX = (velX / vel) * state.getTime() * (speed / 1000);
+		velY = -(velY / vel) * state.getTime() * (speed / 1000);
 
 		this.setPosition(new Position(this.getPosition().getX() + velX, this.getPosition().getY()
 						+ velY));

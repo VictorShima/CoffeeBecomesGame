@@ -62,7 +62,7 @@ public class HomingProjectile extends Projectile {
 	 * overriden)
 	 */
 	@Override
-	public void update(State state, float elapsedTime) {
+	public void update(State state) {
 		float vecToTargetX = this.getTarget().getPosition().getX() - this.getPosition().getX();
 		float vecToTargetY = this.getTarget().getPosition().getY() - this.getPosition().getY();
 
@@ -78,13 +78,13 @@ public class HomingProjectile extends Projectile {
 																							2f)));
 
 		float rotationAngle = (float) Math.acos(cosValue) * 180 / (float) Math.PI;
-		rotationAngle *= elapsedTime;
+		rotationAngle *= state.getTime();
 
 		// Rotate clockwise/counter-clockwise is determined by sign of cross-product
 		float crossProd = (vecToTargetX * vecY) - (vecToTargetY * vecX);
 
 
-		if (rotationAngle < rotVel * elapsedTime) {
+		if (rotationAngle < rotVel * state.getTime()) {
 			if (crossProd < 0) {
 				this.setAngle(this.getAngle() + rotationAngle);
 			} else {
@@ -92,9 +92,9 @@ public class HomingProjectile extends Projectile {
 			}
 		} else {
 			if (crossProd < 0) {
-				this.setAngle(this.getAngle() + rotVel * elapsedTime);
+				this.setAngle(this.getAngle() + rotVel * state.getTime());
 			} else {
-				this.setAngle(this.getAngle() - rotVel * elapsedTime);
+				this.setAngle(this.getAngle() - rotVel * state.getTime());
 			}
 		}
 	}

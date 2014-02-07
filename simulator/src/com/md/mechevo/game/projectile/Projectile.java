@@ -33,7 +33,6 @@ public abstract class Projectile extends Solid implements CollisionVisitor {
 	public abstract void collidesWith(State State, Obstacle o);
 
 	@Override
-	/* TODO */
 	public abstract void collidesWith(State state, Sentry s);
 
 	@Override
