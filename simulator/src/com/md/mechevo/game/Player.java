@@ -126,6 +126,8 @@ public class Player extends Solid implements CollisionVisitor {
 			s.update(state);
 		}
 
-		// TODO
+		if (!isParalysed()) {
+			// TODO
+		}
 	}
 }
