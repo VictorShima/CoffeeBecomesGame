@@ -1,6 +1,4 @@
 package com.md.mechevo.game.condition;
-import com.md.mechevo.game.State;
-import com.md.mechevo.game.Player;
 
 public class TrueCondition : Condition {
 

@@ -15,9 +15,9 @@ public final class AIAlgorithm {
 	 * 
 	 * @param owner Owner of the AI
 	 */
-	public AIAlgorithm() { }
-	
-	
+	public AIAlgorithm() {}
+
+
 	/**
 	 * Constructor with specified owner.
 	 * 
@@ -29,22 +29,22 @@ public final class AIAlgorithm {
 
 
 	/**
-	 * Goes through all AI Entries in order and selects the best Entry.
-	 * Returns the entry because in case of being the same as the last frame the actions
-	 * will not be reset to the initial action again
+	 * Goes through all AI Entries in order and selects the best Entry. Returns the entry because in
+	 * case of being the same as the last frame the actions will not be reset to the initial action
+	 * again
 	 * 
 	 * @param state Current state of the game
 	 * @return The proposed Suggestion
 	 */
 	public AIEntry calculateBestAction(State state) {
-	
+
 		for (AIEntry entry : this.entries) {
-			if ( entry.checkRequirements(state) ) {
+			if (entry.checkRequirements(state)) {
 				return new AISuggestion(entry, entry.findPreferredTarget(state));
 			}
 		}
 		return null;
-		
+
 	}
 
 

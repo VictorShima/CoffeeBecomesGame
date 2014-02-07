@@ -1,5 +1,6 @@
 package com.md.mechevo.game.ai;
-import com.md.mechevo.game.Player
+
+import com.md.mechevo.game.Player;
 
 /**
  * AISuggestion is the result of choosing an action from the AI
