@@ -1,10 +1,13 @@
 package com.md.mechevo.game.ai;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 
 import com.md.mechevo.game.action.Action;
 import com.md.mechevo.game.condition.Condition;
 import com.md.mechevo.game.Player;
+=======
+>>>>>>> origin
 import com.md.mechevo.game.State;
 
 public class AIEntry {
@@ -16,6 +19,7 @@ public class AIEntry {
 	
 	/**
 	 * Constructor.
+	 * 
 	 * @param aiAlgo AI Algorithm that this entry is inserted.
 	 */
 	public AIEntry(AIAlgorithm aiAlgo) {
@@ -23,10 +27,10 @@ public class AIEntry {
 		this.conditions = new ArrayList<Condition>();
 		this.actions = new ArrayList<Action>();
 	}
-	
-	
+
 	/**
 	 * Check if the current state fulfills all the conditions.
+	 * 
 	 * @param state Current state of the game
 	 * @return True if it fulfills all the conditions
 	 */
@@ -40,11 +44,11 @@ public class AIEntry {
 		}
 		return pass;
 	}
-	
-	
+
 	/**
-	 * Since Conditions may change the target, ask them which one should be targetted.
-	 * This function expects that checkRequirements to return true
+	 * Since Conditions may change the target, ask them which one should be targetted. This function
+	 * expects that checkRequirements to return true
+	 * 
 	 * @param state Current state of the game
 	 * @return Player reference if there is one, else its null
 	 * @todo Optimize the preferredTarget retrieval
@@ -58,14 +62,13 @@ public class AIEntry {
 		}
 		return preferred;
 	}
-	
-	
+
 	/**
 	 * Retrieve the first action of the entry.
-	 * @return First action in the delay 
+	 * 
+	 * @return First action in the delay
 	 */
 	public Action getFirstAction() {
 		return (this.actions.size() > 0) ? this.actions.get(0) : null;
 	}
-
 }

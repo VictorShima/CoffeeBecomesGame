@@ -1,0 +1,169 @@
+.container {
+  width: 100%;
+  display:block;
+}
+
+.centered {
+  margin:auto;
+  width:1020px;
+  min-height: 500px;
+}
+
+/* Janela da esquerda: rules */
+
+
+.rules {
+  float: left;
+  width: 604px;
+  border: 2px solid grey;
+  border-radius: 10px;
+  height: 500px;
+  overflow: auto;
+}
+
+.rule {
+  margin:auto;
+  width: 590px;
+  height: 70px;
+}
+
+.rule img {
+  width: 30px;
+  height: 30px;
+}
+
+.ruleTop {
+  width: 590px; 
+  height: 55px; 
+  background-color: blue;
+}
+
+.ruleBottom {
+  width: 590px; 
+  height: 15px; 
+  background-color: lightblue;
+}
+
+.condition {
+  margin: 0px auto;
+  width: 605px;
+  height: 70px;
+  background-color: green;
+}
+
+.condition img {
+  width:30px;
+  height: 30px;
+  float:right;
+  margin-top: 20px;
+}
+
+.ruleTop .addrule {
+  width:30px;
+  height: 30px;
+  float: right;
+  margin-top:13px;
+
+}
+
+.rules .addnewcondition {
+  width: 30px;
+  height: 30px;
+  margin: 5px auto 0px auto;
+  display:block;
+
+}
+
+/* Janela direita cima: visual; */
+
+
+.visual {
+  float: right;
+  width: 400px;
+  margin-left: 6px;
+  border: 2px solid grey;
+  border-radius: 10px;
+  height: 305px;
+}
+
+.visual #aiconditions table, .visual #airules table {
+  text-align: center;
+  vertical-align: center;
+  font-size: 1em;
+  width:400px;
+  height:305px;
+  table-layout:fixed;
+}
+
+.visual #aiconditions td {
+  width: 33%;
+  height: 20%;
+  /*background-color: green;*/
+}
+
+.visual #airules {
+  display: none;
+}
+
+.visual #airules td {
+  width: 33%;
+  height: 25%;
+  /*background-color: blue;*/
+}
+
+.visual .button {
+  width: 115px;
+  height: 30px;
+  border-radius: 12px;
+  text-align: left;
+}
+
+.visual .buttoncondition {
+  border: 2px solid orange;
+  background-color: orange;
+} 
+
+.visual .buttonrule {
+  border: 2px solid blue;
+  background-color: blue
+} 
+
+.visual .button span {
+ margin-left: 10px;
+ line-height: 30px;
+}
+
+.visual .addme {
+  width: 20px;
+  height: 20px;
+  float: right;
+}
+
+.visual .explanationstats, .visual .explanationtext, .visual select {
+  display:none;
+}
+
+
+/* Janela direita esquerda: explanation; */
+.explanation {
+  float:right;
+  margin-left: 6px;
+  margin-top: 6px;
+  border: 2px solid grey;
+  border-radius: 10px;
+  width: 400px;
+  height: 185px;
+}
+
+.explanation td {
+  width: 400px;
+  height: 185px;
+}
+
+.explanation td .addme {
+  width: 40px;
+  height: 40px;
+  float: right;
+ /* margin-top: 140px;*/
+
+}

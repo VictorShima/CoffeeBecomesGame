@@ -1,3 +1,3 @@
 package com.md.mechevo.game.action;
 
-public abstract class Action { }
+public abstract class Action {}

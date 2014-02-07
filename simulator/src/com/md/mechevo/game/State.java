@@ -11,7 +11,7 @@ public class State {
 	private ArrayList<Team> teams;
 
 	/**
-	 * Time is in milliseconds.
+	 * time passed since the last state. time is in milliseconds.
 	 */
 	private float time;
 
@@ -27,6 +27,10 @@ public class State {
 
 	public float getTime() {
 		return time;
+	}
+
+	public void setTime(float time) {
+		this.time = time;
 	}
 
 	/**

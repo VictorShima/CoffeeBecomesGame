@@ -34,9 +34,5 @@ public class Bullet extends Projectile {
 	@Override
 	public void collidesWith(State state, Sentry s) {}
 
-	@Override
-	/* TODO */
-	public void update(State state, float elapsedTime) {
 
-	}
 }

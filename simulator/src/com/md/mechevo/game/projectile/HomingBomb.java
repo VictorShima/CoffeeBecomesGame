@@ -1,41 +1,18 @@
 package com.md.mechevo.game.projectile;
 
-import com.md.mechevo.game.Obstacle;
-import com.md.mechevo.game.Player;
 import com.md.mechevo.game.Position;
-import com.md.mechevo.game.State;
-import com.md.mechevo.game.sentry.Sentry;
+import com.md.mechevo.game.Solid;
 import com.md.mechevo.game.weapon.Weapon;
 
-public class HomingBomb extends Projectile {
+public class HomingBomb extends HomingProjectile {
 	public static final int INITIAL_WIDTH = 30;
 	public static final int INITIAL_HEIGHT = 30;
 	public static final int INITIAL_SPEED = 30;
+	public static final float INITIAL_ROTVEL = 30;
 
-	public HomingBomb(Position position, float angle, Weapon weapon) {
-		super(position, INITIAL_WIDTH, INITIAL_HEIGHT, INITIAL_SPEED, angle, weapon);
+	public HomingBomb(Position position, float angle, Weapon weapon, Solid target) {
+		super(position, INITIAL_WIDTH, INITIAL_HEIGHT, INITIAL_SPEED, angle, weapon, target,
+						INITIAL_ROTVEL);
 	}
 
-	@Override
-	public void collidesWith(State state, Player p) {
-		p.takeDamage(this.getWeapon().getDamage());
-		this.setDestroy(true);
-	}
-
-	@Override
-	public void collidesWith(State state, Projectile p) {}
-
-	@Override
-	public void collidesWith(State State, Obstacle o) {
-		this.setDestroy(true);
-	}
-
-	@Override
-	public void collidesWith(State state, Sentry s) {}
-
-	@Override
-	/* TODO */
-	public void update(State state, float elapsedTime) {
-
-	}
 }

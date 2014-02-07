@@ -1,4 +1,5 @@
 package com.md.mechevo.game.ai;
+
 import com.md.mechevo.game.Player;
 
 /**

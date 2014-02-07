@@ -72,7 +72,7 @@ public abstract class Sentry extends Solid implements CollisionVisitor {
 		return timeToLive <= 0;
 	}
 
-	public void update(State state, float elapsedTime) {
+	public void update(State state) {
 		this.updateTTL(state.getTime());
 		if (this.timeToDie()) {
 			owner.removeSentry(this);
