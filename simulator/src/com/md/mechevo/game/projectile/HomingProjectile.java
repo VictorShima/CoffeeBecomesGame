@@ -1,8 +1,9 @@
-package com.md.mechevo.game.weapon;
+package com.md.mechevo.game.projectile;
 
 import com.md.mechevo.game.*;
 import com.md.mechevo.game.projectile.Projectile;
 import com.md.mechevo.game.sentry.Sentry;
+import com.md.mechevo.game.weapon.Weapon;
 
 public class HomingProjectile extends Projectile {
     private Solid target;
