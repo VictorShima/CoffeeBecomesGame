@@ -1,5 +1,9 @@
-package com.md.mechevo.ai;
+package com.md.mechevo.game.ai;
 
+import java.util.ArrayList;
+
+import com.md.mechevo.game.Player;
+import com.md.mechevo.game.State;
 
 /**
  * AIAlgorithm will run its internal algorithm and pick an AIAction for the owner Solid to execute
@@ -36,7 +40,7 @@ public final class AIAlgorithm {
 	 * @param state Current state of the game
 	 * @return The proposed Suggestion
 	 */
-	public AIEntry calculateBestAction(State state) {
+	public AISuggestion calculateBestAction(State state) {
 	
 		for (AIEntry entry : this.entries) {
 			if ( entry.checkRequirements(state) ) {

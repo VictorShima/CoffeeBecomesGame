@@ -2,7 +2,7 @@ package com.md.mechevo.game;
 
 import java.util.ArrayList;
 
-import com.md.mechevo.ai.AIAlgorithm;
+import com.md.mechevo.game.ai.AIAlgorithm;
 import com.md.mechevo.game.projectile.Projectile;
 import com.md.mechevo.game.sentry.Sentry;
 import com.md.mechevo.game.weapon.Weapon;

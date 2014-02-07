@@ -2,7 +2,7 @@ package com.md.mechevo.game.condition;
 import com.md.mechevo.game.State;
 import com.md.mechevo.game.Player;
 
-public class TrueCondition : Condition {
+public class TrueCondition extends Condition {
 
 	
 	/**
@@ -28,7 +28,9 @@ public class TrueCondition : Condition {
 	 * @param state Current State of the game
 	 * @return Reference to target Player or null if none
 	 */
-	public Player getPreferredPlayer(State state) { }
+	public Player getPreferredPlayer(State state) {
+		return null;
+	}
 		
 
 

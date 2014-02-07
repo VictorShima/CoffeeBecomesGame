@@ -1,13 +1,17 @@
 package com.md.mechevo.game.ai;
+
+import java.util.ArrayList;
+
 import com.md.mechevo.game.action.Action;
-import com.md.mechevo.game.action.Condition;
+import com.md.mechevo.game.condition.Condition;
+import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
 
-public interface AIEntry {
+public class AIEntry {
 
 	private AIAlgorithm algorithm;
-	private ArrayList<AICondition> conditions;
-	private ArrayList<AIAction> actions;
+	private ArrayList<Condition> conditions;
+	private ArrayList<Action> actions;
 	
 	
 	/**
@@ -16,8 +20,8 @@ public interface AIEntry {
 	 */
 	public AIEntry(AIAlgorithm aiAlgo) {
 		this.algorithm = aiAlgo;
-		this.conditions = new ArrayList<AICondition>();
-		this.actions = new ArrayList<AIAction>();
+		this.conditions = new ArrayList<Condition>();
+		this.actions = new ArrayList<Action>();
 	}
 	
 	
@@ -28,7 +32,7 @@ public interface AIEntry {
 	 */
 	public boolean checkRequirements(State state) {
 		boolean pass = true;
-		for ( AICondition cond : this.conditions ) {
+		for ( Condition cond : this.conditions ) {
 			pass = pass && cond.check(state);
 			if (!pass) {
 				break;
@@ -47,9 +51,9 @@ public interface AIEntry {
 	 */
 	public Player findPreferredTarget(State state) {
 		Player preferred = null;
-		for ( AICondition cond : this.conditions ) {
-			if (cond.getPreferredTarget(State) != null) {
-				preferred = cond.getPreferredTarget(State);
+		for ( Condition cond : this.conditions ) {
+			if (cond.getPreferredPlayer(state) != null) {
+				preferred = cond.getPreferredPlayer(state);
 			}
 		}
 		return preferred;
@@ -60,8 +64,8 @@ public interface AIEntry {
 	 * Retrieve the first action of the entry.
 	 * @return First action in the delay 
 	 */
-	public AIAction getFirstAction() {
-		return (actions.length() > 0) ? actions[0] : null;
+	public Action getFirstAction() {
+		return (this.actions.size() > 0) ? this.actions.get(0) : null;
 	}
 
 }
