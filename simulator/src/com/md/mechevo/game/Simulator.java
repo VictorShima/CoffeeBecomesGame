@@ -22,27 +22,14 @@ public class Simulator {
 
 		// game loop
 		while (!gameHasFinished()) {
-			long timeSpentOnUpdate = -System.currentTimeMillis();
-
 			// Deep copy so it doesn't change the previous states
 			State previousState = report.getLastState();
 			State newState = cloner.deepClone(previousState);
 			newState.setTime(TIME_BETWEEN_ROUNDS);
-			// TODO problem here - time must be absolute
 
 			Map map = newState.getMap();
 			map.update(newState);
 			report.addState(newState);
-
-			// add interval between rounds
-			try {
-				timeSpentOnUpdate += System.currentTimeMillis();
-				System.out.format("Time spent on update: %ld ms\n", timeSpentOnUpdate);
-
-				Thread.sleep(TIME_BETWEEN_ROUNDS - timeSpentOnUpdate);
-			} catch (InterruptedException e) {
-				// Not a problem
-			}
 		}
 
 		return report;
