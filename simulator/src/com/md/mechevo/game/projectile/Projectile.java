@@ -44,7 +44,7 @@ public abstract class Projectile extends Solid implements CollisionVisitor {
 
 	// TODO
 	@Override
-	public void update(State state, float elapsedTime) {
+	public void update(State state) {
 
 	}
 }

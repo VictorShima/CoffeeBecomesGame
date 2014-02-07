@@ -1,38 +1,48 @@
 package com.md.mechevo.game;
 
-import java.util.ArrayList;
+import com.rits.cloning.Cloner;
 
 public class Simulator {
-	private Map map;
-	private ArrayList<Team> teams;
+	public static final long TIME_BETWEEN_ROUNDS = 100;
 
-	public Simulator() {}
+	private Simulator() {
 
-	public ArrayList<Team> getTeams() {
-		return teams;
 	}
 
-	private boolean gameHasFinished() {
+	private static boolean gameHasFinished() {
 		// TODO
 		return false;
 	}
 
-	public Report runGame(State initialState) {
+	public static Report runGame(State initialState) {
 		Report report = new Report();
 		report.addState(initialState);
 
-		// initialize variables with the initial state
-		this.map = initialState.getMap();
-		this.teams = initialState.getTeams();
+		Cloner cloner = new Cloner();
 
 		// game loop
 		while (!gameHasFinished()) {
-			State lastState = report.getLastState();
-			float time = System.currentTimeMillis();
+			long timeSpentOnUpdate = -System.currentTimeMillis();
 
-			map.update(lastState, time - lastState.getTime());
-			// State currentState = (Map) map.clone();
-			// report.addState(currentState);
+			// Deep copy so it doesn't change the previous states
+			State previousState = report.getLastState();
+			State newState = cloner.deepClone(previousState);
+			newState.setTime(TIME_BETWEEN_ROUNDS);
+			// TODO problem here - time must be absolute
+
+			Map map = newState.getMap();
+			map.update(newState);
+			report.addState(newState);
+
+			// add interval between rounds
+			try {
+				timeSpentOnUpdate += System.currentTimeMillis();
+				System.out.format("Time spent on update: %ld ms\n", timeSpentOnUpdate);
+
+				Thread.sleep(TIME_BETWEEN_ROUNDS - timeSpentOnUpdate);
+			} catch (InterruptedException e) {
+				// Not a problem
+			}
 		}
 
 		return report;

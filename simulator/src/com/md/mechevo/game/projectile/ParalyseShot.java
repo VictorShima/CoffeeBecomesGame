@@ -36,7 +36,7 @@ public class ParalyseShot extends Projectile {
 
 	@Override
 	/* TODO */
-	public void update(State state, float elapsedTime) {
+	public void update(State state) {
 
 	}
 

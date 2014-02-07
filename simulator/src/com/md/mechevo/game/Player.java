@@ -120,10 +120,10 @@ public class Player extends Solid implements CollisionVisitor {
 	}
 
 	@Override
-	public void update(State state, float elapsedTime) {
+	public void update(State state) {
 		// update sentries
 		for (Sentry s : sentries) {
-			s.update(state, elapsedTime);
+			s.update(state);
 		}
 
 		// TODO

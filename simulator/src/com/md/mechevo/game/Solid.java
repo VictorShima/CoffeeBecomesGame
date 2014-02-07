@@ -106,5 +106,5 @@ public abstract class Solid {
 		return new Position(x, y);
 	}
 
-	public abstract void update(State state, float elapsedTime);
+	public abstract void update(State state);
 }

@@ -17,9 +17,9 @@ public class Map {
 		elements.remove(s);
 	}
 
-	public void update(State state, float elapsedTime) {
+	public void update(State state) {
 		for (Solid s : elements) {
-			s.update(state, elapsedTime);
+			s.update(state);
 		}
 	}
 }
