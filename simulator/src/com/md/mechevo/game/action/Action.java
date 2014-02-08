@@ -13,14 +13,14 @@ public abstract class Action {
 	private Player owner; ///< Player that controls object with condition
 	private String extra; ///< Action dependant attribute
 	private Action next; ///< Next action to execute after this one
-	private int duration; ///< Duration of the action
+	private float duration; ///< Duration of the action
 	private boolean cancelable; ///< Whether or not the action can be canceled mid-action
 
 
 	/**
 	 * Class Constructor
 	 */
-	public Action(Player owner, int duration, boolean cancelable) {
+	public Action(Player owner, float duration, boolean cancelable) {
 		this.owner = owner;
 		this.duration = duration;
 		this.cancelable = cancelable;
@@ -58,9 +58,9 @@ public abstract class Action {
 	
 	
 	/**
-	 * Get Duration in milliseconds
+	 * Get Duration in seconds
 	 */
-	public int getDuration() {
+	public float getDuration() {
 		return this.duration;
 	}
 	
@@ -94,10 +94,9 @@ public abstract class Action {
 	/**
 	 * Execute the action.
 	 * 
-	 * @param state Current State of the game
-	 * @param duration Duration of the round in milliseconds
+	 * @param state Current State of the game (contains duration of round)
 	 */
-	abstract public void execute(State state, int duration);
+	abstract public void execute(State state);
 
 
 }

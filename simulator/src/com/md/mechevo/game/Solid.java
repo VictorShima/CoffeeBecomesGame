@@ -113,6 +113,7 @@ public abstract class Solid implements CollisionVisitor {
 	 * Default case for updating position. Used in everything that isn't homing.
 	 * 
 	 * @param state
+	 * TODO: switch the movement part to the action
 	 */
 	public void update(State state) {
 		float velX = (float) Math.cos(angle);

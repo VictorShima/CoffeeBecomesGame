@@ -39,10 +39,11 @@ public class MoveStraightAction extends Action {
 
 	public void begin(State state) {
 		this.owner.setMovementState(this.owner.MovementState.MOVING);
+		this.owner.setSpeed( this.owner.INITIAL_SPEED );
 	}
 	
 	
-	public void execute(State state, int duration) {
+	public void execute(State state) {
 		//TODO: do the actual moving
 	}
 		

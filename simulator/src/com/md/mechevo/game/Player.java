@@ -45,6 +45,11 @@ public class Player extends Solid {
 	private boolean paralysed = false;
 	private boolean confused = false;
 	private MovementState movementState;
+	
+	private AIEntry currentAiEntry;
+	private Action currentAction;
+	private float currentActionTime; ///< time since begin of action execution
+	
 
 
 	public Player(int id, int teamId) {
@@ -153,13 +158,31 @@ public class Player extends Solid {
 		}
 
 		if (!isParalysed()) {
-			// TODO:
-			// Use AI to get suggested action + target
-			// check if player should cancel current action (Action.isCancelable)
-			// if yes, cancel action and set new pair of Action + Target
-			// Player.performCurrentAction
+		
+			// switch actions if they already finished
+			if ( this.currentAction != null
+					&& this.currentActionTimer >= this.currentAction.getDuration() ) {
+				this.currentAction = this.currentAction.getNext();
+			}
+			
+			// try to cancel the action and find a new one
+			if ( this.currentAction.isCancelable() ) {
+				AISuggestion suggestion = this.algorithm.calculateBestAction(state);
+				if ( suggestion.getAiEntry() != this.currentAiEntry ) {
+					this.currentAiEntry = suggestion.getAiEntry;
+					this.currentAction = suggestion.getFirstAction;
+					this.currentActionTime = 0;
+				}
+			}
+			
+			// perform the current action
+			if ( this.currentActionTime == 0 ) {
+				this.currentAction.begin();
+			}
+			this.currentAction.execute(state);
+			
+			// post-update
+			this.currentActionTime += state.getTime();
 		}
-		// TODO this version only calls the Solid version of update
-		super.update(state);
 	}
 }
