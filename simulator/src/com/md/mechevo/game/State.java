@@ -2,27 +2,48 @@ package com.md.mechevo.game;
 
 import java.util.ArrayList;
 
+import com.md.mechevo.game.projectile.Projectile;
+
 /**
  * Holds all the information about the current state of game. Includes the map, units on field,
  * teams, ...
  */
 public class State {
 	private Map map;
-	private ArrayList<Team> teams;
+	private ArrayList<Player> players;
+	private ArrayList<Projectile> projectiles;
 
 	/**
 	 * time passed since the last state. time is in milliseconds.
 	 */
 	private float time;
 
-	public State() {}
+	public State() {
+		this.players = new ArrayList<Player>();
+	}
 
 	public Map getMap() {
 		return map;
 	}
 
-	public ArrayList<Team> getTeams() {
-		return teams;
+	public void setMap(Map map) {
+		this.map = map;
+	}
+
+	public ArrayList<Projectile> getProjectiles() {
+		return projectiles;
+	}
+
+	public void addProjectile(Projectile p) {
+		projectiles.add(p);
+	}
+
+	public ArrayList<Player> getPlayers() {
+		return players;
+	}
+
+	public void addPlayer(Player p) {
+        players.add(p);
 	}
 
 	public float getTime() {
@@ -35,14 +56,13 @@ public class State {
 
 	/**
 	 * 
-	 * @param id
+	 * @param id the player id
 	 * @return a player if a player with the id exists in any team, null otherwise
 	 */
 	public Player findPlayerById(int id) {
-		for (Team t : teams) {
-			Player p;
-			if ((p = t.getPlayer(id)) != null) {
-				return p;
+		for (Player player : this.players) {
+			if (player.getId() == id) {
+				return player;
 			}
 		}
 

@@ -1,7 +1,10 @@
 package com.md.mechevo.game;
 
 
-public abstract class Solid {
+import com.md.mechevo.game.projectile.Projectile;
+import com.md.mechevo.game.sentry.Sentry;
+
+public abstract class Solid implements CollisionVisitor {
 	/**
 	 * This is the left-most and top-most position.
 	 */
@@ -10,15 +13,20 @@ public abstract class Solid {
 	private float height;
 	private float speed;
 	private float angle;
-	private boolean destroy = false;
+	private boolean destroy;
+	private int id;
 
-
-
-	protected Solid(float width, float height, float speed, float angle) {
+	protected Solid(float width, float height, float speed, float angle, int id) {
 		this.width = width;
 		this.height = height;
 		this.speed = speed;
 		this.angle = angle;
+		this.destroy = false;
+		this.id = id;
+	}
+
+	public int getId() {
+		return id;
 	}
 
 	public float getAngle() {
@@ -112,9 +120,21 @@ public abstract class Solid {
 		/* Normalization of the velocity vector */
 		float vel = velX + velY;
 		velX = (velX / vel) * state.getTime() * (speed / 1000);
-		velY = -(velY / vel) *  state.getTime() * (speed / 1000);
+		velY = -(velY / vel) * state.getTime() * (speed / 1000);
 
 		this.setPosition(new Position(this.getPosition().getX() + velX, this.getPosition().getY()
 						+ velY));
 	}
+
+	@Override
+	public abstract void collidesWith(State state, Player p);
+
+	@Override
+	public abstract void collidesWith(State state, Projectile p);
+
+	@Override
+	public abstract void collidesWith(State State, Obstacle o);
+
+	@Override
+	public abstract void collidesWith(State state, Sentry s);
 }

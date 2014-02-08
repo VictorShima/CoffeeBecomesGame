@@ -10,7 +10,7 @@ public class Main {
 		State initialState = Importer.createInitialState(args);
 
 		Report report = Simulator.runGame(initialState);
-		String reportInJSON = report.convertToJSON();
+		String reportInJSON = report.print();
 
 		System.out.println(reportInJSON);
 	}

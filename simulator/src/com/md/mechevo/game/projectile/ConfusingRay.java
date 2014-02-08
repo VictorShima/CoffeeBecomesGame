@@ -12,8 +12,8 @@ public class ConfusingRay extends Projectile {
 	public static final int INITIAL_HEIGHT = 30;
 	public static final int INITIAL_SPEED = 30;
 
-	public ConfusingRay(Position position, float angle, Weapon weapon) {
-		super(position, INITIAL_WIDTH, INITIAL_HEIGHT, INITIAL_SPEED, angle, weapon);
+	public ConfusingRay(int id, Position position, float angle, Weapon weapon) {
+		super(id, position, INITIAL_WIDTH, INITIAL_HEIGHT, INITIAL_SPEED, angle, weapon);
 	}
 
 	@Override

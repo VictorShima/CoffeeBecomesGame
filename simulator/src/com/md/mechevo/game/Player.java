@@ -7,7 +7,7 @@ import com.md.mechevo.game.projectile.Projectile;
 import com.md.mechevo.game.sentry.Sentry;
 import com.md.mechevo.game.weapon.Weapon;
 
-public class Player extends Solid implements CollisionVisitor {
+public class Player extends Solid {
 	public static final int INITIAL_HEALTH = 100;
 
 	/**
@@ -29,13 +29,15 @@ public class Player extends Solid implements CollisionVisitor {
 	 * Angle is measured in degrees.
 	 */
 	public static final float INITIAL_ANGLE = 0;
-	
+
 	/**
 	 * Current state of movement
 	 */
-	public static enum MovementState { STOPPED, MOVING, SPRINTING, DASHING };
+	public static enum MovementState {
+		STOPPED, MOVING, SPRINTING, DASHING
+	};
 
-	private int id;
+	private int teamId;
 	private int health;
 	private ArrayList<Weapon> weapons;
 	private ArrayList<Sentry> sentries;
@@ -43,19 +45,19 @@ public class Player extends Solid implements CollisionVisitor {
 	private boolean paralysed = false;
 	private boolean confused = false;
 	private MovementState movementState;
-	
 
-	public Player(int id) {
-		super(INITIAL_WIDTH, INITIAL_HEIGHT, INITIAL_SPEED, INITIAL_ANGLE);
-		this.id = id;
+
+	public Player(int id, int teamId) {
+		super(INITIAL_WIDTH, INITIAL_HEIGHT, INITIAL_SPEED, INITIAL_ANGLE, id);
+		this.teamId = teamId;
 		this.health = INITIAL_HEALTH;
 		this.weapons = new ArrayList<Weapon>();
 		this.sentries = new ArrayList<Sentry>();
 		this.algorithm = new AIAlgorithm();
 	}
 
-	public int getID() {
-		return id;
+	public int getTeamId() {
+		return teamId;
 	}
 
 	public int getHealth() {
@@ -100,15 +102,15 @@ public class Player extends Solid implements CollisionVisitor {
 			setDestroy(true);
 		}
 	}
-	
-	
+
+
 	/**
 	 * Get Movement State
 	 */
 	public MovementState getMovementState() {
 		return this.movementState;
 	}
-	
+
 
 	/**
 	 * Set Movement State
@@ -116,7 +118,7 @@ public class Player extends Solid implements CollisionVisitor {
 	public void setMovementState(MovementState state) {
 		this.movementState = state;
 	}
-	
+
 
 	@Override
 	public void accept(CollisionVisitor s, State state) {
@@ -157,5 +159,7 @@ public class Player extends Solid implements CollisionVisitor {
 			// if yes, cancel action and set new pair of Action + Target
 			// Player.performCurrentAction
 		}
+		// TODO this version only calls the Solid version of update
+		super.update(state);
 	}
 }

@@ -4,13 +4,12 @@ import com.md.mechevo.game.*;
 import com.md.mechevo.game.sentry.Sentry;
 import com.md.mechevo.game.weapon.Weapon;
 
-public abstract class Projectile extends Solid implements CollisionVisitor {
+public abstract class Projectile extends Solid {
 	private Weapon weapon;
 
-
-	protected Projectile(Position position, float width, float height, float speed, float angle,
-					Weapon weapon) {
-		super(width, height, speed, angle);
+	protected Projectile(int id, Position position, float width, float height, float speed,
+					float angle, Weapon weapon) {
+		super(width, height, speed, angle, id);
 		super.setPosition(position);
 		this.weapon = weapon;
 	}

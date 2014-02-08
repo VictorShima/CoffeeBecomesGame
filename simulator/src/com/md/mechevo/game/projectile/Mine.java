@@ -12,8 +12,8 @@ public class Mine extends Projectile {
 	public static final int INITIAL_HEIGHT = 30;
 	public static final int INITIAL_SPEED = 0;
 
-	public Mine(Position position, float angle, Weapon weapon) {
-		super(position, INITIAL_WIDTH, INITIAL_HEIGHT, INITIAL_SPEED, angle, weapon);
+	public Mine(int id, Position position, float angle, Weapon weapon) {
+		super(id, position, INITIAL_WIDTH, INITIAL_HEIGHT, INITIAL_SPEED, angle, weapon);
 	}
 
 	@Override
