@@ -11,7 +11,7 @@ import com.md.mechevo.game.State;
 public abstract class Condition {
 
 	private Player owner; // /< Player that controls object with condition
-	private String extraAttribute; // /< Condition dependant attribute
+	private String extra; // /< Condition dependant attribute
 
 
 	/**

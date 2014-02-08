@@ -29,6 +29,11 @@ public class Player extends Solid implements CollisionVisitor {
 	 * Angle is measured in degrees.
 	 */
 	public static final float INITIAL_ANGLE = 0;
+	
+	/**
+	 * Current state of movement
+	 */
+	public static enum MovementState { STOPPED, MOVING, SPRINTING, DASHING };
 
 	private int id;
 	private int health;
@@ -37,6 +42,8 @@ public class Player extends Solid implements CollisionVisitor {
 	private AIAlgorithm algorithm;
 	private boolean paralysed = false;
 	private boolean confused = false;
+	private MovementState movementState;
+	
 
 	public Player(int id) {
 		super(INITIAL_WIDTH, INITIAL_HEIGHT, INITIAL_SPEED, INITIAL_ANGLE);
@@ -93,6 +100,23 @@ public class Player extends Solid implements CollisionVisitor {
 			setDestroy(true);
 		}
 	}
+	
+	
+	/**
+	 * Get Movement State
+	 */
+	public MovementState getMovementState() {
+		return this.movementState;
+	}
+	
+
+	/**
+	 * Set Movement State
+	 */
+	public void setMovementState(MovementState state) {
+		this.movementState = state;
+	}
+	
 
 	@Override
 	public void accept(CollisionVisitor s, State state) {

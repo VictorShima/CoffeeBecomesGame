@@ -1,2 +1,4 @@
 # ignore OSX files
 .DS_Store
+#ignore java build files
+*.class
