@@ -1,14 +1,15 @@
 package com.md.mechevo.game.ai;
 
 import com.md.mechevo.game.Player;
+import com.md.mechevo.game.action.Action;
 
 /**
  * AISuggestion is the result of choosing an action from the AI
  */
 public final class AISuggestion {
 
-	private Player preferredTarget;
-	private AIEntry entry;
+	private Player target;
+	private AIEntry aiEntry;
 
 
 	/**
@@ -16,9 +17,35 @@ public final class AISuggestion {
 	 * 
 	 * @param owner Owner of the AI
 	 */
-	public AISuggestion(AIEntry entry, Player preferredTarget) {
-		this.entry = entry;
-		this.preferredTarget = preferredTarget;
+	public AISuggestion(AIEntry entry, Player target) {
+		this.aiEntry = entry;
+		this.target = target;
+	}
+	
+	
+	/**
+	 * Retrieve the first action of the entry.
+	 * 
+	 * @return First action in the entry
+	 */
+	public Action getFirstAction() {
+		return (this.aiEntry.actions.size() > 0) ? this.aiEntry.actions.get(0) : null;
+	}
+	
+	
+	/**
+	 * Get target Player
+	 */
+	public Player getTarget() {
+		return this.target;
+	}
+	
+	
+	/**
+	 * Get AI entry
+	 */
+	public AIEntry getAiEntry() {
+		return this.aiEntry;
 	}
 	
 }
