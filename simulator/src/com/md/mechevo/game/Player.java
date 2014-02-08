@@ -151,7 +151,11 @@ public class Player extends Solid implements CollisionVisitor {
 		}
 
 		if (!isParalysed()) {
-			// TODO
+			// TODO:
+			// Use AI to get suggested action + target
+			// check if player should cancel current action (Action.isCancelable)
+			// if yes, cancel action and set new pair of Action + Target
+			// Player.performCurrentAction
 		}
 	}
 }

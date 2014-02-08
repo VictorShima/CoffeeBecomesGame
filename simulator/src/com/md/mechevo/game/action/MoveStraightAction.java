@@ -12,33 +12,40 @@ public class MoveStraightAction extends Action {
 
 
 	/**
+	 * Duration of the action
+	 * @todo Actual duration will depend on extra attribute
+	 */
+	private static final int DURATION = 1000;
+	
+	
+	/**
+	 * Whether or not the action is cancelable
+	 */
+	private static final boolean CANCELABLE = true;
+
+
+	/**
 	 * Class Constructor
 	 */
 	public MoveStraightAction(Player owner) {
-		this.owner = owner;
+		super(owner, this.DURATION, this.CANCELABLE);
 	}
 	
 
-	/**
-	 * Check if the required condition for an action applies.
-	 * 
-	 * @param state Current State of the game
-	 * @return True if the condition applies
-	 */
 	public boolean check(State state) {
 		return true; // always valid
 	}
 
 
-	/**
-	 * Execute the action.
-	 * 
-	 * @param state Current State of the game
-	 * @return Reference to target Player or null if none
-	 */
-	abstract public void execute(State state) {
+	public void begin(State state) {
 		this.owner.setMovementState(this.owner.MovementState.MOVING);
 	}
+	
+	
+	public void execute(State state, int duration) {
+		//TODO: do the actual moving
+	}
+		
 
 
 }

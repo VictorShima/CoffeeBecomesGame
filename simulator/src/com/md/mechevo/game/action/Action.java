@@ -13,13 +13,17 @@ public abstract class Action {
 	private Player owner; ///< Player that controls object with condition
 	private String extra; ///< Action dependant attribute
 	private Action next; ///< Next action to execute after this one
+	private int duration; ///< Duration of the action
+	private boolean cancelable; ///< Whether or not the action can be canceled mid-action
 
 
 	/**
 	 * Class Constructor
 	 */
-	public Action(Player owner) {
+	public Action(Player owner, int duration, boolean cancelable) {
 		this.owner = owner;
+		this.duration = duration;
+		this.cancelable = cancelable;
 	}
 	
 	
@@ -51,6 +55,22 @@ public abstract class Action {
 	public void setNext(Action next) {
 		this.next = next;
 	}
+	
+	
+	/**
+	 * Get Duration in milliseconds
+	 */
+	public int getDuration() {
+		return this.duration;
+	}
+	
+	
+	/**
+	 * Check if it can be canceled
+	 */
+	public boolean isCancelable() {
+		return this.cancelable;
+	}
 
 
 	/**
@@ -63,12 +83,21 @@ public abstract class Action {
 
 
 	/**
+	 * Begin the execution of the action.
+	 * Will be called once at the start of the action.
+	 *
+	 * @param state Current state of the game
+	 */
+	abstract public void begin();
+
+
+	/**
 	 * Execute the action.
 	 * 
 	 * @param state Current State of the game
-	 * @return Reference to target Player or null if none
+	 * @param duration Duration of the round in milliseconds
 	 */
-	abstract public void execute(State state);
+	abstract public void execute(State state, int duration);
 
 
 }
