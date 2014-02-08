@@ -9,6 +9,28 @@
   min-height: 500px;
 }
 
+.button {
+  width: 115px;
+  height: 30px;
+  border-radius: 12px;
+  text-align: left;
+}
+
+ .buttoncondition {
+  border: 2px solid orange;
+  background-color: orange;
+} 
+
+ .buttonrule {
+  border: 2px solid blue;
+  background-color: blue
+} 
+
+ .button span {
+ margin-left: 10px;
+ line-height: 30px;
+}
+
 /* Janela da esquerda: rules */
 
 
@@ -111,27 +133,7 @@
   /*background-color: blue;*/
 }
 
-.visual .button {
-  width: 115px;
-  height: 30px;
-  border-radius: 12px;
-  text-align: left;
-}
-
-.visual .buttoncondition {
-  border: 2px solid orange;
-  background-color: orange;
-} 
-
-.visual .buttonrule {
-  border: 2px solid blue;
-  background-color: blue
-} 
-
-.visual .button span {
- margin-left: 10px;
- line-height: 30px;
-}
+ 
 
 .visual .addme {
   width: 20px;
