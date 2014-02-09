@@ -11,8 +11,8 @@ public class MeleeProjectile extends Projectile {
 	public static final int INITIAL_WIDTH = 30;
 	public static final int INITIAL_HEIGHT = 30;
 
-	public MeleeProjectile(Position position, float angle, Weapon weapon) {
-		super(position, INITIAL_WIDTH, INITIAL_HEIGHT, 0, angle, weapon);
+	public MeleeProjectile(int id, Position position, float angle, Weapon weapon) {
+		super(id, position, INITIAL_WIDTH, INITIAL_HEIGHT, 0, angle, weapon);
 	}
 
 	@Override

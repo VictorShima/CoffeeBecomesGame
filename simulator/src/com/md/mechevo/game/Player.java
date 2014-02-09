@@ -2,14 +2,15 @@ package com.md.mechevo.game;
 
 import java.util.ArrayList;
 
+import com.md.mechevo.game.action.Action;
 import com.md.mechevo.game.ai.AIAlgorithm;
+import com.md.mechevo.game.ai.AIEntry;
+import com.md.mechevo.game.ai.AISuggestion;
 import com.md.mechevo.game.projectile.Projectile;
 import com.md.mechevo.game.sentry.Sentry;
 import com.md.mechevo.game.weapon.Weapon;
 
-public class Player extends Solid implements CollisionVisitor {
-
-
+public class Player extends Solid {
 	public static final int INITIAL_HEALTH = 100;
 
 	/**
@@ -31,13 +32,7 @@ public class Player extends Solid implements CollisionVisitor {
 	 * Angle is measured in degrees.
 	 */
 	public static final float INITIAL_ANGLE = 0;
-	
-	/**
-	 * Current state of movement
-	 */
-	public static enum MovementState { STOPPED, MOVING, SPRINTING, DASHING };
-
-	private int id;
+	private int teamId;;
 	private int health;
 	private ArrayList<Weapon> weapons; // TODO: make each weapon assigned to a slot (1,2,3)
 	private ArrayList<Sentry> sentries;
@@ -45,23 +40,21 @@ public class Player extends Solid implements CollisionVisitor {
 	private boolean paralysed = false;
 	private boolean confused = false;
 	private MovementState movementState;
-	
 	private AIEntry currentAiEntry;
 	private Action currentAction;
-	private float currentActionTime; ///< time since begin of action execution
-	
+	private float currentActionTime; // /< time since begin of action execution
 
-	public Player(int id) {
-		super(INITIAL_WIDTH, INITIAL_HEIGHT, INITIAL_SPEED, INITIAL_ANGLE);
-		this.id = id;
+	public Player(int id, int teamId) {
+		super(INITIAL_WIDTH, INITIAL_HEIGHT, INITIAL_SPEED, INITIAL_ANGLE, id);
+		this.teamId = teamId;
 		this.health = INITIAL_HEALTH;
 		this.weapons = new ArrayList<Weapon>();
 		this.sentries = new ArrayList<Sentry>();
 		this.algorithm = new AIAlgorithm();
 	}
 
-	public int getID() {
-		return id;
+	public int getTeamId() {
+		return teamId;
 	}
 
 	public int getHealth() {
@@ -106,15 +99,13 @@ public class Player extends Solid implements CollisionVisitor {
 			setDestroy(true);
 		}
 	}
-	
-	
+
 	/**
 	 * Get Movement State
 	 */
 	public MovementState getMovementState() {
 		return this.movementState;
 	}
-	
 
 	/**
 	 * Set Movement State
@@ -122,7 +113,6 @@ public class Player extends Solid implements CollisionVisitor {
 	public void setMovementState(MovementState state) {
 		this.movementState = state;
 	}
-	
 
 	@Override
 	public void accept(CollisionVisitor s, State state) {
@@ -151,37 +141,49 @@ public class Player extends Solid implements CollisionVisitor {
 
 	@Override
 	public void update(State state) {
-		// update sentries
-		for (Sentry s : sentries) {
-			s.update(state);
+		super.update(state);
+
+		if (true) {
+			return;
 		}
 
 		if (!isParalysed()) {
-		
+
 			// switch actions if they already finished
-			if ( this.currentAction != null
-					&& this.currentActionTimer >= this.currentAction.getDuration() ) {
+			if (this.currentAction != null
+							&& this.currentActionTime >= this.currentAction.getDuration()) {
 				this.currentAction = this.currentAction.getNext();
 			}
-			
+
 			// try to cancel the action and find a new one
-			if ( this.currentAction.isCancelable() ) {
-				AISuggestion suggestion = this.algorithm.calculateBestAction(state);
-				if ( suggestion.getAiEntry() != this.currentAiEntry ) {
-					this.currentAiEntry = suggestion.getAiEntry;
-					this.currentAction = suggestion.getFirstAction;
-					this.currentActionTime = 0;
+			if (this.currentAction != null) {
+				if (this.currentAction.isCancelable()) {
+					AISuggestion suggestion = this.algorithm.calculateBestAction(state);
+					if (suggestion.getAiEntry() != this.currentAiEntry) {
+						this.currentAiEntry = suggestion.getAiEntry();
+						this.currentAction = suggestion.getFirstAction();
+						this.currentActionTime = 0;
+					}
 				}
 			}
-			
-			// perform the current action
-			if ( this.currentActionTime == 0 ) {
-				this.currentAction.begin();
+
+			if (this.currentAction != null) {
+				// perform the current action
+				if (this.currentActionTime == 0) {
+					this.currentAction.begin(state);
+				}
+				this.currentAction.execute(state);
+
+				// post-update
+				this.currentActionTime += state.getTime();
 			}
-			this.currentAction.execute(state);
-			
-			// post-update
-			this.currentActionTime += state.getTime();
 		}
+	}
+
+	/**
+	 * Current state of movement
+	 */
+	public static enum MovementState {
+		STOPPED, MOVING, SPRINTING, DASHING
 	}
 }

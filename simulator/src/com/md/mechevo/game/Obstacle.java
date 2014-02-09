@@ -3,10 +3,10 @@ package com.md.mechevo.game;
 import com.md.mechevo.game.projectile.Projectile;
 import com.md.mechevo.game.sentry.Sentry;
 
-public abstract class Obstacle extends Solid implements CollisionVisitor {
-	protected Obstacle(Position centerPosition, float width, float height, float speed, int health,
-					float angle) {
-		super(width, height, speed, angle);
+public abstract class Obstacle extends Solid {
+	protected Obstacle(int id, Position centerPosition, float width, float height, float speed,
+					int health, float angle) {
+		super(width, height, speed, angle, id);
 		super.setPosition(centerPosition);
 	}
 

@@ -25,8 +25,15 @@ public abstract class Action {
 		this.duration = duration;
 		this.cancelable = cancelable;
 	}
-	
-	
+
+	/**
+	 * 
+	 * @return the owner of this action
+	 */
+	public Player getOwner() {
+		return owner;
+	}
+
 	/**
 	 * Get the extra attribute
 	 */
@@ -88,7 +95,7 @@ public abstract class Action {
 	 *
 	 * @param state Current state of the game
 	 */
-	abstract public void begin();
+	public abstract void begin(State state);
 
 
 	/**

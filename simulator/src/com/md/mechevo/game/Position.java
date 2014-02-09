@@ -28,4 +28,12 @@ public final class Position {
 	public float getY() {
 		return y;
 	}
+
+	public boolean equals(Object o) {
+		if (o instanceof Position) {
+			Position p = (Position) o;
+			return this.x == p.x && this.y == p.y;
+		}
+		return false;
+	}
 }

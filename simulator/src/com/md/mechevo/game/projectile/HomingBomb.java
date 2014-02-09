@@ -10,8 +10,8 @@ public class HomingBomb extends HomingProjectile {
 	public static final int INITIAL_SPEED = 30;
 	public static final float INITIAL_ROTVEL = 30;
 
-	public HomingBomb(Position position, float angle, Weapon weapon, Solid target) {
-		super(position, INITIAL_WIDTH, INITIAL_HEIGHT, INITIAL_SPEED, angle, weapon, target,
+	public HomingBomb(int id, Position position, float angle, Weapon weapon, Solid target) {
+		super(id, position, INITIAL_WIDTH, INITIAL_HEIGHT, INITIAL_SPEED, angle, weapon, target,
 						INITIAL_ROTVEL);
 	}
 

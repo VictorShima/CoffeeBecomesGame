@@ -3,15 +3,15 @@ package com.md.mechevo.game.sentry;
 import com.md.mechevo.game.*;
 import com.md.mechevo.game.projectile.Projectile;
 
-public abstract class Sentry extends Solid implements CollisionVisitor {
+public abstract class Sentry extends Solid {
 	private Player owner;
 	private int damage;
 	private float cooldown;
 	private float timeToLive;
 
-	protected Sentry(Position position, float width, float height, float speed, float angle,
-					Player owner, float timeToLive, int damage) {
-		super(width, height, speed, angle);
+	protected Sentry(int id, Position position, float width, float height, float speed,
+					float angle, Player owner, float timeToLive, int damage) {
+		super(width, height, speed, angle, id);
 		super.setPosition(position);
 
 		this.owner = owner;

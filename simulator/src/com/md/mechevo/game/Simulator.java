@@ -1,9 +1,10 @@
 package com.md.mechevo.game;
 
-import com.rits.cloning.Cloner;
-
 public class Simulator {
-	public static final long TIME_BETWEEN_ROUNDS = 100;
+	/**
+	 * Time between rounds is in seconds
+	 */
+	public static final float TIME_BETWEEN_ROUNDS = 0.1f;
 
 	private Simulator() {
 
@@ -16,20 +17,17 @@ public class Simulator {
 
 	public static Report runGame(State initialState) {
 		Report report = new Report();
-		report.addState(initialState);
+		report.update(initialState);
 
-		Cloner cloner = new Cloner();
+		int i = 0;
+		State state = initialState;
+		state.setTime(TIME_BETWEEN_ROUNDS);
 
 		// game loop
-		while (!gameHasFinished()) {
-			// Deep copy so it doesn't change the previous states
-			State previousState = report.getLastState();
-			State newState = cloner.deepClone(previousState);
-			newState.setTime(TIME_BETWEEN_ROUNDS);
-
-			Map map = newState.getMap();
-			map.update(newState);
-			report.addState(newState);
+		while (!gameHasFinished() && (i++) < 5) {
+			Map map = state.getMap();
+			map.update(state);
+			report.update(state);
 		}
 
 		return report;
