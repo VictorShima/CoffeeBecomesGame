@@ -27,7 +27,7 @@ public abstract class Weapon {
 		this.cooldown = cooldown;
 	}
 
-	public void play(State state) {
+	public void fire(State state) {
 		// TODO
 	}
 }

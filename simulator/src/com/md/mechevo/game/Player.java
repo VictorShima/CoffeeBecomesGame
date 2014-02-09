@@ -39,7 +39,7 @@ public class Player extends Solid implements CollisionVisitor {
 
 	private int id;
 	private int health;
-	private ArrayList<Weapon> weapons;
+	private ArrayList<Weapon> weapons; // TODO: make each weapon assigned to a slot (1,2,3)
 	private ArrayList<Sentry> sentries;
 	private AIAlgorithm algorithm;
 	private boolean paralysed = false;
