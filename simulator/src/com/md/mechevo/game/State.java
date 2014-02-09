@@ -20,6 +20,7 @@ public class State {
 
 	public State() {
 		this.players = new ArrayList<Player>();
+		this.projectiles = new ArrayList<Projectile>();
 	}
 
 	public Map getMap() {

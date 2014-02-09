@@ -14,8 +14,6 @@ public final class AISuggestion {
 
 	/**
 	 * Constructor with specified owner.
-	 * 
-	 * @param owner Owner of the AI
 	 */
 	public AISuggestion(AIEntry entry, Player target) {
 		this.aiEntry = entry;
@@ -29,7 +27,7 @@ public final class AISuggestion {
 	 * @return First action in the entry
 	 */
 	public Action getFirstAction() {
-		return (this.aiEntry.actions.size() > 0) ? this.aiEntry.actions.get(0) : null;
+		return (this.aiEntry.getActions().size() > 0) ? this.aiEntry.getActions().get(0) : null;
 	}
 	
 	

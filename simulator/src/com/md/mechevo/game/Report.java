@@ -41,6 +41,7 @@ public class Report {
 					diff.add(printPlayerDifferences(playerInLastState, playerInCurrentState));
 				}
 			}
+			log.add(gson.toJson(diff));
 
 			// print the projectiles
 			Type type = new TypeToken<Collection<Projectile>>() {}.getType();
@@ -55,7 +56,8 @@ public class Report {
 
 		// compare positions
 		if (!playerInCurrentState.getPosition().equals(playerInLastState.getPosition())) {
-			diff.add(gson.toJson(playerInCurrentState.getPosition()));
+			Type type = new TypeToken<Position>() {}.getType();
+			diff.add(gson.toJson(playerInCurrentState.getPosition(), type));
 		}
 
 		// compare health
@@ -63,7 +65,8 @@ public class Report {
 			diff.add(String.format("\"health\":\"%d\",", playerInCurrentState.getHealth()));
 		}
 
-		return gson.toJson(diff);
+		Type type = new TypeToken<Collection<String>>() {}.getType();
+		return gson.toJson(diff, type);
 	}
 
 	public String print() {

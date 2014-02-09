@@ -26,6 +26,18 @@ public class AIEntry {
 		this.actions = new ArrayList<Action>();
 	}
 
+	public AIAlgorithm getAlgorithm() {
+		return algorithm;
+	}
+
+	public ArrayList<Condition> getConditions() {
+		return conditions;
+	}
+
+	public ArrayList<Action> getActions() {
+		return actions;
+	}
+
 	/**
 	 * Check if the current state fulfills all the conditions.
 	 * 

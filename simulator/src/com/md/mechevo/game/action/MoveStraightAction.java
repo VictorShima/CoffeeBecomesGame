@@ -1,6 +1,7 @@
 package com.md.mechevo.game.action;
 
 import com.md.mechevo.game.Player;
+import com.md.mechevo.game.Player.MovementState;
 import com.md.mechevo.game.State;
 
 
@@ -28,7 +29,7 @@ public class MoveStraightAction extends Action {
 	 * Class Constructor
 	 */
 	public MoveStraightAction(Player owner) {
-		super(owner, this.DURATION, this.CANCELABLE);
+		super(owner, MoveStraightAction.DURATION, MoveStraightAction.CANCELABLE);
 	}
 	
 
@@ -36,10 +37,10 @@ public class MoveStraightAction extends Action {
 		return true; // always valid
 	}
 
-
+	@Override
 	public void begin(State state) {
-		this.owner.setMovementState(this.owner.MovementState.MOVING);
-		this.owner.setSpeed( this.owner.INITIAL_SPEED );
+		getOwner().setMovementState(MovementState.MOVING);
+		getOwner().setSpeed(Player.INITIAL_SPEED);
 	}
 	
 	
