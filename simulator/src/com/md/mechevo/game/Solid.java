@@ -4,24 +4,35 @@ package com.md.mechevo.game;
 import com.md.mechevo.game.projectile.Projectile;
 import com.md.mechevo.game.sentry.Sentry;
 
-public abstract class Solid implements CollisionVisitor {
+public abstract class Solid implements CollisionVisitor, EventObservable {
 	/**
 	 * This is the left-most and top-most position.
 	 */
 	private Position position;
 	private float width;
 	private float height;
+	
+	/**
+	 * Speed comes in MapUnits per Second
+	 */
 	private float speed;
+	
+	/**
+	 * Angle comes in radians, with 0 radians being left xx axis (like in math)
+	 */
 	private float angle;
-	private boolean destroy;
+	
+	private boolean destroyed;
 	private int id;
+	
+	private EventObserver report;
 
 	protected Solid(float width, float height, float speed, float angle, int id) {
 		this.width = width;
 		this.height = height;
 		this.speed = speed;
 		this.angle = angle;
-		this.destroy = false;
+		this.destroyed = false;
 		this.id = id;
 	}
 
@@ -73,12 +84,12 @@ public abstract class Solid implements CollisionVisitor {
 		this.position = position;
 	}
 
-	public boolean isDestroy() {
-		return destroy;
+	public boolean isDestroyed() {
+		return destroyed;
 	}
 
-	public void setDestroy(boolean destroy) {
-		this.destroy = destroy;
+	public void setDestroyed(boolean destroy) {
+		this.destroyed = destroy;
 	}
 
 	/**
@@ -115,17 +126,31 @@ public abstract class Solid implements CollisionVisitor {
 	 * @param state
 	 * TODO: switch the movement part to the action
 	 */
-	public void update(State state) {
+	public void update(State state, float dtime) { }
+	
+	
+	/**
+	 * Moves the Solid in direction given by angle with given speed in a straight line.
+	 *
+	 * @param angle Angle of movement (independant of current angle)
+	 * @param speed Velocity in MapUnits per Second (independant of current angle)
+	 * @param dtime Time in seconds of duration of movement
+	 */
+	public void move(float angle, float speed, float dtime) {
 		float velX = (float) Math.cos(angle);
 		float velY = (float) Math.sin(angle);
-		/* Normalization of the velocity vector */
+		// Normalization of the velocity vector
 		float vel = velX + velY;
-		velX = (velX / vel) * state.getTime() * (speed / 1000);
-		velY = -(velY / vel) * state.getTime() * (speed / 1000);
+		velX = (velX / vel) * dtime * speed;
+		velY = -(velY / vel) * dtime * speed;
 
 		this.setPosition(new Position(this.getPosition().getX() + velX, this.getPosition().getY()
-						+ velY));
+				+ velY));
 	}
+		
+	
+	
+	// interface CollisionVisitor
 
 	@Override
 	public abstract void collidesWith(State state, Player p);
@@ -138,4 +163,19 @@ public abstract class Solid implements CollisionVisitor {
 
 	@Override
 	public abstract void collidesWith(State state, Sentry s);
+	
+	
+	// interface EventObservable
+	
+	public boolean registerEventObserver(EventObserver eventObserver) {
+		this.report = eventObserver;
+		return true;
+	}
+	
+	public void notifyEventObserver(EventData eventData) {
+		if ( this.report != null ) {
+			this.report.notify(eventData);
+		}
+	}
+	
 }

@@ -44,7 +44,7 @@ public class MoveStraightAction extends Action {
 	}
 	
 	
-	public void execute(State state) {
+	public void update(State state, float dtime) {
 		//TODO: do the actual moving
 	}
 		

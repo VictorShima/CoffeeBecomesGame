@@ -15,19 +15,15 @@ public abstract class Weapon {
 		return damage;
 	}
 
-	public void setDamage(int damage) {
-		this.damage = damage;
-	}
-
 	public float getCooldown() {
 		return cooldown;
-	}
-
-	public void setCooldown(float cooldown) {
-		this.cooldown = cooldown;
 	}
 
 	public void fire(State state) {
 		// TODO
 	}
+	
+	
+	
+	
 }

@@ -26,8 +26,8 @@ public class AttackAction extends Action {
 	/**
 	 * Class Constructor
 	 */
-	public MoveStraightAction(Player owner) {
-		super(owner, this.DURATION, this.CANCELABLE);
+	public AttackAction(Player owner) {
+		super(owner, AttackAction.DURATION, AttackAction.CANCELABLE);
 	}
 	
 
@@ -37,12 +37,12 @@ public class AttackAction extends Action {
 
 
 	public void begin(State state) {
-		this.owner.setMovementState(this.owner.MovementState.MOVING);
-		this.owner.setSpeed( this.owner.INITIAL_SPEED );
+		this.getOwner().setMovementState(Player.MovementState.MOVING);
+		this.getOwner().setSpeed(Player.INITIAL_SPEED);
 	}
 	
 	
-	public void execute(State state) {
+	public void update(State state, float dtime) {
 		//TODO: do the actual moving
 	}
 		

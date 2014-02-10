@@ -3,18 +3,25 @@ package com.md.mechevo.game.action;
 import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
 
+import com.md.mechevo.game.EventObserver;
+import com.md.mechevo.game.EventObservable;
+import com.md.mechevo.game.EventData;
+
+
 
 /**
  * An Action is the current order the mech will perform.
  * Actions can be linked with other actions to know which one will be next.
  */
-public abstract class Action {
+public abstract class Action implements EventObservable {
 
 	private Player owner; ///< Player that controls object with condition
 	private String extra; ///< Action dependant attribute
 	private Action next; ///< Next action to execute after this one
 	private float duration; ///< Duration of the action
 	private boolean cancelable; ///< Whether or not the action can be canceled mid-action
+	
+	private EventObserver report;
 
 
 	/**
@@ -101,9 +108,25 @@ public abstract class Action {
 	/**
 	 * Execute the action.
 	 * 
-	 * @param state Current State of the game (contains duration of round)
+	 * @param state Current State of the game
+	 * @param dtime Duration of the round
 	 */
-	abstract public void execute(State state);
+	abstract public void update(State state, float dtime);
+	
+	
+	
+	// interface EventObservable
+	
+	public boolean registerEventObserver(EventObserver eventObserver) {
+		this.report = eventObserver;
+		return true;
+	}
+	
+	public void notifyEventObserver(EventData eventData) {
+		if ( this.report != null ) {
+			this.report.notify(eventData);
+		}
+	}
 
 
 }

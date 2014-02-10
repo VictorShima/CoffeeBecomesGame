@@ -20,7 +20,7 @@ public class ConfusingRay extends Projectile {
 	public void collidesWith(State state, Player p) {
 		p.takeDamage(this.getWeapon().getDamage());
 		p.confuse();
-		this.setDestroy(true);
+		this.setDestroyed(true);
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class ConfusingRay extends Projectile {
 
 	@Override
 	public void collidesWith(State State, Obstacle o) {
-		this.setDestroy(true);
+		this.setDestroyed(true);
 	}
 
 	@Override

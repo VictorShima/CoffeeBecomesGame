@@ -38,7 +38,7 @@ public class HomingProjectile extends Projectile {
 	@Override
 	public void collidesWith(State state, Player p) {
 		p.takeDamage(this.getWeapon().getDamage());
-		this.setDestroy(true);
+		this.setDestroyed(true);
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class HomingProjectile extends Projectile {
 
 	@Override
 	public void collidesWith(State State, Obstacle o) {
-		this.setDestroy(true);
+		this.setDestroyed(true);
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class HomingProjectile extends Projectile {
 	 * overriden)
 	 */
 	@Override
-	public void update(State state) {
+	public void update(State state, float dtime) {
 		float vecToTargetX = this.getTarget().getPosition().getX() - this.getPosition().getX();
 		float vecToTargetY = this.getTarget().getPosition().getY() - this.getPosition().getY();
 
@@ -78,13 +78,13 @@ public class HomingProjectile extends Projectile {
 																							2f)));
 
 		float rotationAngle = (float) Math.acos(cosValue) * 180 / (float) Math.PI;
-		rotationAngle *= state.getTime();
+		rotationAngle *= dtime;
 
 		// Rotate clockwise/counter-clockwise is determined by sign of cross-product
 		float crossProd = (vecToTargetX * vecY) - (vecToTargetY * vecX);
 
 
-		if (rotationAngle < rotVel * state.getTime()) {
+		if (rotationAngle < rotVel * dtime) {
 			if (crossProd < 0) {
 				this.setAngle(this.getAngle() + rotationAngle);
 			} else {
@@ -92,19 +92,20 @@ public class HomingProjectile extends Projectile {
 			}
 		} else {
 			if (crossProd < 0) {
-				this.setAngle(this.getAngle() + rotVel * state.getTime());
+				this.setAngle(this.getAngle() + rotVel * dtime);
 			} else {
-				this.setAngle(this.getAngle() - rotVel * state.getTime());
+				this.setAngle(this.getAngle() - rotVel * dtime);
 			}
 		}
 
 		// After calculating the new angle we simply move the missile like a regular solid
+		// TODO: can change to Solid.move()
 		float velX = (float) Math.cos(this.getAngle());
 		float velY = (float) Math.sin(this.getAngle());
 		/* Normalization of the velocity vector */
 		float vel = velX + velY;
-		velX = (velX / vel) * state.getTime() * (this.getSpeed());
-		velY = -(velY / vel) * state.getTime() * (this.getSpeed());
+		velX = (velX / vel) * dtime * (this.getSpeed());
+		velY = -(velY / vel) * dtime * (this.getSpeed());
 
 		this.setPosition(new Position(this.getPosition().getX() + velX, this.getPosition().getY()
 						+ velY));

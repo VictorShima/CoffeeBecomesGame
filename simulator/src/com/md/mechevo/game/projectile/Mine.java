@@ -19,7 +19,7 @@ public class Mine extends Projectile {
 	@Override
 	public void collidesWith(State state, Player p) {
 		p.takeDamage(this.getWeapon().getDamage());
-		this.setDestroy(true);
+		this.setDestroyed(true);
 	}
 
 	@Override
@@ -27,14 +27,14 @@ public class Mine extends Projectile {
 
 	@Override
 	public void collidesWith(State State, Obstacle o) {
-		this.setDestroy(true);
+		this.setDestroyed(true);
 	}
 
 	@Override
 	public void collidesWith(State state, Sentry s) {}
 
 	@Override
-	public void update(State state) {
+	public void update(State state, float dtime) {
 
 	}
 }

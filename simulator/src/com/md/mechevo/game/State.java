@@ -12,15 +12,17 @@ public class State {
 	private Map map;
 	private ArrayList<Player> players;
 	private ArrayList<Projectile> projectiles;
-
+	
 	/**
-	 * time passed since the last state. time is in milliseconds.
+	 * total time passed since beginning
 	 */
-	private float time;
+	private float totalTime;
+
 
 	public State() {
 		this.players = new ArrayList<Player>();
 		this.projectiles = new ArrayList<Projectile>();
+		this.totalTime = 0;
 	}
 
 	public Map getMap() {
@@ -36,7 +38,7 @@ public class State {
 	}
 
 	public void addProjectile(Projectile p) {
-		projectiles.add(p);
+		this.projectiles.add(p);
 	}
 
 	public ArrayList<Player> getPlayers() {
@@ -44,16 +46,24 @@ public class State {
 	}
 
 	public void addPlayer(Player p) {
-        players.add(p);
+		this.players.add(p);
 	}
 
-	public float getTime() {
-		return time;
+	public float getTotalTime() {
+		return totalTime;
 	}
-
-	public void setTime(float time) {
-		this.time = time;
+	
+	
+	/**
+	 * Update the current state to the next one
+	 *
+	 * @param time Time since the last state
+	 */
+	public void update(float dtime) {
+		this.map.update(this, dtime);
+		this.totalTime += dtime;
 	}
+	
 
 	/**
 	 * 

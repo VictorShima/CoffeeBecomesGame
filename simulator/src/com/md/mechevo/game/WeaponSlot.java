@@ -1,5 +1,7 @@
 package com.md.mechevo.game;
 
+import com.md.mechevo.game.weapon.Weapon;
+
 
 /**
  * Weapon Slot holds the Weapon for a player, specifiyng additional data such as current
@@ -9,12 +11,12 @@ public class WeaponSlot {
 	
 	private Weapon weapon;
 	private float currentCooldown;
-	private int slot;
+	private SlotNumber slot;
 	
 	/**
 	 * Basic Constructor
 	 */
-	public WeaponSlot(Weapon weapon, int slot) {
+	public WeaponSlot(Weapon weapon, SlotNumber slot) {
 		this.weapon = weapon;
 		this.slot = slot;
 		this.currentCooldown = 0;
@@ -40,8 +42,16 @@ public class WeaponSlot {
 	/**
 	 * Get the weapon slot
 	 */
-	public int slot() {
+	public SlotNumber slot() {
 		return this.slot;
+	}
+	
+	
+	/**
+	 * Maps the Slot name to a number
+	 */
+	public static enum SlotNumber {
+		LEFT, RIGHT, CENTER
 	}
 	
 	

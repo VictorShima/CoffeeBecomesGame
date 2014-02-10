@@ -20,7 +20,7 @@ public class Bullet extends Projectile {
 	@Override
 	public void collidesWith(State state, Player p) {
 		p.takeDamage(this.getWeapon().getDamage());
-		this.setDestroy(true);
+		this.setDestroyed(true);
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class Bullet extends Projectile {
 
 	@Override
 	public void collidesWith(State State, Obstacle o) {
-		this.setDestroy(true);
+		this.setDestroyed(true);
 	}
 
 	@Override

@@ -11,6 +11,11 @@ import com.md.mechevo.game.sentry.Sentry;
 import com.md.mechevo.game.weapon.Weapon;
 
 public class Player extends Solid {
+
+
+	/**
+	 * Health the Player starts with
+	 */
 	public static final int INITIAL_HEALTH = 100;
 
 	/**
@@ -32,14 +37,15 @@ public class Player extends Solid {
 	 * Angle is measured in degrees.
 	 */
 	public static final float INITIAL_ANGLE = 0;
-	private int teamId;;
+	private int teamId;
 	private int health;
-	private ArrayList<Weapon> weapons; // TODO: make each weapon assigned to a slot (1,2,3)
+	private ArrayList<WeaponSlot> weapons; // TODO: make each weapon assigned to a slot (1,2,3)
 	private ArrayList<Sentry> sentries;
 	private AIAlgorithm algorithm;
 	private boolean paralysed = false;
 	private boolean confused = false;
 	private MovementState movementState;
+	
 	private AIEntry currentAiEntry;
 	private Action currentAction;
 	private float currentActionTime; // /< time since begin of action execution
@@ -48,7 +54,7 @@ public class Player extends Solid {
 		super(INITIAL_WIDTH, INITIAL_HEIGHT, INITIAL_SPEED, INITIAL_ANGLE, id);
 		this.teamId = teamId;
 		this.health = INITIAL_HEALTH;
-		this.weapons = new ArrayList<Weapon>();
+		this.weapons = new ArrayList<WeaponSlot>();
 		this.sentries = new ArrayList<Sentry>();
 		this.algorithm = new AIAlgorithm();
 	}
@@ -65,9 +71,14 @@ public class Player extends Solid {
 		this.health = health;
 	}
 
-	public void addWeapon(Weapon w) {
-		weapons.add(w);
+
+	/**
+	 * Equips a weapon and boxes it into a WeaponSlot
+	 */
+	public void equipWeapon(Weapon w, WeaponSlot.SlotNumber slot) {
+		weapons.add(new WeaponSlot(w, slot));
 	}
+
 
 	public boolean isParalysed() {
 		return paralysed;
@@ -95,8 +106,8 @@ public class Player extends Solid {
 
 	public void takeDamage(int damage) {
 		health -= damage;
-		if (health < 0) {
-			setDestroy(true);
+		if (health <= 0) {
+			setDestroyed(true);
 		}
 	}
 
@@ -140,8 +151,8 @@ public class Player extends Solid {
 	}
 
 	@Override
-	public void update(State state) {
-		super.update(state);
+	public void update(State state, float dtime) {
+		super.update(state, dtime);
 
 		if (true) {
 			return;
@@ -172,10 +183,10 @@ public class Player extends Solid {
 				if (this.currentActionTime == 0) {
 					this.currentAction.begin(state);
 				}
-				this.currentAction.execute(state);
+				this.currentAction.update(state, dtime);
 
 				// post-update
-				this.currentActionTime += state.getTime();
+				this.currentActionTime += dtime;
 			}
 		}
 	}

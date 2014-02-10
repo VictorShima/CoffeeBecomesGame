@@ -72,8 +72,8 @@ public abstract class Sentry extends Solid {
 		return timeToLive <= 0;
 	}
 
-	public void update(State state) {
-		this.updateTTL(state.getTime());
+	public void update(State state, float dtime) {
+		this.updateTTL(dtime);
 		if (this.timeToDie()) {
 			owner.removeSentry(this);
 			return;

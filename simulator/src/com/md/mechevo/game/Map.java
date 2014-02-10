@@ -26,7 +26,12 @@ public class Map {
 		elements.remove(s);
 	}
 
-	private void correctIfCollision(Solid s) {
+
+
+	/**
+	 * @todo : collision should be with entire box, right now its only with pivot point
+	 */
+	private void checkAndCorrectBorderCollision(Solid s) {
 		Position solidCenterPos = s.getCenterPoint();
 		Position[] solidPos = s.getBoundingBox();
 		assert solidPos.length == 2 : "Solid.getBoundingBox doesn't return a 2-element vector";
@@ -51,28 +56,48 @@ public class Map {
 			s.setPosition(new Position(solidCenterPos.getX(), MAX_HEIGHT - s.getHeight() / 2));
 		}
 	}
+	
+	
+	/**
+	 * Check Collision between 2 solids
+	 *
+	 * TODO: Collisions should really be circles, its difficult to make square collision when
+	 * handling angles
+	 * 
+	 * @param s1 Solid A
+	 * @param s2 Solid B
+	 *	@return True if they collide
+	 */
+	public boolean checkCollision(Solid s1, Solid s2) {
+		return false;
+	}
+		
+		
 
 	/**
 	 * Updates all elements in the map and resolves all existing collisions after.
 	 * 
 	 * @param state the current state of the map
+	 * @param dtime Delta Time since the last state
 	 */
-	public void update(State state) {
+	public void update(State state, float dtime) {
 		// update all elements
 		for (Solid s : elements) {
-			s.update(state);
+			s.update(state, dtime);
 		}
 
-		// check collisions with map
+		// check collisions with map boundaries
 		for (Solid s : elements) {
-			correctIfCollision(s);
+			this.checkAndCorrectBorderCollision(s);
 		}
 
-		// check collisions for all elements
+		// check collisions between all elements
 		for (int i = 0; i < elements.size(); i++) {
 			for (int j = i; j < elements.size(); j++) {
-				elements.get(i).accept(elements.get(j), state);
-				elements.get(j).accept(elements.get(i), state);
+				if (this.checkCollision(this.elements.get(i), this.elements.get(j))) {
+					elements.get(i).accept(elements.get(j), state);
+					elements.get(j).accept(elements.get(i), state);
+				}
 			}
 		}
 

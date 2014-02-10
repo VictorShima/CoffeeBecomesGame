@@ -21,13 +21,10 @@ public class Simulator {
 
 		int i = 0;
 		State state = initialState;
-		state.setTime(TIME_BETWEEN_ROUNDS);
 
 		// game loop
 		while (!gameHasFinished() && (i++) < 5) {
-			Map map = state.getMap();
-			map.update(state);
-			report.update(state);
+			state.update(TIME_BETWEEN_ROUNDS);
 		}
 
 		return report;

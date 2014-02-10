@@ -21,8 +21,8 @@ public class Report {
 
 	public Report() {
 		this.log = new LinkedList<String>();
-		this.cloner = new Cloner();
 		this.gson = new Gson();
+		this.cloner = new Cloner();
 		this.lastState = null;
 	}
 
