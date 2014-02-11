@@ -38,6 +38,14 @@ public class AIEntry {
 		return actions;
 	}
 
+	public void addCondition(Condition condition) {
+		conditions.add(condition);
+	}
+
+	public void addAction(Action action) {
+		actions.add(action);
+	}
+
 	/**
 	 * Check if the current state fulfills all the conditions.
 	 * 

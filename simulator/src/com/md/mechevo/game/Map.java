@@ -36,22 +36,22 @@ public class Map {
 		float radius = s.getRadius();
 
 		if (pos.getX() - radius < MIN_WIDTH) {
-			// move solid center to left corner
+			// moveForward solid center to left corner
 			s.setPosition(new Position(radius, pos.getY()));
 		}
 
 		if (pos.getX() > MAX_WIDTH) {
-			// move solid center to right corner
+			// moveForward solid center to right corner
 			s.setPosition(new Position(MAX_WIDTH - radius, pos.getY()));
 		}
 
 		if (pos.getY() < MIN_HEIGHT) {
-			// move solid center to top corner (hint: inverted y-axis)
+			// moveForward solid center to top corner (hint: inverted y-axis)
 			s.setPosition(new Position(pos.getX(), radius));
 		}
 
 		if (pos.getY() > MAX_HEIGHT) {
-			// move solid center to bottom corner (hint: inverted y-axis)
+			// moveForward solid center to bottom corner (hint: inverted y-axis)
 			s.setPosition(new Position(pos.getX(), MAX_HEIGHT - radius));
 		}
 	}

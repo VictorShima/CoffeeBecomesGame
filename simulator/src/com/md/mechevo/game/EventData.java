@@ -38,7 +38,7 @@ public class EventData {
 	 */
 	public EventData addAttribute(String key, String value) {
 		this.attributes.add(new SimpleImmutableEntry<String, String>(key, value));
-		return this; //enable chain calling
+		return this; // enable chain calling
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class EventData {
 	 */
 	public EventData addAttribute(String key, int value) {
 		this.attributes.add(new SimpleImmutableEntry<String, String>(key, Integer.toString(value)));
-		return this; //enable chain calling
+		return this; // enable chain calling
 	}
 
 
@@ -55,21 +55,21 @@ public class EventData {
 	 */
 	public EventData addAttribute(String key, float value) {
 		this.attributes.add(new SimpleImmutableEntry<String, String>(key, Float.toString(value)));
-		return this; //enable chain calling
+		return this; // enable chain calling
 	}
-	
-	
+
+
 	/**
 	 * Title getter.
 	 */
 	public String getTitle() {
 		return this.title;
 	}
-	
+
 	/**
 	 * Attribute getter
 	 */
-	public ArrayList< SimpleImmutableEntry<String, String> > getAttributes() {
+	public ArrayList<SimpleImmutableEntry<String, String>> getAttributes() {
 		return this.attributes;
 	}
 

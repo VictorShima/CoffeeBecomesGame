@@ -1,7 +1,5 @@
 package com.md.mechevo.game.projectile;
 
-import com.md.mechevo.game.State;
-
 import com.md.mechevo.game.Obstacle;
 import com.md.mechevo.game.Player;
 import com.md.mechevo.game.Position;
@@ -20,7 +18,9 @@ public class Bullet extends Projectile {
 
 
 
-	public void update(State state, float dtime) { }
+	public void update(State state, float dtime) {
+		super.moveForward(this.getAngle(), this.getSpeed(), dtime);
+	}
 
 
 	@Override

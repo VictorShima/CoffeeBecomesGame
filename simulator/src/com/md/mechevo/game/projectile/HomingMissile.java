@@ -1,9 +1,8 @@
 package com.md.mechevo.game.projectile;
 
-import com.md.mechevo.game.State;
-
 import com.md.mechevo.game.Position;
 import com.md.mechevo.game.Solid;
+import com.md.mechevo.game.State;
 import com.md.mechevo.game.weapon.Weapon;
 
 public class HomingMissile extends HomingProjectile {
@@ -16,11 +15,11 @@ public class HomingMissile extends HomingProjectile {
 		super(id, position, INITIAL_WIDTH, INITIAL_HEIGHT, INITIAL_SPEED, angle, weapon, target,
 						INITIAL_ROTVEL);
 	}
-	
-	
+
+
 	public void update(State state, float dtime) {
 		super.update(state, dtime);
 	}
-	
+
 
 }

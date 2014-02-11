@@ -9,8 +9,8 @@ public class MineDetector extends Weapon {
 		super(0, 0, player);
 	}
 
-    @Override
-    public void fire(State state, Solid target) {
-        
-    }
+	@Override
+	public void fire(State state, Solid target) {
+		// TODO
+	}
 }

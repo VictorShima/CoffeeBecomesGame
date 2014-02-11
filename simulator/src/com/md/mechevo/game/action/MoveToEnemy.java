@@ -1,17 +1,9 @@
 package com.md.mechevo.game.action;
 
 import com.md.mechevo.game.Player;
-import com.md.mechevo.game.Player.MovementState;
 import com.md.mechevo.game.State;
 
-
-/**
- * An Action is the current order the mech will perform. Actions can be linked with other actions to
- * know which one will be next.
- */
-public class MoveStraightAction extends Action {
-
-
+public class MoveToEnemy extends Action {
 	/**
 	 * Duration of the action
 	 * 
@@ -29,12 +21,8 @@ public class MoveStraightAction extends Action {
 	/**
 	 * Class Constructor
 	 */
-	public MoveStraightAction(Player owner) {
-		super(owner, MoveStraightAction.DURATION, MoveStraightAction.CANCELABLE);
-	}
-
-	public MoveStraightAction(Player owner, String param) {
-		super(owner, param, MoveStraightAction.DURATION, MoveStraightAction.CANCELABLE);
+	public MoveToEnemy(Player owner) {
+		super(owner, MoveToEnemy.DURATION, MoveToEnemy.CANCELABLE);
 	}
 
 
@@ -44,7 +32,7 @@ public class MoveStraightAction extends Action {
 
 	@Override
 	public void begin(State state) {
-		getOwner().setMovementState(MovementState.MOVING);
+		getOwner().setMovementState(Player.MovementState.MOVING);
 		getOwner().setSpeed(Player.INITIAL_SPEED);
 	}
 
