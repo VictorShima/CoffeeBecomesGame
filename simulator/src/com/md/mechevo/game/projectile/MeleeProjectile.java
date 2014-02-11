@@ -1,5 +1,7 @@
 package com.md.mechevo.game.projectile;
 
+import com.md.mechevo.game.State;
+
 import com.md.mechevo.game.Obstacle;
 import com.md.mechevo.game.Player;
 import com.md.mechevo.game.Position;
@@ -14,6 +16,10 @@ public class MeleeProjectile extends Projectile {
 	public MeleeProjectile(int id, Position position, float angle, Weapon weapon) {
 		super(id, position, INITIAL_WIDTH, INITIAL_HEIGHT, 0, angle, weapon);
 	}
+	
+	
+	public void update(State state, float dtime) { }
+	
 
 	@Override
 	public void collidesWith(State state, Player p) {

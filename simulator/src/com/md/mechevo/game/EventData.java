@@ -36,23 +36,41 @@ public class EventData {
 	 * @param key The Key part of the attribute
 	 * @param value The Value part of the attribute
 	 */
-	public void addAttribute(String key, String value) {
+	public EventData addAttribute(String key, String value) {
 		this.attributes.add(new SimpleImmutableEntry<>(key, value));
+		return this; //enable chain calling
 	}
 	
 	/**
-	 * @see com.md.mechevo.EventObserver.addAttribute
+	 * @see com.md.mechevo.game.EventData.addAttribute
 	 */
-	public void addAttribute(String key, int value) {
+	public EventData addAttribute(String key, int value) {
 		this.attributes.add(new SimpleImmutableEntry<>(key, Integer.toString(value)));
+		return this; //enable chain calling
 	}
 	
 	
 	/**
-	 * @see com.md.mechevo.EventObserver.addAttribute
+	 * @see com.md.mechevo.game.EventData.addAttribute
 	 */
-	public void addAttribute(String key, float value) {
+	public EventData addAttribute(String key, float value) {
 		this.attributes.add(new SimpleImmutableEntry<>(key, Float.toString(value)));
+		return this; //enable chain calling
+	}
+	
+	
+	/**
+	 * Title getter.
+	 */
+	public String getTitle() {
+		return this.title;
+	}
+	
+	/**
+	 * Attribute getter
+	 */
+	public ArrayList< SimpleImmutableEntry<String, String> > getAttributes() {
+		return this.attributes;
 	}
 	
 }

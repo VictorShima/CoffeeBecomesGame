@@ -48,6 +48,8 @@ public class MoveStraightAction extends Action {
 		//TODO: do the actual moving
 	}
 		
+		
+	public void end(State state) { }
 
 
 }

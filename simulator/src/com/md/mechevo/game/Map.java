@@ -22,7 +22,7 @@ public class Map {
 		return elements;
 	}
 
-	public void destroySolid(Solid s) {
+	public void removeSolid(Solid s) {
 		elements.remove(s);
 	}
 

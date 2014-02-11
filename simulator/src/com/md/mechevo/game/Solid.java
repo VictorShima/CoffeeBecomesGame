@@ -121,12 +121,27 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 
 
 	/**
-	 * Default case for updating position. Used in everything that isn't homing.
+	 * Method that is called when a new Solid is created.
 	 * 
-	 * @param state
-	 * TODO: switch the movement part to the action
+	 * @param state Current State of the game
 	 */
-	public void update(State state, float dtime) { }
+	public abstract void begin(State state);
+
+	/**
+	 * Update method for a solid.
+	 * 
+	 * @param state Current State of the game
+	 * @param dtime Delta time of update
+	 */
+	public abstract void update(State state, float dtime);
+	
+	
+	/**
+	 * Method that is called when a new Solid is destroyed.
+	 * 
+	 * @param state Current State of the game
+	 */
+	public abstract void end(State state);
 	
 	
 	/**
@@ -167,9 +182,8 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 	
 	// interface EventObservable
 	
-	public boolean registerEventObserver(EventObserver eventObserver) {
+	public void registerEventObserver(EventObserver eventObserver) {
 		this.report = eventObserver;
-		return true;
 	}
 	
 	public void notifyEventObserver(EventData eventData) {

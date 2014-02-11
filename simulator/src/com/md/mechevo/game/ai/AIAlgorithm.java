@@ -51,5 +51,13 @@ public final class AIAlgorithm {
 	}
 
 
+	/**
+	 * Get all Ai entries
+	 */
+	public ArrayList<AIEntry> getEntries() {
+		return this.entries;
+	}
+	
+
 
 }

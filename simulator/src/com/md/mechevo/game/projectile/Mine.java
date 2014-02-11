@@ -1,5 +1,7 @@
 package com.md.mechevo.game.projectile;
 
+import com.md.mechevo.game.State;
+
 import com.md.mechevo.game.Obstacle;
 import com.md.mechevo.game.Player;
 import com.md.mechevo.game.Position;
@@ -15,6 +17,10 @@ public class Mine extends Projectile {
 	public Mine(int id, Position position, float angle, Weapon weapon) {
 		super(id, position, INITIAL_WIDTH, INITIAL_HEIGHT, INITIAL_SPEED, angle, weapon);
 	}
+	
+	
+	public void update(State state, float dtime) { }
+	
 
 	@Override
 	public void collidesWith(State state, Player p) {
@@ -33,8 +39,4 @@ public class Mine extends Projectile {
 	@Override
 	public void collidesWith(State state, Sentry s) {}
 
-	@Override
-	public void update(State state, float dtime) {
-
-	}
 }

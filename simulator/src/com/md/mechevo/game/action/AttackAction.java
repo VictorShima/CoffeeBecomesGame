@@ -45,6 +45,9 @@ public class AttackAction extends Action {
 	public void update(State state, float dtime) {
 		//TODO: do the actual moving
 	}
+	
+	
+	public void end(State state) { }
 		
 
 

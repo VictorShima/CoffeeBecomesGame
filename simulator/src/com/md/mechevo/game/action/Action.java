@@ -111,15 +111,22 @@ public abstract class Action implements EventObservable {
 	 * @param state Current State of the game
 	 * @param dtime Duration of the round
 	 */
-	abstract public void update(State state, float dtime);
+	public abstract void update(State state, float dtime);
+	
+	
+	/**
+	 * End the execution of the action, whether it is cancelled or successfully ended.
+	 *
+	 * @param state Current state of the game
+	 */
+	public abstract void end(State state);
 	
 	
 	
 	// interface EventObservable
 	
-	public boolean registerEventObserver(EventObserver eventObserver) {
+	public void registerEventObserver(EventObserver eventObserver) {
 		this.report = eventObserver;
-		return true;
 	}
 	
 	public void notifyEventObserver(EventData eventData) {

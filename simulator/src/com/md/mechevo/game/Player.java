@@ -39,13 +39,13 @@ public class Player extends Solid {
 	public static final float INITIAL_ANGLE = 0;
 	private int teamId;
 	private int health;
-	private ArrayList<WeaponSlot> weapons; // TODO: make each weapon assigned to a slot (1,2,3)
+	private ArrayList<Weapon> weapons; // TODO: make each weapon assigned to a slot (1,2,3)
 	private ArrayList<Sentry> sentries;
-	private AIAlgorithm algorithm;
 	private boolean paralysed = false;
 	private boolean confused = false;
 	private MovementState movementState;
 	
+	private AIAlgorithm algorithm;
 	private AIEntry currentAiEntry;
 	private Action currentAction;
 	private float currentActionTime; // /< time since begin of action execution
@@ -54,7 +54,7 @@ public class Player extends Solid {
 		super(INITIAL_WIDTH, INITIAL_HEIGHT, INITIAL_SPEED, INITIAL_ANGLE, id);
 		this.teamId = teamId;
 		this.health = INITIAL_HEALTH;
-		this.weapons = new ArrayList<WeaponSlot>();
+		this.weapons = new ArrayList<Weapon>();
 		this.sentries = new ArrayList<Sentry>();
 		this.algorithm = new AIAlgorithm();
 	}
@@ -75,8 +75,9 @@ public class Player extends Solid {
 	/**
 	 * Equips a weapon and boxes it into a WeaponSlot
 	 */
-	public void equipWeapon(Weapon w, WeaponSlot.SlotNumber slot) {
-		weapons.add(new WeaponSlot(w, slot));
+	public void equipWeapon(Weapon w, Weapon.WeaponSlot slot) {
+		w.setCurrentSlot(slot);
+		weapons.add(w);
 	}
 
 
@@ -149,10 +150,14 @@ public class Player extends Solid {
 	public void paralyse() {
 		this.setParalysed(true);
 	}
+	
+	
+	
+	public void begin(State state) { }
+	
 
 	@Override
 	public void update(State state, float dtime) {
-		super.update(state, dtime);
 
 		if (true) {
 			return;
@@ -190,6 +195,11 @@ public class Player extends Solid {
 			}
 		}
 	}
+	
+	
+	
+	public void end(State state) { }
+
 
 	/**
 	 * Current state of movement
@@ -197,4 +207,27 @@ public class Player extends Solid {
 	public static enum MovementState {
 		STOPPED, MOVING, SPRINTING, DASHING
 	}
+	
+	
+	// interface EventObservable
+	
+	/**
+	 * Will register the observer on himself and also on its belongings.
+	 * Belongings with the observer include: Weapon, Actions
+	 */
+	public void registerEventObserver(EventObserver eventObserver) {
+		// set himself
+		super.registerEventObserver(eventObserver);
+		// set all weapons
+		for ( Weapon w : this.weapons ) {
+			w.registerEventObserver(eventObserver);
+		}
+		// set all actions
+		for ( AIEntry aiEntry : this.algorithm.getEntries() ) {
+			for ( Action action : aiEntry.getActions() ) {
+				action.registerEventObserver(eventObserver);
+			}
+		}
+	}
+	
 }
