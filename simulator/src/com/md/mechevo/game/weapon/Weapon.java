@@ -22,8 +22,7 @@ public abstract class Weapon {
 	public void fire(State state) {
 		// TODO
 	}
-	
-	
-	
-	
+
+
+
 }

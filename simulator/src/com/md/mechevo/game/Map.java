@@ -29,50 +29,49 @@ public class Map {
 
 
 	/**
-	 * @todo : collision should be with entire box, right now its only with pivot point
+	 * Collision done using center position and radius.
 	 */
 	private void checkAndCorrectBorderCollision(Solid s) {
-		Position solidCenterPos = s.getCenterPoint();
-		Position[] solidPos = s.getBoundingBox();
-		assert solidPos.length == 2 : "Solid.getBoundingBox doesn't return a 2-element vector";
+		Position pos = s.getPosition();
+		float radius = s.getRadius();
 
-		if (solidPos[0].getX() < MIN_WIDTH) {
+		if (pos.getX() - radius < MIN_WIDTH) {
 			// move solid center to left corner
-			s.setPosition(new Position(s.getWidth() / 2, solidCenterPos.getY()));
+			s.setPosition(new Position(radius, pos.getY()));
 		}
 
-		if (solidPos[1].getX() > MAX_WIDTH) {
+		if (pos.getX() > MAX_WIDTH) {
 			// move solid center to right corner
-			s.setPosition(new Position(MAX_WIDTH - s.getWidth() / 2, solidCenterPos.getY()));
+			s.setPosition(new Position(MAX_WIDTH - radius, pos.getY()));
 		}
 
-		if (solidPos[0].getY() < MIN_HEIGHT) {
+		if (pos.getY() < MIN_HEIGHT) {
 			// move solid center to top corner (hint: inverted y-axis)
-			s.setPosition(new Position(solidCenterPos.getX(), s.getHeight() / 2));
+			s.setPosition(new Position(pos.getX(), radius));
 		}
 
-		if (solidPos[1].getY() > MAX_HEIGHT) {
+		if (pos.getY() > MAX_HEIGHT) {
 			// move solid center to bottom corner (hint: inverted y-axis)
-			s.setPosition(new Position(solidCenterPos.getX(), MAX_HEIGHT - s.getHeight() / 2));
+			s.setPosition(new Position(pos.getX(), MAX_HEIGHT - radius));
 		}
 	}
-	
-	
+
+
 	/**
 	 * Check Collision between 2 solids
-	 *
+	 * 
 	 * TODO: Collisions should really be circles, its difficult to make square collision when
 	 * handling angles
 	 * 
 	 * @param s1 Solid A
 	 * @param s2 Solid B
-	 *	@return True if they collide
+	 * @return True if they collide
 	 */
 	public boolean checkCollision(Solid s1, Solid s2) {
 		return false;
 	}
-		
-		
+
+
 
 	/**
 	 * Updates all elements in the map and resolves all existing collisions after.
@@ -92,11 +91,15 @@ public class Map {
 		}
 
 		// check collisions between all elements
+		// if
 		for (int i = 0; i < elements.size(); i++) {
-			for (int j = i; j < elements.size(); j++) {
+			for (int j = 0; j < elements.size(); j++) {
+				if (i == j) {
+					continue;
+				}
+
 				if (this.checkCollision(this.elements.get(i), this.elements.get(j))) {
 					elements.get(i).accept(elements.get(j), state);
-					elements.get(j).accept(elements.get(i), state);
 				}
 			}
 		}

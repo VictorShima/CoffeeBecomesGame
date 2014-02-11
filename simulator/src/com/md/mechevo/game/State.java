@@ -12,7 +12,7 @@ public class State {
 	private Map map;
 	private ArrayList<Player> players;
 	private ArrayList<Projectile> projectiles;
-	
+
 	/**
 	 * total time passed since beginning
 	 */
@@ -52,18 +52,18 @@ public class State {
 	public float getTotalTime() {
 		return totalTime;
 	}
-	
-	
+
+
 	/**
 	 * Update the current state to the next one
-	 *
-	 * @param time Time since the last state
+	 * 
+	 * @param dtime Time since the last state
 	 */
 	public void update(float dtime) {
 		this.map.update(this, dtime);
 		this.totalTime += dtime;
 	}
-	
+
 
 	/**
 	 * 

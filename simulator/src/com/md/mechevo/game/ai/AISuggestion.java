@@ -19,8 +19,8 @@ public final class AISuggestion {
 		this.aiEntry = entry;
 		this.target = target;
 	}
-	
-	
+
+
 	/**
 	 * Retrieve the first action of the entry.
 	 * 
@@ -29,21 +29,21 @@ public final class AISuggestion {
 	public Action getFirstAction() {
 		return (this.aiEntry.getActions().size() > 0) ? this.aiEntry.getActions().get(0) : null;
 	}
-	
-	
+
+
 	/**
 	 * Get target Player
 	 */
 	public Player getTarget() {
 		return this.target;
 	}
-	
-	
+
+
 	/**
 	 * Get AI entry
 	 */
 	public AIEntry getAiEntry() {
 		return this.aiEntry;
 	}
-	
+
 }

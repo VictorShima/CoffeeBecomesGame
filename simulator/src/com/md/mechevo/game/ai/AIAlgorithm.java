@@ -15,9 +15,7 @@ public final class AIAlgorithm {
 
 
 	/**
-	 * Constructor with specified owner.
-	 * 
-	 * @param owner Owner of the AI
+	 * Default constructor
 	 */
 	public AIAlgorithm() {}
 

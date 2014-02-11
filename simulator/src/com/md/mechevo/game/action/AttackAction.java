@@ -12,11 +12,12 @@ public class AttackAction extends Action {
 
 	/**
 	 * Duration of the action
+	 * 
 	 * @todo Actual duration will depend on extra attribute
 	 */
 	private static final int DURATION = 1000;
-	
-	
+
+
 	/**
 	 * Whether or not the action is cancelable
 	 */
@@ -29,7 +30,7 @@ public class AttackAction extends Action {
 	public AttackAction(Player owner) {
 		super(owner, AttackAction.DURATION, AttackAction.CANCELABLE);
 	}
-	
+
 
 	public boolean check(State state) {
 		return true; // always valid
@@ -40,12 +41,12 @@ public class AttackAction extends Action {
 		this.getOwner().setMovementState(Player.MovementState.MOVING);
 		this.getOwner().setSpeed(Player.INITIAL_SPEED);
 	}
-	
-	
+
+
 	public void update(State state, float dtime) {
-		//TODO: do the actual moving
+		// TODO: do the actual moving
 	}
-		
+
 
 
 }
