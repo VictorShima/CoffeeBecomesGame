@@ -22,7 +22,7 @@ public final class Importer {
 	 * details args[2*p + 2] - AIAlgorithm
 	 * 
 	 * @param args the data in JSON
-	 * @return
+	 * @return the initial state
 	 */
 	public static State createInitialState(String[] args) {
 		if (args.length < 1) {
@@ -50,7 +50,11 @@ public final class Importer {
 
 			// reading algorithm
 			AIAlgorithm algorithm = gson.fromJson(args[2 * playerID + 2], AIAlgorithm.class);
+			algorithm.setOwner(player);
 			player.setAlgorithm(algorithm);
+
+			// TODO algorithm set owner in Conditions and Actions
+
 			state.addPlayer(player);
 		}
 

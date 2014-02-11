@@ -39,6 +39,7 @@ public class State {
 
 	public void addProjectile(Projectile p) {
 		this.projectiles.add(p);
+		map.addSolid(p);
 	}
 
 	public ArrayList<Player> getPlayers() {

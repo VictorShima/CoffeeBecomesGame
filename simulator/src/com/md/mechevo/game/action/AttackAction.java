@@ -23,6 +23,12 @@ public class AttackAction extends Action {
 	 */
 	private static final boolean CANCELABLE = true;
 
+	/**
+	 * @see com.md.mechevo.game.action.Action#Action
+	 */
+	public AttackAction() {
+		super(null, AttackAction.DURATION, AttackAction.CANCELABLE);
+	}
 
 	/**
 	 * Class Constructor

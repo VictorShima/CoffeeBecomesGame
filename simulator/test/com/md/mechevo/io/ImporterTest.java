@@ -8,6 +8,9 @@ import com.google.gson.GsonBuilder;
 import com.md.mechevo.game.action.Action;
 import com.md.mechevo.game.action.ActionDeserializer;
 import com.md.mechevo.game.action.AttackAction;
+import com.md.mechevo.game.condition.Condition;
+import com.md.mechevo.game.condition.ConditionDeserializer;
+import com.md.mechevo.game.condition.TrueCondition;
 
 public class ImporterTest {
 
@@ -19,5 +22,15 @@ public class ImporterTest {
 										new ActionDeserializer()).create();
 		Action action = gson.fromJson(json, Action.class);
 		Assert.assertTrue(action instanceof AttackAction);
+	}
+
+	@Test
+	public void testConditionDeserialization() {
+		String json = "{\"name\":\"TrueCondition\",\"param\":\"banana\"}";
+		Gson gson =
+						new GsonBuilder().registerTypeAdapter(Condition.class,
+										new ConditionDeserializer()).create();
+		Condition condition = gson.fromJson(json, Condition.class);
+		Assert.assertTrue(condition instanceof TrueCondition);
 	}
 }
