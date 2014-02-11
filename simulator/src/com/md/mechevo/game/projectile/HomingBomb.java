@@ -18,7 +18,9 @@ public class HomingBomb extends HomingProjectile {
 	}
 	
 	
-	public void update(State state, float dtime) { }
+	public void update(State state, float dtime) {
+        super.update(state, dtime);
+    }
 	
 
 }

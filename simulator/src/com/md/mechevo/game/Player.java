@@ -176,8 +176,8 @@ public class Player extends Solid {
 		float dist = (float) Math.sqrt(Math.pow(vecX, 2) + Math.pow(vecY, 2));
 		// distance shouldn't count the radius of the solid
 		dist = -(dist - (this.getRadius() * 2));
-		this.move(dist / 2, angle);
-		p.move(dist / 2, angle + 180f);
+		this.moveForward(dist / 2, angle);
+		p.moveForward(dist / 2, angle + 180f);
 
 	}
 

@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="objenesis-tck-2">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/simulator/lib/objenesis-tck-2.1" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/simulator/lib/objenesis-tck-2.1" recursive="false" />
+  </library>
+</component>

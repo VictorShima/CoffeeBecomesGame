@@ -30,7 +30,7 @@ public class Main {
 		
 		EventData event = new EventData("TestA")
 				.addAttribute("playerId", 4)
-				.addAttribute("action", "move");
+				.addAttribute("action", "moveForward");
 		report.notify(event);
 		
 		event = new EventData("TestB")

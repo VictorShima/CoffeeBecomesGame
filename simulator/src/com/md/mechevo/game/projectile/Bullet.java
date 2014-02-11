@@ -20,7 +20,9 @@ public class Bullet extends Projectile {
 
 
 
-	public void update(State state, float dtime) { }
+	public void update(State state, float dtime) {
+        super.moveForward(this.getAngle(), this.getSpeed(), dtime);
+    }
 
 
 	@Override

@@ -16,6 +16,7 @@ public class Minigun extends Weapon {
     public void fire(State state, Solid target){
         float angle = super.getAngleToTarget(target);
         Projectile proj = new Bullet(state.getNextId(), this.getPlayer().getPosition(), angle, this);
+        state.addProjectile(proj);
 
     }
 }

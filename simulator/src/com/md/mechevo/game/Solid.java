@@ -126,7 +126,7 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 	 * @param speed Velocity in MapUnits per Second (independent of current angle)
 	 * @param dtime Time in seconds of duration of movement
 	 */
-	public void move(float angle, float speed, float dtime) {
+	public void moveForward(float angle, float speed, float dtime) {
 		float velX = (float) Math.cos(angle);
 		float velY = (float) Math.sin(angle);
 		// Normalization of the velocity vector
@@ -142,9 +142,9 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 	 * Moves the Solid in direction given by angle for a given distance in a straight line.
 	 * 
 	 * @param angle Angle of movement (independent of current angle)
-	 * @param dist Distance to move
+	 * @param dist Distance to moveForward
 	 */
-	public void move(float angle, float dist) {
+	public void moveForward(float angle, float dist) {
 		float vecX = dist * (float) Math.cos(angle);
 		float vecY = -(dist * (float) Math.sin(angle));
 

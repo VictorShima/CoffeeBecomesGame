@@ -11,6 +11,6 @@ public class MineDetector extends Weapon {
 
     @Override
     public void fire(State state, Solid target) {
-        
+        //TODO
     }
 }
