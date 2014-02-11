@@ -70,7 +70,7 @@
   cursor: move;
 }
 
-.leftArm {
+.leftArm, .rightArm, .bottom {
   width: 90px;
   height: 90px;
   background-color: white;
@@ -83,6 +83,6 @@ img{
   float: left;
 }
 
-.clickme{
+.clickmeleft, .clickmeright, .clickmebottom{
   color:blue;
 }
