@@ -39,7 +39,7 @@ public class Player extends Solid {
 	public static final float INITIAL_ANGLE = 0;
 	private int teamId;
 	private int health;
-	private ArrayList<Weapon> weapons; // TODO: make each weapon assigned to a slot (1,2,3)
+	private ArrayList<Weapon> weapons;
 	private ArrayList<Sentry> sentries;
 	private boolean paralysed = false;
 	private boolean confused = false;
@@ -199,8 +199,16 @@ public class Player extends Solid {
 	}
 	
 	
-	
-	public void begin(State state) { }
+	// TODO: Needs to generate weapon name
+	public void begin(State state) {
+		EventData event = new EventData("createPlayer")
+				.addAttribute("id", this.getId())
+				.addAttribute("teamId", this.getTeamId())
+				.addAttribute("x", this.getPosition().getX())
+				.addAttribute("y", this.getPosition().getY())
+				.addAttribute("angle", this.getAngle());
+		this.notifyEventObserver(event);
+	}
 	
 
 	@Override

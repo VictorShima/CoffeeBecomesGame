@@ -63,7 +63,7 @@ public class EventObserver {
 			for (SimpleImmutableEntry<String, String> attr : entry.getValue().getAttributes()) {
 				attributes.addProperty(attr.getKey(), attr.getValue());
 			}
-			event.add("attr", attributes);
+			event.add("attrs", attributes);
 			
 			head.add(event);
 		}

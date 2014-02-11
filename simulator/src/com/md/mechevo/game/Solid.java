@@ -27,6 +27,7 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 
 	private EventObserver report;
 
+	// TODO: id should be first parameter of solid (bonitez do codigo)
 	protected Solid(float width, float height, float speed, float angle, int id) {
 		this.speed = speed;
 		this.angle = angle;

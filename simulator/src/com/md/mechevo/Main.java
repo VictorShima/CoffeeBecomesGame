@@ -28,8 +28,9 @@ public class Main {
 		Gson gson = new Gson();
 		EventObserver report = new EventObserver();
 		
-		EventData event = new EventData("TestA")
-				.addAttribute("playerId", 4)
+		// Player.getParalised()
+		EventData event = new EventData("getParalysed")
+				.addAttribute("id", 4)
 				.addAttribute("action", "move");
 		report.notify(event);
 		

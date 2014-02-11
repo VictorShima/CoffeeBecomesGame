@@ -84,6 +84,7 @@ public class State implements EventObservable {
 	 * @param dtime Time since the last state
 	 */
 	public void update(float dtime) {
+		this.report.setCurrentTime(this.totalTime());
 		this.map.update(this, dtime);
 		this.totalTime += dtime;
 	}
