@@ -154,6 +154,7 @@ public class Player extends Solid {
 	public void update(State state, float dtime) {
 		super.update(state, dtime);
 
+        //TODO remover esta merda CARALHO
 		if (true) {
 			return;
 		}
