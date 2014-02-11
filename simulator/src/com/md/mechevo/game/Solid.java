@@ -126,7 +126,9 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 	 * @param state
 	 * TODO: switch the movement part to the action
 	 */
-	public void update(State state, float dtime) { }
+	public void update(State state, float dtime) {
+        this.move(this.getAngle(), this.getSpeed(), dtime);
+    }
 	
 	
 	/**
