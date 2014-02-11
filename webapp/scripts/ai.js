@@ -83,18 +83,37 @@ $(function() {
     for(var i=0; i<airules.length; i++){
       var newrule = new Object();
       newrule.conditions = new Array();
+      newrule.actions = new Array();
+      var conditionObj = new Object();
       for(var j=0; j< airules[i].aiconditions.length; j++){
         var span = $(airules[i].aiconditions[j]).find("span")[0];
         if(span){
           //console.log(span);
-          newrule.conditions.push(span.innerText);
+          conditionObj.name = span.innerText;
+        }
+
+        var param = $(airules[i].aiconditions[j]).find("select")[0];
+        if(param){
+          //console.log(span);
+          conditionObj.param = $(param).val();
+        }
+        if(conditionObj){
+          newrule.conditions.push(conditionObj);
         }
       }
+      //Clean actions (leave only the action text)
       for(var h=0; h< airules[i].actions.length; h++){
-        //console.log(airules[i].actions[j]);
-        var span = $(airules[i].actions[j]).find("span")[0];
+        var actionObj = new Object();
+        var span = $(airules[i].actions[h]).find("span")[0];
         if(span){
-          newrule.actions.push(span.innerText);
+          actionObj.name = span.innerText;
+        }
+        var param = $(airules[i].actions[h]).find("select")[0];
+        if(param){
+          actionObj.param = $(param).val();
+        }
+         if(actionObj){
+          newrule.actions.push(actionObj);
         }
       }
      
