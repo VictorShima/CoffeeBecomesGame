@@ -6,11 +6,11 @@ import com.md.mechevo.game.State;
 
 public class TurretLauncher extends Weapon {
 	public TurretLauncher(Player player) {
-		super(8, 12, player );
+		super(8, 12, player);
 	}
 
-    @Override
-    public void fire(State state, Solid target) {
+	@Override
+	public void fire(State state, Solid target) {
 
-    }
+	}
 }

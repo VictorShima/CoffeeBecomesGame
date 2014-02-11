@@ -55,7 +55,7 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 	}
 
 	public void setAngle(float angle) {
-		this.angle = angle%360f;
+		this.angle = angle % 360f;
 	}
 
 	public void rotateBy(float angle) {
@@ -109,15 +109,15 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 	 * @param dtime Delta time of update
 	 */
 	public abstract void update(State state, float dtime);
-	
-	
+
+
 	/**
 	 * Method that is called when a new Solid is destroyed.
 	 * 
 	 * @param state Current State of the game
 	 */
 	public abstract void end(State state);
-	
+
 
 	/**
 	 * Moves the Solid in direction given by angle with given speed in a straight line.
@@ -170,7 +170,7 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 
 
 	// interface EventObservable
-	
+
 	public void registerEventObserver(EventObserver eventObserver) {
 		this.report = eventObserver;
 	}

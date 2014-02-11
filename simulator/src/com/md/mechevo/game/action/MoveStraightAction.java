@@ -33,6 +33,10 @@ public class MoveStraightAction extends Action {
 		super(owner, MoveStraightAction.DURATION, MoveStraightAction.CANCELABLE);
 	}
 
+	public MoveStraightAction(Player owner, String param) {
+		super(owner, param, MoveStraightAction.DURATION, MoveStraightAction.CANCELABLE);
+	}
+
 
 	public boolean check(State state) {
 		return true; // always valid
@@ -48,9 +52,9 @@ public class MoveStraightAction extends Action {
 	public void update(State state, float dtime) {
 		// TODO: do the actual moving
 	}
-	
-	
-	public void end(State state) { }
+
+
+	public void end(State state) {}
 
 
 }

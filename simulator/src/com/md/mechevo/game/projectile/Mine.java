@@ -1,7 +1,5 @@
 package com.md.mechevo.game.projectile;
 
-import com.md.mechevo.game.State;
-
 import com.md.mechevo.game.Obstacle;
 import com.md.mechevo.game.Player;
 import com.md.mechevo.game.Position;
@@ -37,6 +35,6 @@ public class Mine extends Projectile {
 
 	@Override
 	public void update(State state, float dtime) {
-        //EMPTY ON PURPOSE
-    }
+		// EMPTY ON PURPOSE
+	}
 }

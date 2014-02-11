@@ -24,19 +24,15 @@ public class AttackAction extends Action {
 	private static final boolean CANCELABLE = true;
 
 	/**
-	 * @see com.md.mechevo.game.action.Action#Action
-	 */
-	public AttackAction() {
-		super(null, AttackAction.DURATION, AttackAction.CANCELABLE);
-	}
-
-	/**
 	 * Class Constructor
 	 */
 	public AttackAction(Player owner) {
 		super(owner, AttackAction.DURATION, AttackAction.CANCELABLE);
 	}
 
+	public AttackAction(Player owner, String param) {
+		super(owner, param, AttackAction.DURATION, AttackAction.CANCELABLE);
+	}
 
 	public boolean check(State state) {
 		return true; // always valid
@@ -52,10 +48,10 @@ public class AttackAction extends Action {
 	public void update(State state, float dtime) {
 		// TODO: do the actual moving
 	}
-	
-	
-	public void end(State state) { }
-		
+
+
+	public void end(State state) {}
+
 
 
 }

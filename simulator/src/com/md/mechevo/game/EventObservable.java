@@ -7,7 +7,7 @@ package com.md.mechevo.game;
 public interface EventObservable {
 
 	public void registerEventObserver(EventObserver eventObserver);
-	
+
 	public void notifyEventObserver(EventData eventData);
 
 }

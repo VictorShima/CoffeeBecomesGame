@@ -1,45 +1,36 @@
 package com.md.mechevo.game.weapon;
 
-import com.md.mechevo.game.Player;
-import com.md.mechevo.game.Position;
-import com.md.mechevo.game.Solid;
-import java.util.ArrayList;
-
-import com.md.mechevo.game.State;
-
-import com.md.mechevo.game.EventObserver;
-import com.md.mechevo.game.EventObservable;
-import com.md.mechevo.game.EventData;
+import com.md.mechevo.game.*;
 
 public abstract class Weapon implements EventObservable {
-    private Player player;
+	private Player player;
 	private int damage;
 	private float cooldown;
 	// TODO: maybe specify which slots the weapon may be used
-	//private ArrayList<WeaponSlot> possibleSlots;
-	
+	// private ArrayList<WeaponSlot> possibleSlots;
+
 	// Variable weapon attributes
 	private float currentCooldown;
 	private WeaponSlot currentSlot;
-	
+
 	private EventObserver report;
-	
+
 
 	protected Weapon(int damage, float cooldown, Player player) {
 		this.damage = damage;
 		this.cooldown = cooldown;
-        this.player = player;
-    }
+		this.player = player;
+	}
 
-    public Player getPlayer() {
-        return player;
-    }
+	public Player getPlayer() {
+		return player;
+	}
 
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
 
-    public int getDamage() {
+	public int getDamage() {
 		return damage;
 	}
 
@@ -47,25 +38,25 @@ public abstract class Weapon implements EventObservable {
 		return cooldown;
 	}
 
-    public float getAngleToTarget(Solid target){
-        //TODO Implement this
-        return 0f;
-    }
+	public float getAngleToTarget(Solid target) {
+		// TODO Implement this
+		return 0f;
+	}
 
 	public abstract void fire(State state, Solid target);
-	
+
 	public float getCurrentCooldown() {
 		return this.currentCooldown;
 	}
-	
+
 	public void setCurrentCooldown(float currentCooldown) {
 		this.currentCooldown = currentCooldown;
 	}
-	
+
 	public WeaponSlot getCurrentSlot() {
 		return this.currentSlot;
 	}
-	
+
 	public void setCurrentSlot(WeaponSlot currentSlot) {
 		this.currentSlot = currentSlot;
 	}
@@ -74,19 +65,19 @@ public abstract class Weapon implements EventObservable {
 	public void registerEventObserver(EventObserver eventObserver) {
 		this.report = eventObserver;
 	}
-	
+
 	public void notifyEventObserver(EventData eventData) {
-		if ( this.report != null ) {
+		if (this.report != null) {
 			this.report.notify(eventData);
 		}
 	}
-	
-	
+
+
 	/**
 	 * Maps the Slot name to a number
 	 */
 	public static enum WeaponSlot {
 		LEFT, RIGHT, CENTER
 	}
-	
+
 }

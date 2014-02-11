@@ -2,9 +2,8 @@ package com.md.mechevo.game;
 
 import java.util.ArrayList;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonArray;
-
+import com.google.gson.JsonElement;
 import com.md.mechevo.game.projectile.Projectile;
 
 /**
@@ -15,35 +14,36 @@ public class State implements EventObservable {
 	private Map map;
 	private ArrayList<Player> players;
 	private ArrayList<Projectile> projectiles;
-    private int nextId = 0;
+	private int nextId = 0;
 
 	/**
 	 * total time passed since beginning
 	 */
 	private float totalTime;
-	
+
 	/**
 	 * Variable that holds the EventObserver, later will be converted to report
 	 */
 	private EventObserver report;
-	
+
 
 
 	public State() {
+		this.map = new Map();
 		this.players = new ArrayList<Player>();
 		this.projectiles = new ArrayList<Projectile>();
 		this.totalTime = 0;
 	}
 
-    public int getNextId() {
-        return nextId++;
-    }
+	public int getNextId() {
+		return nextId++;
+	}
 
-    public void setNextId(int nextId) {
-        this.nextId = nextId;
-    }
+	public void setNextId(int nextId) {
+		this.nextId = nextId;
+	}
 
-    public Map getMap() {
+	public Map getMap() {
 		return map;
 	}
 
@@ -66,9 +66,10 @@ public class State implements EventObservable {
 
 	public void addPlayer(Player p) {
 		this.players.add(p);
+		this.map.addSolid(p);
 	}
-	
-	
+
+
 	public void addObstacle(Obstacle p) {
 		this.map.addSolid(p);
 	}
@@ -103,12 +104,12 @@ public class State implements EventObservable {
 
 		return null;
 	}
-	
-	
-	
+
+
+
 	/**
-	 * Build the event report. Get the events from the EventObserver 
-	 *
+	 * Build the event report. Get the events from the EventObserver
+	 * 
 	 * @report Json Object that defines the event report
 	 */
 	public JsonElement buildEventReport() {
@@ -117,27 +118,27 @@ public class State implements EventObservable {
 		}
 		return new JsonArray();
 	}
-	
-	
+
+
 	// interface EventObservable
-	
+
 	/**
-	 * This registerEventObserver will try to recursively set the event observer on himself
-	 * and its Players
+	 * This registerEventObserver will try to recursively set the event observer on himself and its
+	 * Players
 	 */
 	public void registerEventObserver(EventObserver eventObserver) {
 		this.report = eventObserver;
 		// recursive set to its players (probably not needed)
-		//for ( Player p : this.getPlayers() ) {
-		//	p.registerEventObserver(eventObserver);
-		//}
+		// for ( Player p : this.getPlayers() ) {
+		// p.registerEventObserver(eventObserver);
+		// }
 	}
-		
-	
+
+
 	public void notifyEventObserver(EventData eventData) {
-		if ( this.report != null ) {
+		if (this.report != null) {
 			this.report.notify(eventData);
 		}
 	}
-	
+
 }

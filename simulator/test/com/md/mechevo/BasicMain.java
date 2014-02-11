@@ -3,7 +3,8 @@ package com.md.mechevo;
 import com.md.mechevo.game.*;
 
 /**
- * In this example the mechas use the default moveForward (provided by the Solid class) in each round.
+ * In this example the mechas use the default moveForward (provided by the Solid class) in each
+ * round.
  */
 public class BasicMain {
 	public static void main(String[] args) {

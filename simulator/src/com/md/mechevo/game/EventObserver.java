@@ -3,9 +3,9 @@ package com.md.mechevo.game;
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.ArrayList;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonArray;
 
 /**
  * Event Observer is an Observer that register all the happenings that occur. Later this will be
@@ -52,29 +52,26 @@ public class EventObserver {
 	public JsonElement generateReport() {
 		JsonArray head = new JsonArray();
 		for (SimpleImmutableEntry<Float, EventData> entry : this.events) {
-		
+
 			// build the head of an Event entry
 			JsonObject event = new JsonObject();
 			event.addProperty("time", entry.getKey());
 			event.addProperty("title", entry.getValue().getTitle());
-			
+
 			// build its attributes
 			JsonObject attributes = new JsonObject();
 			for (SimpleImmutableEntry<String, String> attr : entry.getValue().getAttributes()) {
 				attributes.addProperty(attr.getKey(), attr.getValue());
 			}
 			event.add("attr", attributes);
-			
+
 			head.add(event);
 		}
 		return head;
 	}
-		
-		
-	
-	
-	
-	
+
+
+
 	/**
 	 * Set current time for events added afterwards.
 	 */

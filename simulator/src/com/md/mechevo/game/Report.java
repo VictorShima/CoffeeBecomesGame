@@ -13,7 +13,7 @@ public class Report {
 	public Report(JsonElement log) {
 		this.log = log;
 	}
-	
+
 	public String exportToJson() {
 		Gson gson = new Gson();
 		return gson.toJson(log);

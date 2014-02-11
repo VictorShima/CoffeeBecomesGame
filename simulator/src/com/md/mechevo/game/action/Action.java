@@ -18,17 +18,18 @@ public abstract class Action implements EventObservable {
 
 	private EventObserver report;
 
-
-	/**
-	 * Empty constructor. Needed for ActionDeserializer
-	 */
-	public Action() {}
-
 	/**
 	 * Class Constructor
 	 */
 	public Action(Player owner, float duration, boolean cancelable) {
 		this.owner = owner;
+		this.duration = duration;
+		this.cancelable = cancelable;
+	}
+
+	protected Action(Player owner, String param, float duration, boolean cancelable) {
+		this.owner = owner;
+		this.param = param;
 		this.duration = duration;
 		this.cancelable = cancelable;
 	}
@@ -115,19 +116,19 @@ public abstract class Action implements EventObservable {
 	 * @param dtime Duration of the round
 	 */
 	public abstract void update(State state, float dtime);
-	
-	
+
+
 	/**
 	 * End the execution of the action, whether it is cancelled or successfully ended.
-	 *
+	 * 
 	 * @param state Current state of the game
 	 */
 	public abstract void end(State state);
-	
-	
-	
+
+
+
 	// interface EventObservable
-	
+
 	public void registerEventObserver(EventObserver eventObserver) {
 		this.report = eventObserver;
 	}

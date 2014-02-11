@@ -35,7 +35,7 @@ public final class AIAlgorithm {
 		return owner;
 	}
 
-    /**
+	/**
 	 * Updates all owner variables to the same owner.
 	 * 
 	 * @param owner
@@ -51,6 +51,10 @@ public final class AIAlgorithm {
 				action.setOwner(owner);
 			}
 		}
+	}
+
+	public void addEntry(AIEntry entry) {
+		entries.add(entry);
 	}
 
 	/**
@@ -78,7 +82,7 @@ public final class AIAlgorithm {
 	public ArrayList<AIEntry> getEntries() {
 		return this.entries;
 	}
-	
+
 
 
 }

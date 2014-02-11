@@ -44,12 +44,12 @@ public class Player extends Solid {
 	private boolean paralysed = false;
 	private boolean confused = false;
 	private MovementState movementState;
-	
+
 	private AIAlgorithm algorithm;
 	private AIEntry currentAiEntry;
 	private Action currentAction;
 	private float currentActionTime; // /< time since begin of action execution
-    private static final int weaponTranslation = 15;
+	private static final int weaponTranslation = 15;
 
 
 
@@ -62,27 +62,27 @@ public class Player extends Solid {
 		this.algorithm = new AIAlgorithm();
 	}
 
-    public Position getLeftWeaponPosition() {
-        float angle = 90 - this.getAngle();
-        float vecX = weaponTranslation * (float) Math.cos(angle);
-        float vecY = -(weaponTranslation * (float) Math.sin(angle));
-        int posX = (int) (this.getPosition().getX() - vecX);
-        int posY = (int) (this.getPosition().getY() + vecY);
+	public Position getLeftWeaponPosition() {
+		float angle = 90 - this.getAngle();
+		float vecX = weaponTranslation * (float) Math.cos(angle);
+		float vecY = -(weaponTranslation * (float) Math.sin(angle));
+		int posX = (int) (this.getPosition().getX() - vecX);
+		int posY = (int) (this.getPosition().getY() + vecY);
 
-        return new Position(posX, posY);
-    }
+		return new Position(posX, posY);
+	}
 
-    public Position getRightWeaponPosition() {
-        float angle = 90 - this.getAngle();
-        float vecX = weaponTranslation * (float) Math.cos(angle);
-        float vecY = -(weaponTranslation * (float) Math.sin(angle));
-        int posX = (int) (this.getPosition().getX() + vecX);
-        int posY = (int) (this.getPosition().getY() - vecY);
+	public Position getRightWeaponPosition() {
+		float angle = 90 - this.getAngle();
+		float vecX = weaponTranslation * (float) Math.cos(angle);
+		float vecY = -(weaponTranslation * (float) Math.sin(angle));
+		int posX = (int) (this.getPosition().getX() + vecX);
+		int posY = (int) (this.getPosition().getY() - vecY);
 
-        return new Position(posX, posY);
-    }
+		return new Position(posX, posY);
+	}
 
-    public void setTeamId(int teamId) {
+	public void setTeamId(int teamId) {
 		this.teamId = teamId;
 	}
 
@@ -197,11 +197,11 @@ public class Player extends Solid {
 	public void paralyse() {
 		this.setParalysed(true);
 	}
-	
-	
-	
-	public void begin(State state) { }
-	
+
+
+
+	public void begin(State state) {}
+
 
 	@Override
 	public void update(State state, float dtime) {
@@ -243,10 +243,10 @@ public class Player extends Solid {
 			}
 		}
 	}
-	
-	
-	
-	public void end(State state) { }
+
+
+
+	public void end(State state) {}
 
 
 	/**
@@ -255,27 +255,27 @@ public class Player extends Solid {
 	public static enum MovementState {
 		STOPPED, MOVING, SPRINTING, DASHING
 	}
-	
-	
+
+
 	// interface EventObservable
-	
+
 	/**
-	 * Will register the observer on himself and also on its belongings.
-	 * Belongings with the observer include: Weapon, Actions
+	 * Will register the observer on himself and also on its belongings. Belongings with the
+	 * observer include: Weapon, Actions
 	 */
 	public void registerEventObserver(EventObserver eventObserver) {
 		// set himself
 		super.registerEventObserver(eventObserver);
 		// set all weapons
-		for ( Weapon w : this.weapons ) {
+		for (Weapon w : this.weapons) {
 			w.registerEventObserver(eventObserver);
 		}
 		// set all actions
-		for ( AIEntry aiEntry : this.algorithm.getEntries() ) {
-			for ( Action action : aiEntry.getActions() ) {
+		for (AIEntry aiEntry : this.algorithm.getEntries()) {
+			for (Action action : aiEntry.getActions()) {
 				action.registerEventObserver(eventObserver);
 			}
 		}
 	}
-	
+
 }
