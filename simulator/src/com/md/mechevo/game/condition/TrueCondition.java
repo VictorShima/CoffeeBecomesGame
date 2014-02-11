@@ -4,7 +4,12 @@ import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
 
 public class TrueCondition extends Condition {
-
+	/**
+	 * Constructor with no owner.
+	 */
+	public TrueCondition() {
+		super(null);
+	}
 
 	/**
 	 * Class Constructor

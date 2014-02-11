@@ -99,16 +99,7 @@ public class HomingProjectile extends Projectile {
 		}
 
 		// After calculating the new angle we simply move the missile like a regular solid
-		// TODO: can change to Solid.move()
-		float velX = (float) Math.cos(this.getAngle());
-		float velY = (float) Math.sin(this.getAngle());
-		/* Normalization of the velocity vector */
-		float vel = velX + velY;
-		velX = (velX / vel) * dtime * (this.getSpeed());
-		velY = -(velY / vel) * dtime * (this.getSpeed());
-
-		this.setPosition(new Position(this.getPosition().getX() + velX, this.getPosition().getY()
-						+ velY));
+		super.move(this.getAngle(), this.getSpeed(), dtime);
 	}
 
 }

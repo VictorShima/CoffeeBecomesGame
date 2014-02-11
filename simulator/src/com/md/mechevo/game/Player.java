@@ -59,12 +59,24 @@ public class Player extends Solid {
 		this.algorithm = new AIAlgorithm();
 	}
 
+	public void setTeamId(int teamId) {
+		this.teamId = teamId;
+	}
+
 	public int getTeamId() {
 		return teamId;
 	}
 
 	public int getHealth() {
 		return health;
+	}
+
+	public AIAlgorithm getAlgorithm() {
+		return algorithm;
+	}
+
+	public void setAlgorithm(AIAlgorithm algorithm) {
+		this.algorithm = algorithm;
 	}
 
 	public void setHealth(int health) {
@@ -132,7 +144,19 @@ public class Player extends Solid {
 	}
 
 	@Override
-	public void collidesWith(State state, Player p) {}
+	public void collidesWith(State state, Player p) {
+		// vec is the distance vector
+		float vecX = this.getPosition().getX() - p.getPosition().getX();
+		float vecY = this.getPosition().getY() - p.getPosition().getY();
+		float tangentAlfa = vecY / vecX;
+		float angle = (float) Math.atan(tangentAlfa);
+		float dist = (float) Math.sqrt(Math.pow(vecX, 2) + Math.pow(vecY, 2));
+		// distance shouldn't count the radius of the solid
+		dist = -(dist - (this.getRadius() * 2));
+		this.move(dist / 2, angle);
+		p.move(dist / 2, angle + 180f);
+
+	}
 
 	@Override
 	public void collidesWith(State state, Projectile p) {}
@@ -159,6 +183,7 @@ public class Player extends Solid {
 	@Override
 	public void update(State state, float dtime) {
 
+		// TODO remover esta merda CARALHO
 		if (true) {
 			return;
 		}

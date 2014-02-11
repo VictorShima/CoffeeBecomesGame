@@ -1,28 +1,28 @@
 package com.md.mechevo.game.action;
 
-import com.md.mechevo.game.Player;
-import com.md.mechevo.game.State;
-
-import com.md.mechevo.game.EventObserver;
-import com.md.mechevo.game.EventObservable;
-import com.md.mechevo.game.EventData;
+import com.md.mechevo.game.*;
 
 
 
 /**
- * An Action is the current order the mech will perform.
- * Actions can be linked with other actions to know which one will be next.
+ * An Action is the current order the mech will perform. Actions can be linked with other actions to
+ * know which one will be next. All subclasses must implement the empty constructor.
  */
 public abstract class Action implements EventObservable {
 
-	private Player owner; ///< Player that controls object with condition
-	private String extra; ///< Action dependant attribute
-	private Action next; ///< Next action to execute after this one
-	private float duration; ///< Duration of the action
-	private boolean cancelable; ///< Whether or not the action can be canceled mid-action
-	
+	private Player owner; // /< Player that controls object with condition
+	private String param; // /< Action dependant attribute
+	private Action next; // /< Next action to execute after this one
+	private float duration; // /< Duration of the action
+	private boolean cancelable; // /< Whether or not the action can be canceled mid-action
+
 	private EventObserver report;
 
+
+	/**
+	 * Empty constructor. Needed for ActionDeserializer
+	 */
+	public Action() {}
 
 	/**
 	 * Class Constructor
@@ -31,6 +31,10 @@ public abstract class Action implements EventObservable {
 		this.owner = owner;
 		this.duration = duration;
 		this.cancelable = cancelable;
+	}
+
+	public void setOwner(Player owner) {
+		this.owner = owner;
 	}
 
 	/**
@@ -42,43 +46,43 @@ public abstract class Action implements EventObservable {
 	}
 
 	/**
-	 * Get the extra attribute
+	 * Get the param attribute
 	 */
-	public String getExtra() {
-		return this.extra;
+	public String getParam() {
+		return this.param;
 	}
-	
+
 	/**
-	 * Set the extra attribute
+	 * Set the param attribute
 	 */
-	public void setExtra(String extra) {
-		this.extra = extra;
+	public void setParam(String param) {
+		this.param = param;
 	}
-	
-	
+
+
 	/**
 	 * Get the next Action
 	 */
 	public Action getNext() {
 		return this.next;
 	}
-	
+
 	/**
 	 * Set the next Action
 	 */
 	public void setNext(Action next) {
 		this.next = next;
 	}
-	
-	
+
+
 	/**
 	 * Get Duration in seconds
 	 */
 	public float getDuration() {
 		return this.duration;
 	}
-	
-	
+
+
 	/**
 	 * Check if it can be canceled
 	 */
@@ -97,9 +101,8 @@ public abstract class Action implements EventObservable {
 
 
 	/**
-	 * Begin the execution of the action.
-	 * Will be called once at the start of the action.
-	 *
+	 * Begin the execution of the action. Will be called once at the start of the action.
+	 * 
 	 * @param state Current state of the game
 	 */
 	public abstract void begin(State state);
@@ -128,9 +131,9 @@ public abstract class Action implements EventObservable {
 	public void registerEventObserver(EventObserver eventObserver) {
 		this.report = eventObserver;
 	}
-	
+
 	public void notifyEventObserver(EventData eventData) {
-		if ( this.report != null ) {
+		if (this.report != null) {
 			this.report.notify(eventData);
 		}
 	}

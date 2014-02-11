@@ -6,13 +6,13 @@ import com.md.mechevo.game.State;
 
 /**
  * A Condition evaluates if something can be done. Conditions can be used by AIEntries to know if
- * the actions should be executed, or by Weapons to know if its viable to fire a weapon.
+ * the actions should be executed, or by Weapons to know if its viable to fire a weapon. All
+ * subclasses must implement the empty constructor.
  */
 public abstract class Condition {
 
 	private Player owner; // /< Player that controls object with condition
-	private String extra; // /< Condition dependant attribute
-
+	private String param; // /< Condition dependant attribute
 
 	/**
 	 * Class Constructor
@@ -21,6 +21,21 @@ public abstract class Condition {
 		this.owner = owner;
 	}
 
+	public Player getOwner() {
+		return owner;
+	}
+
+	public void setOwner(Player owner) {
+		this.owner = owner;
+	}
+
+	public String getParam() {
+		return param;
+	}
+
+	public void setParam(String param) {
+		this.param = param;
+	}
 
 	/**
 	 * Check if the condition applies.

@@ -15,7 +15,7 @@ public class State implements EventObservable {
 	private Map map;
 	private ArrayList<Player> players;
 	private ArrayList<Projectile> projectiles;
-	
+
 	/**
 	 * total time passed since beginning
 	 */
@@ -47,6 +47,7 @@ public class State implements EventObservable {
 	
 	public void addProjectile(Projectile p) {
 		this.projectiles.add(p);
+		map.addSolid(p);
 	}
 
 
@@ -68,18 +69,17 @@ public class State implements EventObservable {
 		return totalTime;
 	}
 
-	
-	
+
 	/**
 	 * Update the current state to the next one
-	 *
-	 * @param time Time since the last state
+	 * 
+	 * @param dtime Time since the last state
 	 */
 	public void update(float dtime) {
 		this.map.update(this, dtime);
 		this.totalTime += dtime;
 	}
-	
+
 
 	/**
 	 * 
