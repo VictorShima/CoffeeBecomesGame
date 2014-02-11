@@ -131,7 +131,19 @@ public class Player extends Solid {
 	}
 
 	@Override
-	public void collidesWith(State state, Player p) {}
+	public void collidesWith(State state, Player p) {
+        //vec is the distance vector
+        float vecX = this.getPosition().getX() - p.getPosition().getX();
+        float vecY = this.getPosition().getY() - p.getPosition().getY();
+        float tangentAlfa = vecY / vecX;
+        float angle = (float) Math.atan(tangentAlfa);
+        float dist = (float) Math.sqrt(Math.pow(vecX, 2) + Math.pow(vecY, 2));
+        //distance shouldn't count the radius of the solid
+        dist = -(dist - (this.getRadius() * 2));
+        this.move(dist/2, angle);
+        p.move(dist/2, angle+180f);
+
+    }
 
 	@Override
 	public void collidesWith(State state, Projectile p) {}

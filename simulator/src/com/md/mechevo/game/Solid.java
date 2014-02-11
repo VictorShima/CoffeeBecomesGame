@@ -134,8 +134,8 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 	/**
 	 * Moves the Solid in direction given by angle with given speed in a straight line.
 	 *
-	 * @param angle Angle of movement (independant of current angle)
-	 * @param speed Velocity in MapUnits per Second (independant of current angle)
+	 * @param angle Angle of movement (independent of current angle)
+	 * @param speed Velocity in MapUnits per Second (independent of current angle)
 	 * @param dtime Time in seconds of duration of movement
 	 */
 	public void move(float angle, float speed, float dtime) {
@@ -149,6 +149,20 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 		this.setPosition(new Position(this.getPosition().getX() + velX, this.getPosition().getY()
 				+ velY));
 	}
+
+    /**
+     * Moves the Solid in direction given by angle for a given distance in a straight line.
+     *
+     * @param angle Angle of movement (independent of current angle)
+     * @param dist Distance to move
+     */
+    public void move(float angle, float dist) {
+        float vecX =  dist * (float) Math.cos(angle);
+        float vecY =  -(dist * (float) Math.sin(angle));
+
+        this.setPosition(new Position(this.getPosition().getX() + vecX, this.getPosition().getY()
+                + vecY));
+    }
 		
 	
 	
