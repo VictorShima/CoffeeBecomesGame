@@ -15,6 +15,7 @@ public class State implements EventObservable {
 	private Map map;
 	private ArrayList<Player> players;
 	private ArrayList<Projectile> projectiles;
+    private int nextId = 0;
 
 	/**
 	 * total time passed since beginning
@@ -27,13 +28,22 @@ public class State implements EventObservable {
 	private EventObserver report;
 	
 
+
 	public State() {
 		this.players = new ArrayList<Player>();
 		this.projectiles = new ArrayList<Projectile>();
 		this.totalTime = 0;
 	}
 
-	public Map getMap() {
+    public int getNextId() {
+        return nextId++;
+    }
+
+    public void setNextId(int nextId) {
+        this.nextId = nextId;
+    }
+
+    public Map getMap() {
 		return map;
 	}
 
@@ -44,17 +54,16 @@ public class State implements EventObservable {
 	public ArrayList<Projectile> getProjectiles() {
 		return projectiles;
 	}
-	
+
 	public void addProjectile(Projectile p) {
 		this.projectiles.add(p);
 		map.addSolid(p);
 	}
 
-
 	public ArrayList<Player> getPlayers() {
 		return players;
 	}
-	
+
 	public void addPlayer(Player p) {
 		this.players.add(p);
 	}
@@ -63,7 +72,6 @@ public class State implements EventObservable {
 	public void addObstacle(Obstacle p) {
 		this.map.addSolid(p);
 	}
-
 
 	public float getTotalTime() {
 		return totalTime;

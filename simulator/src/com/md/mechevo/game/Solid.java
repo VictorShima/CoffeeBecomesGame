@@ -55,7 +55,7 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 	}
 
 	public void setAngle(float angle) {
-		this.angle = angle;
+		this.angle = angle%360f;
 	}
 
 	public void rotateBy(float angle) {

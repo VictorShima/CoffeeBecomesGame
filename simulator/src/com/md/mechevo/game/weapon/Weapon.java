@@ -1,5 +1,8 @@
 package com.md.mechevo.game.weapon;
 
+import com.md.mechevo.game.Player;
+import com.md.mechevo.game.Position;
+import com.md.mechevo.game.Solid;
 import java.util.ArrayList;
 
 import com.md.mechevo.game.State;
@@ -9,8 +12,7 @@ import com.md.mechevo.game.EventObservable;
 import com.md.mechevo.game.EventData;
 
 public abstract class Weapon implements EventObservable {
-
-	// Static weapon attributes
+    private Player player;
 	private int damage;
 	private float cooldown;
 	// TODO: maybe specify which slots the weapon may be used
@@ -23,18 +25,34 @@ public abstract class Weapon implements EventObservable {
 	private EventObserver report;
 	
 
-	protected Weapon(int damage, float cooldown) {
+	protected Weapon(int damage, float cooldown, Player player) {
 		this.damage = damage;
 		this.cooldown = cooldown;
-	}
+        this.player = player;
+    }
 
-	public int getDamage() {
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public int getDamage() {
 		return damage;
 	}
 
 	public float getCooldown() {
 		return cooldown;
 	}
+
+    public float getAngleToTarget(Solid target){
+        //TODO Implement this
+        return 0f;
+    }
+
+	public abstract void fire(State state, Solid target);
 	
 	public float getCurrentCooldown() {
 		return this.currentCooldown;
@@ -51,14 +69,8 @@ public abstract class Weapon implements EventObservable {
 	public void setCurrentSlot(WeaponSlot currentSlot) {
 		this.currentSlot = currentSlot;
 	}
-	
 
-	public abstract void fire(State state);
-	
-	
-	
 	// interface EventObservable
-	
 	public void registerEventObserver(EventObserver eventObserver) {
 		this.report = eventObserver;
 	}

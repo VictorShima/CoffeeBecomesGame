@@ -1,14 +1,17 @@
 package com.md.mechevo.game.weapon;
 
+
+import com.md.mechevo.game.Player;
+import com.md.mechevo.game.Solid;
 import com.md.mechevo.game.State;
 
-
 public class MineLauncher extends Weapon {
-	public MineLauncher() {
-		super(50, 7);
+	public MineLauncher(Player player) {
+		super(50, 7, player );
 	}
-	
-	
-	public void fire(State state) { }
-	
+
+    @Override
+    public void fire(State state, Solid target) {
+
+    }
 }

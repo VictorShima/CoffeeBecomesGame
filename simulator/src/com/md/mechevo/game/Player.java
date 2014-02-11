@@ -49,6 +49,9 @@ public class Player extends Solid {
 	private AIEntry currentAiEntry;
 	private Action currentAction;
 	private float currentActionTime; // /< time since begin of action execution
+    private static final int weaponTranslation = 15;
+
+
 
 	public Player(int id, int teamId) {
 		super(INITIAL_WIDTH, INITIAL_HEIGHT, INITIAL_SPEED, INITIAL_ANGLE, id);
@@ -59,7 +62,27 @@ public class Player extends Solid {
 		this.algorithm = new AIAlgorithm();
 	}
 
-	public void setTeamId(int teamId) {
+    public Position getLeftWeaponPosition() {
+        float angle = 90 - this.getAngle();
+        float vecX = weaponTranslation * (float) Math.cos(angle);
+        float vecY = -(weaponTranslation * (float) Math.sin(angle));
+        int posX = (int) (this.getPosition().getX() - vecX);
+        int posY = (int) (this.getPosition().getY() + vecY);
+
+        return new Position(posX, posY);
+    }
+
+    public Position getRightWeaponPosition() {
+        float angle = 90 - this.getAngle();
+        float vecX = weaponTranslation * (float) Math.cos(angle);
+        float vecY = -(weaponTranslation * (float) Math.sin(angle));
+        int posX = (int) (this.getPosition().getX() + vecX);
+        int posY = (int) (this.getPosition().getY() - vecY);
+
+        return new Position(posX, posY);
+    }
+
+    public void setTeamId(int teamId) {
 		this.teamId = teamId;
 	}
 
