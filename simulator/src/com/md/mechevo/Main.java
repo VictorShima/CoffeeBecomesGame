@@ -24,11 +24,10 @@ public class Main {
 	public static void testGaySON() {
 		Gson gson = new Gson();
 		EventObserver report = new EventObserver();
-		
+
 		// Player.getParalised()
-		EventData event = new EventData("getParalysed")
-				.addAttribute("id", 4)
-				.addAttribute("action", "move");
+		EventData event =
+				new EventData("getParalysed").addAttribute("id", 4).addAttribute("action", "move");
 		report.notify(event);
 
 		event = new EventData("TestB").addAttribute("playerId", 4).addAttribute("action", "attack");
@@ -44,8 +43,8 @@ public class Main {
 	public static void testPlay() {
 		// importer should later do all this
 		// initialize required game values
-		State initialState = new State();
-		initialState.registerEventObserver(new EventObserver());
+		// State initialState = new State();
+		// initialState.registerEventObserver(new EventObserver());
 
 		// create and append map
 

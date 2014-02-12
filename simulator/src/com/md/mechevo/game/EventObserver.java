@@ -40,7 +40,7 @@ public class EventObserver {
 	 */
 	public void notify(EventData event) {
 		this.events.add(new SimpleImmutableEntry<Float, EventData>(new Float(this.currentTime),
-						event));
+				event));
 	}
 
 

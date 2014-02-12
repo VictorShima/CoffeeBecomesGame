@@ -52,19 +52,21 @@ public final class Importer {
 		JsonObject mapJson = tree.get("map").getAsJsonObject();
 		double mapWidth = mapJson.get("width").getAsDouble();
 		double mapHeight = mapJson.get("height").getAsDouble();
-		Map map = new Map(mapWidth, mapHeight);
 
-		State state = new State(map);
 		EventObserver report = new EventObserver();
+		State state = new State(new Map(mapWidth, mapHeight));
+		state.setReport(report);
 
-		// Add to the list of solids and generate the begin event for each obstacle
 		List<Obstacle> obstacles =
 				Importer.createObstacles(tree.get("obstacles").getAsJsonArray(), state, report);
 		for (Obstacle o : obstacles) {
-			map.addSolid(o);
+			state.addObstacle(o);
 		}
 
-		createPlayers(tree.get("players").getAsJsonArray(), state, report);
+		List<Player> players = createPlayers(tree.get("players").getAsJsonArray(), state, report);
+		for (Player p : players) {
+			state.addPlayer(p);
+		}
 
 		return state;
 	}
@@ -76,7 +78,10 @@ public final class Importer {
 	 * @param state the initial state
 	 * @param report the report where all events will be sent
 	 */
-	private static void createPlayers(JsonArray playersJson, State state, EventObserver report) {
+	private static List<Player> createPlayers(JsonArray playersJson, State state,
+			EventObserver report) {
+		LinkedList<Player> listPlayers = new LinkedList<>();
+
 		for (int playerId = 0; playerId < playersJson.size(); playerId++) {
 			// Enough arguments to create a Player object
 			JsonObject playerJson = playersJson.get(playerId).getAsJsonObject();
@@ -94,8 +99,9 @@ public final class Importer {
 			createWeapons(playerJson.get("weapons").getAsJsonArray(), player);
 			createAIAlgorithm(playerJson.get("algorithm").getAsJsonArray(), player);
 
-			state.addPlayer(player);
-	}
+			listPlayers.add(player);
+		}
+		return listPlayers;
 	}
 
 	/**

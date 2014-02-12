@@ -73,6 +73,13 @@ public class State implements EventObservable {
 		return totalTime;
 	}
 
+	public EventObserver getReport() {
+		return report;
+	}
+
+	public void setReport(EventObserver report) {
+		this.report = report;
+	}
 
 	/**
 	 * Update the current state to the next one
