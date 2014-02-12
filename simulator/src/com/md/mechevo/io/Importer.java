@@ -20,8 +20,20 @@ import com.md.mechevo.game.weapon.WeaponFactory;
 public final class Importer {
 	/**
 	 * Creates the initial state from the data received in JSON. The data must be in the following
-	 * structure: { "players": [ {"teamId":"0", "weapon":["1","2","3"], "algorithm": [{"conditions":
-	 * [{"name": "1", "param": "2"}], "actions": [{"name": "1", "param": "2"}]}] } ] }
+	 * structure: 
+	 *   {
+	 *     "map" : { "width":double, "height":double },
+	 *     "obstacles : [ { "x":double, "y":double, "radius":double }, ... ],
+	 *     "players" : [ {
+	 *       "teamId":int, 
+	 *       "weapon":[string,string,string],
+	 *       "color":string,
+	 *       "algorithm": [ { 
+	 *         "conditions": [ { "name":string, "param":string }, ... ],
+	 *         "actions": [ { "name":string, "param":string }, ... ]
+	 *       }]
+	 *     }]
+	 *   }
 	 * 
 	 * @param json the data in JSON
 	 * @return the initial state
