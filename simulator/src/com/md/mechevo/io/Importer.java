@@ -1,5 +1,8 @@
 package com.md.mechevo.io;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -29,6 +32,7 @@ public final class Importer {
 	 *       "color":string,
 	 *       "x":double,
 	 *       "y":double,
+	 *       "angle":double,
 	 *       "algorithm": [ { 
 	 *         "conditions": [ { "name":string, "param":string }, ... ],
 	 *         "actions": [ { "name":string, "param":string }, ... ]
@@ -49,75 +53,148 @@ public final class Importer {
 		double mapWidth = mapJson.get("width").getAsDouble();
 		double mapHeight = mapJson.get("height").getAsDouble();
 		Map map = new Map(mapWidth, mapHeight);
-		State state = new State(map);
 
-		// Deal with obstacles
-		JsonArray obstaclesJson = tree.get("obstacles").getAsJsonArray();
+		State state = new State(map);
+		EventObserver report = new EventObserver();
+
+		// Add to the list of solids and generate the begin event for each obstacle
+		List<Obstacle> obstacles =
+				Importer.createObstacles(tree.get("obstacles").getAsJsonArray(), state, report);
+		for (Obstacle o : obstacles) {
+			map.addSolid(o);
+		}
+
+		createPlayers(tree.get("players").getAsJsonArray(), state, report);
+
+		return state;
+	}
+
+	/**
+	 * Parses and creates all the Players.
+	 *
+	 * @param playersJson the array with all the players
+	 * @param state the initial state
+	 * @param report the report where all events will be sent
+	 */
+	private static void createPlayers(JsonArray playersJson, State state, EventObserver report) {
+		for (int playerId = 0; playerId < playersJson.size(); playerId++) {
+			// Enough arguments to create a Player object
+			JsonObject playerJson = playersJson.get(playerId).getAsJsonObject();
+			int teamId = playerJson.get("teamId").getAsInt();
+			double playerX = playerJson.get("x").getAsDouble();
+			double playerY = playerJson.get("y").getAsDouble();
+			double playerAngle = playerJson.get("angle").getAsDouble();
+
+			Player player =
+					new Player(state.getNextId(), teamId, new Position(playerX, playerY),
+							playerAngle);
+			player.setReport(report);
+			player.begin(state);
+
+			createWeapons(playerJson.get("weapons").getAsJsonArray(), player);
+			createAIAlgorithm(playerJson.get("algorithm").getAsJsonArray(), player);
+
+			state.addPlayer(player);
+	}
+	}
+
+	/**
+	 * Parses and creates the algorithm.
+	 *
+	 * @param algorithmJson the array with all the AIEntries
+	 * @param player the owner
+	 */
+	private static void createAIAlgorithm(JsonArray algorithmJson, Player player) {
+		AIAlgorithm algorithm = new AIAlgorithm(player);
+		player.setAlgorithm(algorithm);
+
+		for (int entryId = 0; entryId < algorithmJson.size(); entryId++) {
+			AIEntry entry = new AIEntry(algorithm);
+			algorithm.addEntry(entry);
+
+			createConditions(algorithmJson.get(entryId).getAsJsonObject().get("conditions")
+					.getAsJsonArray(), entry, player);
+
+			createActions(algorithmJson.get(entryId).getAsJsonObject().get("actions")
+					.getAsJsonArray(), entry, player);
+		}
+	}
+
+	/**
+	 * Parses and creates all the AIConditions for this AIEntry.
+	 *
+	 * @param conditionsJson the array with all the AIConditions.
+	 * @param entry the entry these conditions belong to.
+	 * @param player the owner.
+	 */
+	private static void createConditions(JsonArray conditionsJson, AIEntry entry, Player player) {
+		for (int conditionId = 0; conditionId < conditionsJson.size(); conditionId++) {
+			JsonObject conditionJson = conditionsJson.get(conditionId).getAsJsonObject();
+			Condition condition =
+					ConditionFactory.createCondition(conditionJson.get("name").getAsString(),
+							player, conditionJson.get("param").getAsString());
+			entry.addCondition(condition);
+		}
+	}
+
+	/**
+	 * Parses and creates all the AIActions for this AIEntry.
+	 *
+	 * @param actionsJson the array with all the AIActions.
+	 * @param entry the entry these conditions belong to.
+	 * @param player the owner.
+	 */
+	private static void createActions(JsonArray actionsJson, AIEntry entry, Player player) {
+		for (int actionId = 0; actionId < actionsJson.size(); actionId++) {
+			JsonObject actionJson = actionsJson.get(actionId).getAsJsonObject();
+			Action action =
+					ActionFactory.createAction(actionJson.get("name").getAsString(), player,
+							actionJson.get("param").getAsString());
+			entry.addAction(action);
+		}
+	}
+
+	/**
+	 * Parses and creates all weapons from the json.
+	 * The order which the weapons are assigned is [LEFT, RIGHT, CENTER].
+	 *
+	 * @param weaponJson the array of weapons for this player
+	 * @param player the owner of these weapons
+	 */
+	private static void createWeapons(JsonArray weaponJson, Player player) {
+		for (int weaponId = 0; weaponId < weaponJson.size(); weaponId++) {
+			Weapon weapon =
+					WeaponFactory.createWeapon(weaponJson.get(weaponId).getAsString(), player);
+			player.equipWeapon(weapon, Weapon.WeaponSlot.values()[weaponId]);
+		}
+	}
+
+	/**
+	 * Parses and creates all obstacles from the json.
+	 * Creates the event 'begin'.
+	 *
+	 * @param obstaclesJson the array of obstacles in JSON
+	 * @param state the initial state
+	 * @param report the report where all events will be sent
+	 * @return
+	 */
+	private static List<Obstacle> createObstacles(JsonArray obstaclesJson, State state,
+			EventObserver report) {
+		LinkedList<Obstacle> listObstacles = new LinkedList<>();
 		for (int obstacleId = 0; obstacleId < obstaclesJson.size(); obstacleId++) {
 			JsonObject obstacleJson = obstaclesJson.get(obstacleId).getAsJsonObject();
 			double obstacleX = obstacleJson.get("x").getAsDouble();
 			double obstacleY = obstacleJson.get("y").getAsDouble();
 			double obstacleRadius = obstacleJson.get("radius").getAsDouble();
+
 			Obstacle obstacle =
 					new Obstacle(state.getNextId(), new Position(obstacleX, obstacleY),
 							obstacleRadius);
-			map.addSolid(obstacle);
+			obstacle.setReport(report);
+			obstacle.begin(state);
+
+			listObstacles.add(obstacle);
 		}
-
-		// Deal with Player
-		JsonArray players = tree.get("players").getAsJsonArray();
-		for (int playerId = 0; playerId < players.size(); playerId++) {
-			// Enough arguments to create a Player object
-			JsonObject playerJson = players.get(playerId).getAsJsonObject();
-			int teamId = playerJson.get("teamId").getAsInt();
-			double playerX = playerJson.get("x").getAsDouble();
-			double playerY = playerJson.get("y").getAsDouble();
-			Player player = new Player(state.getNextId(), teamId, new Position(playerX, playerY));
-			state.addPlayer(player);
-
-			// Deal with weapons
-			JsonArray weaponJson = playerJson.get("weapons").getAsJsonArray();
-			for (int weaponId = 0; weaponId < weaponJson.size(); weaponId++) {
-				Weapon weapon =
-						WeaponFactory.createWeapon(weaponJson.get(weaponId).getAsString(), player);
-				player.equipWeapon(weapon, Weapon.WeaponSlot.values()[weaponId]);
-			}
-
-			// Deal with AI algorithm
-			AIAlgorithm algorithm = new AIAlgorithm(player);
-			player.setAlgorithm(algorithm);
-			JsonArray algorithmJson = playerJson.get("algorithm").getAsJsonArray();
-			for (int entryId = 0; entryId < algorithmJson.size(); entryId++) {
-				AIEntry entry = new AIEntry(algorithm);
-				algorithm.addEntry(entry);
-
-				// Deal with AI Conditions
-				JsonArray conditions =
-						algorithmJson.get(entryId).getAsJsonObject().get("conditions")
-								.getAsJsonArray();
-				for (int conditionId = 0; conditionId < conditions.size(); conditionId++) {
-					JsonObject conditionJson = conditions.get(conditionId).getAsJsonObject();
-					Condition condition =
-							ConditionFactory.createCondition(conditionJson.get("name")
-									.getAsString(), player, conditionJson.get("param")
-									.getAsString());
-					entry.addCondition(condition);
-				}
-
-				// Deal with AI Actions
-				JsonArray actions =
-						algorithmJson.get(entryId).getAsJsonObject().get("actions")
-								.getAsJsonArray();
-				for (int actionId = 0; actionId < actions.size(); actionId++) {
-					JsonObject actionJson = actions.get(actionId).getAsJsonObject();
-					Action action =
-							ActionFactory.createAction(actionJson.get("name").getAsString(),
-									player, actionJson.get("param").getAsString());
-					entry.addAction(action);
-				}
-			}
-		}
-
-		return state;
+		return listObstacles;
 	}
 }

@@ -18,7 +18,7 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 	private double speed;
 
 	/**
-	 * Angle comes in radians, with 0 radians being left xx axis (like in math)
+	 * Angle comes in degrees, with 0 degrees being left xx axis (like in math)
 	 */
 	private double angle;
 

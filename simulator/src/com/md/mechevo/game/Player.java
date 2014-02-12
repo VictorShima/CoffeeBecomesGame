@@ -23,11 +23,6 @@ public class Player extends Solid {
 	 */
 	public static final double SPEED = 5;
 
-	/**
-	 * Angle is measured in degrees.
-	 */
-	public static final double ANGLE = 0;
-
 	private static final int WEAPON_TRANSLATION = 15;
 
 	private int teamId;
@@ -46,8 +41,16 @@ public class Player extends Solid {
 	 */
 	private double currentActionTime;
 
-	public Player(int id, int teamId, Position position) {
-		super(id, position, RADIUS, SPEED, ANGLE);
+	/**
+	 * The class constructor. All these parameters are required.
+	 *
+	 * @param id the unique identifier
+	 * @param teamId the unique team identifier
+	 * @param position the initial position
+	 * @param angle the initial angle
+	 */
+	public Player(int id, int teamId, Position position, double angle) {
+		super(id, position, RADIUS, SPEED, angle);
 		this.teamId = teamId;
 		this.health = HEALTH;
 		this.weapons = new ArrayList<>();
