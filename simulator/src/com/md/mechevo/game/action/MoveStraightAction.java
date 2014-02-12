@@ -15,7 +15,7 @@ public class MoveStraightAction extends Action {
 	/**
 	 * Duration of the action
 	 * 
-	 * @todo Actual duration will depend on extra attribute
+	 * TODO: Actual duration will depend on extra attribute
 	 */
 	private static final int DURATION = 1000;
 
@@ -45,11 +45,11 @@ public class MoveStraightAction extends Action {
 	@Override
 	public void begin(State state) {
 		getOwner().setMovementState(MovementState.MOVING);
-		getOwner().setSpeed(Player.INITIAL_SPEED);
+		getOwner().setSpeed(Player.SPEED);
 	}
 
 
-	public void update(State state, float dtime) {
+	public void update(State state, double dtime) {
 		// TODO: do the actual moving
 	}
 

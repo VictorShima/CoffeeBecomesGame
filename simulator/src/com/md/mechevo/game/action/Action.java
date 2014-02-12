@@ -111,11 +111,11 @@ public abstract class Action implements EventObservable {
 
 	/**
 	 * Execute the action.
-	 * 
+	 *
 	 * @param state Current State of the game
 	 * @param dtime Duration of the round
 	 */
-	public abstract void update(State state, float dtime);
+	public abstract void update(State state, double dtime);
 
 
 	/**

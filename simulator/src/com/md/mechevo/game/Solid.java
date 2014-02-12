@@ -10,29 +10,30 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 	 */
 	private Position position;
 
-	private float radius;
+	private double radius;
 
 	/**
 	 * Speed comes in MapUnits per Second
 	 */
-	private float speed;
+	private double speed;
 
 	/**
 	 * Angle comes in radians, with 0 radians being left xx axis (like in math)
 	 */
-	private float angle;
+	private double angle;
 
 	private boolean destroyed;
 	private int id;
 
 	private EventObserver report;
 
-	// TODO: id should be first parameter of solid (bonitez do codigo)
-	protected Solid(float width, float height, float speed, float angle, int id) {
+	protected Solid(int id, Position position, double radius, double speed, double angle) {
+		this.id = id;
+		this.position = position;
+		this.radius = radius;
 		this.speed = speed;
 		this.angle = angle;
 		this.destroyed = false;
-		this.id = id;
 	}
 
 	public int getId() {
@@ -43,31 +44,27 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 		this.id = id;
 	}
 
-	public float getRadius() {
+	public double getRadius() {
 		return radius;
 	}
 
-	public void setRadius(float radius) {
+	public void setRadius(double radius) {
 		this.radius = radius;
 	}
 
-	public float getAngle() {
+	public double getAngle() {
 		return angle;
 	}
 
-	public void setAngle(float angle) {
+	public void setAngle(double angle) {
 		this.angle = angle % 360f;
 	}
 
-	public void rotateBy(float angle) {
-		this.angle += angle;
-	}
-
-	public float getSpeed() {
+	public double getSpeed() {
 		return speed;
 	}
 
-	public void setSpeed(float speed) {
+	public void setSpeed(double speed) {
 		this.speed = speed;
 	}
 
@@ -85,6 +82,27 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 
 	public void setDestroyed(boolean destroy) {
 		this.destroyed = destroy;
+	}
+
+	public EventObserver getReport() {
+		return report;
+	}
+
+	/**
+	 * TODO: This must be called somewhere.
+	 * @param report the report to be notified.
+	 */
+	public void setReport(EventObserver report) {
+		this.report = report;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Solid) {
+			Solid s = (Solid) o;
+			return this.getId() == s.getId();
+		}
+		return false;
 	}
 
 	/**
@@ -109,7 +127,7 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 	 * @param state Current State of the game
 	 * @param dtime Delta time of update
 	 */
-	public abstract void update(State state, float dtime);
+	public abstract void update(State state, double dtime);
 
 
 	/**
@@ -127,16 +145,16 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 	 * @param speed Velocity in MapUnits per Second (independent of current angle)
 	 * @param dtime Time in seconds of duration of movement
 	 */
-	public void moveForward(float angle, float speed, float dtime) {
-		float velX = (float) Math.cos(angle);
-		float velY = (float) Math.sin(angle);
+	public void moveForward(double angle, double speed, double dtime) {
+		double velX = Math.cos(angle);
+		double velY = Math.sin(angle);
 		// Normalization of the velocity vector
-		float vel = velX + velY;
+		double vel = velX + velY;
 		velX = (velX / vel) * dtime * speed;
 		velY = -(velY / vel) * dtime * speed;
 
 		this.setPosition(new Position(this.getPosition().getX() + velX, this.getPosition().getY()
-						+ velY));
+				+ velY));
 	}
 
 	/**
@@ -145,12 +163,12 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 	 * @param angle Angle of movement (independent of current angle)
 	 * @param dist Distance to moveForward
 	 */
-	public void moveForward(float angle, float dist) {
-		float vecX = dist * (float) Math.cos(angle);
-		float vecY = -(dist * (float) Math.sin(angle));
+	public void moveForward(double angle, double dist) {
+		double vecX = dist * Math.cos(angle);
+		double vecY = -(dist * (double) Math.sin(angle));
 
 		this.setPosition(new Position(this.getPosition().getX() + vecX, this.getPosition().getY()
-						+ vecY));
+				+ vecY));
 	}
 
 
@@ -171,7 +189,6 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 
 
 	// interface EventObservable
-
 	public void registerEventObserver(EventObserver eventObserver) {
 		this.report = eventObserver;
 	}
@@ -181,5 +198,4 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 			this.report.notify(eventData);
 		}
 	}
-
 }

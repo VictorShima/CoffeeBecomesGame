@@ -11,32 +11,25 @@ import com.md.mechevo.game.sentry.Sentry;
 import com.md.mechevo.game.weapon.Weapon;
 
 public class Player extends Solid {
-
-
-	/**
-	 * Health the Player starts with
-	 */
-	public static final int INITIAL_HEALTH = 100;
+	public static final int HEALTH = 100;
 
 	/**
-	 * Width is measured in pixels
+	 * Radius is measured in number of pixels.
 	 */
-	public static final float INITIAL_WIDTH = 30;
+	public static final double RADIUS = 30;
 
 	/**
-	 * Height is measured in pixels
+	 * Speed is measured by number of pixels per second.
 	 */
-	public static final float INITIAL_HEIGHT = 30;
-
-	/**
-	 * Speed is measured by number of pixels per second
-	 */
-	public static final float INITIAL_SPEED = 5;
+	public static final double SPEED = 5;
 
 	/**
 	 * Angle is measured in degrees.
 	 */
-	public static final float INITIAL_ANGLE = 0;
+	public static final double ANGLE = 0;
+
+	private static final int WEAPON_TRANSLATION = 15;
+
 	private int teamId;
 	private int health;
 	private ArrayList<Weapon> weapons;
@@ -44,28 +37,28 @@ public class Player extends Solid {
 	private boolean paralysed = false;
 	private boolean confused = false;
 	private MovementState movementState;
-
 	private AIAlgorithm algorithm;
 	private AIEntry currentAiEntry;
 	private Action currentAction;
-	private float currentActionTime; // /< time since begin of action execution
-	private static final int weaponTranslation = 15;
 
+	/**
+	 * Time since the begin of the action's execution.
+	 */
+	private double currentActionTime;
 
-
-	public Player(int id, int teamId) {
-		super(INITIAL_WIDTH, INITIAL_HEIGHT, INITIAL_SPEED, INITIAL_ANGLE, id);
+	public Player(int id, int teamId, Position position) {
+		super(id, position, RADIUS, SPEED, ANGLE);
 		this.teamId = teamId;
-		this.health = INITIAL_HEALTH;
-		this.weapons = new ArrayList<Weapon>();
-		this.sentries = new ArrayList<Sentry>();
+		this.health = HEALTH;
+		this.weapons = new ArrayList<>();
+		this.sentries = new ArrayList<>();
 		this.algorithm = new AIAlgorithm();
 	}
 
 	public Position getLeftWeaponPosition() {
-		float angle = 90 - this.getAngle();
-		float vecX = weaponTranslation * (float) Math.cos(angle);
-		float vecY = -(weaponTranslation * (float) Math.sin(angle));
+		double angle = 90 - this.getAngle();
+		double vecX = WEAPON_TRANSLATION * Math.cos(angle);
+		double vecY = -(WEAPON_TRANSLATION * Math.sin(angle));
 		int posX = (int) (this.getPosition().getX() - vecX);
 		int posY = (int) (this.getPosition().getY() + vecY);
 
@@ -73,17 +66,13 @@ public class Player extends Solid {
 	}
 
 	public Position getRightWeaponPosition() {
-		float angle = 90 - this.getAngle();
-		float vecX = weaponTranslation * (float) Math.cos(angle);
-		float vecY = -(weaponTranslation * (float) Math.sin(angle));
+		double angle = 90 - this.getAngle();
+		double vecX = WEAPON_TRANSLATION * Math.cos(angle);
+		double vecY = -(WEAPON_TRANSLATION * Math.sin(angle));
 		int posX = (int) (this.getPosition().getX() + vecX);
 		int posY = (int) (this.getPosition().getY() - vecY);
 
 		return new Position(posX, posY);
-	}
-
-	public void setTeamId(int teamId) {
-		this.teamId = teamId;
 	}
 
 	public int getTeamId() {
@@ -94,18 +83,16 @@ public class Player extends Solid {
 		return health;
 	}
 
-	public AIAlgorithm getAlgorithm() {
-		return algorithm;
+	public void takeDamage(int damage) {
+		health -= damage;
+		if (health <= 0) {
+			setDestroyed(true);
+		}
 	}
 
 	public void setAlgorithm(AIAlgorithm algorithm) {
 		this.algorithm = algorithm;
 	}
-
-	public void setHealth(int health) {
-		this.health = health;
-	}
-
 
 	/**
 	 * Equips a weapon and boxes it into a WeaponSlot
@@ -114,7 +101,6 @@ public class Player extends Solid {
 		w.setCurrentSlot(slot);
 		weapons.add(w);
 	}
-
 
 	public boolean isParalysed() {
 		return paralysed;
@@ -140,23 +126,10 @@ public class Player extends Solid {
 		sentries.remove(s);
 	}
 
-	public void takeDamage(int damage) {
-		health -= damage;
-		if (health <= 0) {
-			setDestroyed(true);
-		}
-	}
-
-	/**
-	 * Get Movement State
-	 */
 	public MovementState getMovementState() {
 		return this.movementState;
 	}
 
-	/**
-	 * Set Movement State
-	 */
 	public void setMovementState(MovementState state) {
 		this.movementState = state;
 	}
@@ -169,11 +142,11 @@ public class Player extends Solid {
 	@Override
 	public void collidesWith(State state, Player p) {
 		// vec is the distance vector
-		float vecX = this.getPosition().getX() - p.getPosition().getX();
-		float vecY = this.getPosition().getY() - p.getPosition().getY();
-		float tangentAlfa = vecY / vecX;
-		float angle = (float) Math.atan(tangentAlfa);
-		float dist = (float) Math.sqrt(Math.pow(vecX, 2) + Math.pow(vecY, 2));
+		double vecX = this.getPosition().getX() - p.getPosition().getX();
+		double vecY = this.getPosition().getY() - p.getPosition().getY();
+		double tangentAlfa = vecY / vecX;
+		double angle = Math.atan(tangentAlfa);
+		double dist = Math.sqrt(Math.pow(vecX, 2) + Math.pow(vecY, 2));
 		// distance shouldn't count the radius of the solid
 		dist = -(dist - (this.getRadius() * 2));
 		this.moveForward(dist / 2, angle);
@@ -197,22 +170,22 @@ public class Player extends Solid {
 	public void paralyse() {
 		this.setParalysed(true);
 	}
-	
-	
+
+
 	// TODO: Needs to generate weapon name
 	public void begin(State state) {
-		EventData event = new EventData("createPlayer")
-				.addAttribute("id", this.getId())
-				.addAttribute("teamId", this.getTeamId())
-				.addAttribute("x", this.getPosition().getX())
-				.addAttribute("y", this.getPosition().getY())
-				.addAttribute("angle", this.getAngle());
+		EventData event =
+				new EventData("createPlayer").addAttribute("id", this.getId())
+						.addAttribute("teamId", this.getTeamId())
+						.addAttribute("x", this.getPosition().getX())
+						.addAttribute("y", this.getPosition().getY())
+						.addAttribute("angle", this.getAngle());
 		this.notifyEventObserver(event);
 	}
-	
+
 
 	@Override
-	public void update(State state, float dtime) {
+	public void update(State state, double dtime) {
 
 		// TODO remover esta merda CARALHO
 		if (true) {
@@ -223,7 +196,7 @@ public class Player extends Solid {
 
 			// switch actions if they already finished
 			if (this.currentAction != null
-							&& this.currentActionTime >= this.currentAction.getDuration()) {
+					&& this.currentActionTime >= this.currentAction.getDuration()) {
 				this.currentAction = this.currentAction.getNext();
 			}
 

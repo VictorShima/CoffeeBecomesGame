@@ -6,24 +6,22 @@ import com.md.mechevo.game.projectile.Projectile;
 public abstract class Sentry extends Solid {
 	private Player owner;
 	private int damage;
-	private float cooldown;
-	private float timeToLive;
+	private double cooldown;
+	private double timeToLive;
 
-	protected Sentry(int id, Position position, float width, float height, float speed,
-					float angle, Player owner, float timeToLive, int damage) {
-		super(width, height, speed, angle, id);
-		super.setPosition(position);
-
+	protected Sentry(int id, Position position, double radius, double speed, double angle,
+			Player owner, double timeToLive, int damage) {
+		super(id, position, radius, speed, angle);
 		this.owner = owner;
 		this.timeToLive = timeToLive;
 		this.damage = damage;
 	}
 
-	public float getCooldown() {
+	public double getCooldown() {
 		return cooldown;
 	}
 
-	public void setCooldown(float cooldown) {
+	public void setCooldown(double cooldown) {
 		this.cooldown = cooldown;
 	}
 
@@ -39,11 +37,11 @@ public abstract class Sentry extends Solid {
 		this.damage = damage;
 	}
 
-	public float getTimeToLive() {
+	public double getTimeToLive() {
 		return timeToLive;
 	}
 
-	public void setTimeToLive(float timeToLive) {
+	public void setTimeToLive(double timeToLive) {
 		this.timeToLive = timeToLive;
 	}
 
@@ -64,17 +62,11 @@ public abstract class Sentry extends Solid {
 		s.collidesWith(state, this);
 	}
 
-	private void updateTTL(float time) {
-		timeToLive -= time;
-	}
+	@Override
+	public void update(State state, double dtime) {
+		this.timeToLive -= dtime;
 
-	private boolean timeToDie() {
-		return timeToLive <= 0;
-	}
-
-	public void update(State state, float dtime) {
-		this.updateTTL(dtime);
-		if (this.timeToDie()) {
+		if (this.timeToLive <= 0) {
 			owner.removeSentry(this);
 			return;
 		}

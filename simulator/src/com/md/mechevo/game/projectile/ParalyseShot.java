@@ -8,16 +8,15 @@ import com.md.mechevo.game.sentry.Sentry;
 import com.md.mechevo.game.weapon.Weapon;
 
 public class ParalyseShot extends Projectile {
-	public static final int INITIAL_WIDTH = 30;
-	public static final int INITIAL_HEIGHT = 30;
-	public static final int INITIAL_SPEED = 30;
+	public static final double RADIUS = 30;
+	public static final double SPEED = 30;
 
-	public ParalyseShot(int id, Position position, float angle, Weapon weapon) {
-		super(id, position, INITIAL_WIDTH, INITIAL_HEIGHT, INITIAL_SPEED, angle, weapon);
+	public ParalyseShot(int id, Position position, double angle, Weapon weapon) {
+		super(id, position, RADIUS, SPEED, angle, weapon);
 	}
 
-
-	public void update(State state, float dtime) {
+	@Override
+	public void update(State state, double dtime) {
 		super.moveForward(this.getAngle(), this.getSpeed(), dtime);
 	}
 
@@ -39,7 +38,5 @@ public class ParalyseShot extends Projectile {
 
 	@Override
 	public void collidesWith(State state, Sentry s) {}
-
-
 
 }

@@ -4,34 +4,48 @@ import com.md.mechevo.game.projectile.Projectile;
 import com.md.mechevo.game.sentry.Sentry;
 
 public class Obstacle extends Solid {
-	protected Obstacle(int id, Position centerPosition, float width, float height, float speed,
-					int health, float angle) {
-		super(width, height, speed, angle, id);
-		super.setPosition(centerPosition);
+	private static final double SPEED = 0;
+	private static final double ANGLE = 0;
+
+	public Obstacle(int id, Position position, double radius) {
+		super(id, position, radius, Obstacle.SPEED, Obstacle.ANGLE);
 	}
 
-
+	@Override
 	public void begin(State state) {
-		// TODO: notify it is created
+		// TODO: notify when it's created
 	}
 
-	public void update(State state, float dtime) {}
+	@Override
+	public void end(State state) {
+		// TODO: notify when it's destroyed
+	}
 
-	public void end(State state) {}
-
+	@Override
+	public void update(State state, double dtime) {
+		// Empty on purpose
+	}
 
 
 	@Override
-	public void collidesWith(State state, Player p) {}
+	public void collidesWith(State state, Player p) {
+		// Empty on purpose
+	}
 
 	@Override
-	public void collidesWith(State state, Projectile p) {}
+	public void collidesWith(State state, Projectile p) {
+		// Empty on purpose
+	}
 
 	@Override
-	public void collidesWith(State State, Obstacle o) {}
+	public void collidesWith(State State, Obstacle o) {
+		// Empty on purpose
+	}
 
 	@Override
-	public void collidesWith(State state, Sentry s) {}
+	public void collidesWith(State state, Sentry s) {
+		// Empty on purpose
+	}
 
 	@Override
 	public void accept(CollisionVisitor s, State state) {

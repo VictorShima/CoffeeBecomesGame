@@ -8,12 +8,11 @@ import com.md.mechevo.game.sentry.Sentry;
 import com.md.mechevo.game.weapon.Weapon;
 
 public class Mine extends Projectile {
-	public static final int INITIAL_WIDTH = 30;
-	public static final int INITIAL_HEIGHT = 30;
-	public static final int INITIAL_SPEED = 0;
+	public static final double RADIUS = 30;
+	public static final double SPEED = 0;
 
-	public Mine(int id, Position position, float angle, Weapon weapon) {
-		super(id, position, INITIAL_WIDTH, INITIAL_HEIGHT, INITIAL_SPEED, angle, weapon);
+	public Mine(int id, Position position, double angle, Weapon weapon) {
+		super(id, position, RADIUS, SPEED, angle, weapon);
 	}
 
 	@Override
@@ -34,7 +33,7 @@ public class Mine extends Projectile {
 	public void collidesWith(State state, Sentry s) {}
 
 	@Override
-	public void update(State state, float dtime) {
-		// EMPTY ON PURPOSE
+	public void update(State state, double dtime) {
+		// Empty on purpose.
 	}
 }

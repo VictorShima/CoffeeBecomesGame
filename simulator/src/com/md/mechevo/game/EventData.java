@@ -26,7 +26,7 @@ public class EventData {
 	 */
 	public EventData(String title) {
 		this.title = title;
-		this.attributes = new ArrayList<SimpleImmutableEntry<String, String>>();
+		this.attributes = new ArrayList<>();
 	}
 
 
@@ -37,7 +37,7 @@ public class EventData {
 	 * @param value The Value part of the attribute
 	 */
 	public EventData addAttribute(String key, String value) {
-		this.attributes.add(new SimpleImmutableEntry<String, String>(key, value));
+		this.attributes.add(new SimpleImmutableEntry<>(key, value));
 		return this; // enable chain calling
 	}
 
@@ -45,7 +45,7 @@ public class EventData {
 	 * @see com.md.mechevo.game.EventData#addAttribute
 	 */
 	public EventData addAttribute(String key, int value) {
-		this.attributes.add(new SimpleImmutableEntry<String, String>(key, Integer.toString(value)));
+		this.attributes.add(new SimpleImmutableEntry<>(key, Integer.toString(value)));
 		return this; // enable chain calling
 	}
 
@@ -54,10 +54,17 @@ public class EventData {
 	 * @see com.md.mechevo.game.EventData#addAttribute
 	 */
 	public EventData addAttribute(String key, float value) {
-		this.attributes.add(new SimpleImmutableEntry<String, String>(key, Float.toString(value)));
+		this.attributes.add(new SimpleImmutableEntry<>(key, Float.toString(value)));
 		return this; // enable chain calling
 	}
 
+	/**
+	 * @see com.md.mechevo.game.EventData#addAttribute
+	 */
+	public EventData addAttribute(String key, double value) {
+		this.attributes.add(new SimpleImmutableEntry<>(key, Double.toString(value)));
+		return this; // enable chain calling
+	}
 
 	/**
 	 * Title getter.

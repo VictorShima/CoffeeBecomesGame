@@ -6,11 +6,11 @@ import com.md.mechevo.game.weapon.Weapon;
 
 public class HomingProjectile extends Projectile {
 	private Solid target;
-	private float rotVel; // Rotation Velocity
+	private double rotVel; // Rotation Velocity
 
-	protected HomingProjectile(int id, Position position, float width, float height, float speed,
-					float angle, Weapon weapon, Solid target, float rotVel) {
-		super(id, position, width, height, speed, angle, weapon);
+	protected HomingProjectile(int id, Position position, double radius, double speed,
+			double angle, Weapon weapon, Solid target, double rotVel) {
+		super(id, position, radius, speed, angle, weapon);
 		this.setTarget(target);
 		this.setRotVel(rotVel);
 	}
@@ -23,11 +23,11 @@ public class HomingProjectile extends Projectile {
 		this.target = target;
 	}
 
-	public float getRotVel() {
+	public double getRotVel() {
 		return rotVel;
 	}
 
-	public void setRotVel(float rotVel) {
+	public void setRotVel(double rotVel) {
 		this.rotVel = rotVel;
 	}
 
@@ -62,27 +62,23 @@ public class HomingProjectile extends Projectile {
 	 * overriden)
 	 */
 	@Override
-	public void update(State state, float dtime) {
-		float vecToTargetX = this.getTarget().getPosition().getX() - this.getPosition().getX();
-		float vecToTargetY = this.getTarget().getPosition().getY() - this.getPosition().getY();
+	public void update(State state, double dtime) {
+		double vecToTargetX = this.getTarget().getPosition().getX() - this.getPosition().getX();
+		double vecToTargetY = this.getTarget().getPosition().getY() - this.getPosition().getY();
 
-		float vecX = (float) Math.cos(this.getAngle());
-		float vecY = (float) Math.sin(this.getAngle());
+		double vecX = Math.cos(this.getAngle());
+		double vecY = Math.sin(this.getAngle());
 
-		float cosValue =
-						((vecToTargetX * vecX) + (vecToTargetY * vecY))
-										/ ((float) Math.sqrt(Math.pow(vecX, 2f)
-														+ Math.pow(vecY, 2f)) * (float) Math
-															.sqrt(Math.pow(vecToTargetX, 2f)
-																			+ Math.pow(vecToTargetY,
-																							2f)));
+		double cosValue =
+				((vecToTargetX * vecX) + (vecToTargetY * vecY))
+						/ (Math.sqrt(Math.pow(vecX, 2f) + Math.pow(vecY, 2f)) * Math.sqrt(Math.pow(
+								vecToTargetX, 2f) + Math.pow(vecToTargetY, 2f)));
 
-		float rotationAngle = (float) Math.acos(cosValue) * 180 / (float) Math.PI;
+		double rotationAngle = Math.acos(cosValue) * 180 / Math.PI;
 		rotationAngle *= dtime;
 
 		// Rotate clockwise/counter-clockwise is determined by sign of cross-product
-		float crossProd = (vecToTargetX * vecY) - (vecToTargetY * vecX);
-
+		double crossProd = (vecToTargetX * vecY) - (vecToTargetY * vecX);
 
 		if (rotationAngle < rotVel * dtime) {
 			if (crossProd < 0) {

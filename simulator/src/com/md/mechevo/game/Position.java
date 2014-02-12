@@ -4,28 +4,20 @@ package com.md.mechevo.game;
  * A coordinate represents a 2D position that is composed by a x and y positions.
  */
 public final class Position {
-	private float x;
-	private float y;
+	private double x;
+	private double y;
 
-	public Position(float x, float y) {
+	public Position(double x, double y) {
 		this.x = x;
 		this.y = y;
 
 	}
 
-	public void setX(float x) {
-		this.x = x;
-	}
-
-	public void setY(float y) {
-		this.y = y;
-	}
-
-	public float getX() {
+	public double getX() {
 		return x;
 	}
 
-	public float getY() {
+	public double getY() {
 		return y;
 	}
 

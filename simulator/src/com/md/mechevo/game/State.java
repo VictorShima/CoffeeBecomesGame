@@ -12,12 +12,24 @@ import com.md.mechevo.game.projectile.Projectile;
  */
 public class State implements EventObservable {
 	private Map map;
-	private ArrayList<Player> players;
-	private ArrayList<Projectile> projectiles;
-	private int nextId = 0;
 
 	/**
-	 * total time passed since beginning
+	 * The list of players in the game. Can belong to any team.
+	 */
+	private ArrayList<Player> players;
+
+	/**
+	 * The list of projectiles in the game. All the projectiles are here.
+	 */
+	private ArrayList<Projectile> projectiles;
+
+	/**
+	 * The id generator.
+	 */
+	private int nextId;
+
+	/**
+	 * Total time passed since beginning.
 	 */
 	private float totalTime;
 
@@ -26,42 +38,25 @@ public class State implements EventObservable {
 	 */
 	private EventObserver report;
 
-
-
-	public State() {
-		this.map = new Map();
-		this.players = new ArrayList<Player>();
-		this.projectiles = new ArrayList<Projectile>();
+	public State(Map map) {
+		this.map = map;
+		this.players = new ArrayList<>();
+		this.projectiles = new ArrayList<>();
 		this.totalTime = 0;
+		this.nextId = 0;
 	}
 
 	public int getNextId() {
 		return nextId++;
 	}
 
-	public void setNextId(int nextId) {
-		this.nextId = nextId;
-	}
-
-	public Map getMap() {
-		return map;
-	}
-
 	public void setMap(Map map) {
 		this.map = map;
-	}
-
-	public ArrayList<Projectile> getProjectiles() {
-		return projectiles;
 	}
 
 	public void addProjectile(Projectile p) {
 		this.projectiles.add(p);
 		map.addSolid(p);
-	}
-
-	public ArrayList<Player> getPlayers() {
-		return players;
 	}
 
 	public void addPlayer(Player p) {
@@ -70,8 +65,8 @@ public class State implements EventObservable {
 	}
 
 
-	public void addObstacle(Obstacle p) {
-		this.map.addSolid(p);
+	public void addObstacle(Obstacle o) {
+		this.map.addSolid(o);
 	}
 
 	public float getTotalTime() {
@@ -85,7 +80,7 @@ public class State implements EventObservable {
 	 * @param dtime Time since the last state
 	 */
 	public void update(float dtime) {
-		this.report.setCurrentTime(this.totalTime());
+		this.report.setCurrentTime(this.totalTime);
 		this.map.update(this, dtime);
 		this.totalTime += dtime;
 	}
@@ -110,8 +105,6 @@ public class State implements EventObservable {
 
 	/**
 	 * Build the event report. Get the events from the EventObserver
-	 * 
-	 * @report Json Object that defines the event report
 	 */
 	public JsonElement buildEventReport() {
 		if (this.report != null) {

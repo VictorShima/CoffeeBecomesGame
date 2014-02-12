@@ -8,17 +8,14 @@ import com.md.mechevo.game.sentry.Sentry;
 import com.md.mechevo.game.weapon.Weapon;
 
 public class Flame extends Projectile {
-	public static final int INITIAL_WIDTH = 30;
-	public static final int INITIAL_HEIGHT = 30;
-	public static final int INITIAL_SPEED = 15;
+	public static final double RADIUS = 15;
+	public static final double SPEED = 15;
 
 	public Flame(int id, Position position, float angle, Weapon weapon) {
-		super(id, position, INITIAL_WIDTH, INITIAL_HEIGHT, INITIAL_SPEED, angle, weapon);
+		super(id, position, RADIUS, SPEED, angle, weapon);
 	}
 
-
-
-	public void update(State state, float dtime) {
+	public void update(State state, double dtime) {
 		super.moveForward(this.getAngle(), this.getSpeed(), dtime);
 	}
 
