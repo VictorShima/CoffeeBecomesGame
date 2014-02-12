@@ -60,8 +60,8 @@ public class Player extends Solid {
 
 	public Position getLeftWeaponPosition() {
 		double angle = 90 - this.getAngle();
-		double vecX = WEAPON_TRANSLATION * Math.cos(angle);
-		double vecY = -(WEAPON_TRANSLATION * Math.sin(angle));
+		double vecX = WEAPON_TRANSLATION * Math.cos(Math.toRadians(angle));
+		double vecY = -(WEAPON_TRANSLATION * Math.sin(Math.toRadians(angle)));
 		int posX = (int) (this.getPosition().getX() - vecX);
 		int posY = (int) (this.getPosition().getY() + vecY);
 
@@ -70,8 +70,8 @@ public class Player extends Solid {
 
 	public Position getRightWeaponPosition() {
 		double angle = 90 - this.getAngle();
-		double vecX = WEAPON_TRANSLATION * Math.cos(angle);
-		double vecY = -(WEAPON_TRANSLATION * Math.sin(angle));
+		double vecX = WEAPON_TRANSLATION * Math.cos(Math.toRadians(angle));
+		double vecY = -(WEAPON_TRANSLATION * Math.sin(Math.toRadians(angle)));
 		int posX = (int) (this.getPosition().getX() + vecX);
 		int posY = (int) (this.getPosition().getY() - vecY);
 
@@ -174,6 +174,22 @@ public class Player extends Solid {
 		this.setParalysed(true);
 	}
 
+    public ArrayList fieldOfView(State state, FieldOfViewAngle angle){
+        //angle.getAngle();
+        /*double vectorPlayerX = Math.cos(Math.toRadians(this.getAngle()));
+        ArrayList<Player> players = state.getPlayers();
+        for (Player p : players){
+            if(!(this.getId() == p.getId())){
+                double vecX = this.getPosition().getX() - p.getPosition().getX();
+                double vecY = this.getPosition().getY() - p.getPosition().getY();
+                double cosValue = ()
+                double angleToPlayer =
+            }
+        }
+*/
+        return new ArrayList();
+    }
+
 
 	// TODO: Needs to generate weapon name
 	public void begin(State state) {
@@ -240,6 +256,14 @@ public class Player extends Solid {
 		STOPPED, MOVING, SPRINTING, DASHING
 	}
 
+    public static enum FieldOfViewAngle {
+        VIEW (60), FIRE (30);
+        private final double angle;
+        FieldOfViewAngle(double angle){
+            this.angle = angle;
+        }
+        private double getAngle(){return angle;}
+    }
 
 	// interface EventObservable
 

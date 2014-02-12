@@ -146,8 +146,8 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 	 * @param dtime Time in seconds of duration of movement
 	 */
 	public void moveForward(double angle, double speed, double dtime) {
-		double velX = Math.cos(angle);
-		double velY = Math.sin(angle);
+		double velX = Math.cos(Math.toRadians(angle));
+		double velY = Math.sin(Math.toRadians(angle));
 		// Normalization of the velocity vector
 		double vel = velX + velY;
 		velX = (velX / vel) * dtime * speed;
@@ -164,8 +164,8 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 	 * @param dist Distance to moveForward
 	 */
 	public void moveForward(double angle, double dist) {
-		double vecX = dist * Math.cos(angle);
-		double vecY = -(dist * (double) Math.sin(angle));
+		double vecX = dist * Math.cos(Math.toRadians(angle));
+		double vecY = -(dist * (double) Math.sin(Math.toRadians(angle)));
 
 		this.setPosition(new Position(this.getPosition().getX() + vecX, this.getPosition().getY()
 				+ vecY));
