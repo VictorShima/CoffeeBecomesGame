@@ -85,7 +85,11 @@ public class Player extends Solid {
 		return health;
 	}
 
-	public void takeDamage(int damage) {
+    public double getCurrentActionTime() {
+        return currentActionTime;
+    }
+
+    public void takeDamage(int damage) {
 		health -= damage;
 		if (health <= 0) {
 			setDestroyed(true);
@@ -208,8 +212,7 @@ public class Player extends Solid {
 	public void update(State state, double dtime) {
 		if (!isParalysed()) {
 			// switch actions if they already finished
-			if (this.currentAction != null
-					&& this.currentActionTime >= this.currentAction.getDuration()) {
+			if (this.currentAction != null && this.currentAction.hasFinished()) {
 				this.currentAction = this.currentAction.getNext();
 			}
 
