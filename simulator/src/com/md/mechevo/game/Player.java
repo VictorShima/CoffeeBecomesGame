@@ -231,11 +231,6 @@ public class Player extends Solid {
         // TODO
     }
 
-
-	public void end(State state) {}
-
-
-
     public static enum FieldOfViewAngle {
         VIEW(60), FIRE(30);
         
