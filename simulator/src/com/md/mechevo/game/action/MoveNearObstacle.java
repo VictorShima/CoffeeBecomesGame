@@ -1,5 +1,7 @@
 package com.md.mechevo.game.action;
 
+import com.md.mechevo.game.EventData;
+import com.md.mechevo.game.Obstacle;
 import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
 
@@ -8,6 +10,8 @@ import com.md.mechevo.game.State;
  */
 public class MoveNearObstacle extends Action {
     private static final boolean CANCELABLE = true;
+
+    private Obstacle target;
 
     public MoveNearObstacle(Player owner) {
         super(owner, CANCELABLE);
@@ -39,7 +43,11 @@ public class MoveNearObstacle extends Action {
      */
     @Override
     public void begin(State state) {
+        // TODO find target
 
+        EventData eventData = new EventData("startMovingObstacle").addAttribute("id",
+                this.getOwner().getId());
+        this.notifyEventObserver(eventData);
     }
 
     /**
@@ -60,6 +68,8 @@ public class MoveNearObstacle extends Action {
      */
     @Override
     public void end(State state) {
-
+        EventData eventData = new EventData("stopMovingObstacle").addAttribute("id",
+                this.getOwner().getId());
+        this.notifyEventObserver(eventData);
     }
 }

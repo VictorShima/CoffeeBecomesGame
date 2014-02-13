@@ -240,13 +240,10 @@ public class Player extends Solid {
 
                     this.currentAiEntry = suggestion.getAiEntry();
                     this.currentAction = suggestion.getFirstAction();
+                    this.currentAction.begin(state);
                     this.currentActionTime = 0;
                 }
 			}
-
-            if (this.currentActionTime == 0) {
-                this.currentAction.begin(state);
-            }
 
             this.currentAction.update(state, dtime);
             this.currentActionTime += dtime;
