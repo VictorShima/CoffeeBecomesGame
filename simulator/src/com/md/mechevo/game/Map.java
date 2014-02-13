@@ -62,7 +62,7 @@ public class Map {
 
 
 	/**
-	 * Check Collision between 2 solids
+	 * Check collision between 2 solids
 	 * 
 	 * @param s1 Solid A
 	 * @param s2 Solid B

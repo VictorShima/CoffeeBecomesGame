@@ -124,10 +124,14 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 
 	/**
 	 * Method that is called when a new Solid is destroyed.
+     * Default implementation creates an event where the only attribute is the 'id'.
 	 * 
 	 * @param state Current State of the game
 	 */
-	public abstract void end(State state);
+	public void end(State state) {
+        EventData eventData = new EventData("destroySolid").addAttribute("id", this.getId());
+        this.notifyEventObserver(eventData);
+    }
 
 
 	/**
@@ -157,7 +161,7 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 	 */
 	public void moveForward(double angle, double dist) {
 		double vecX = dist * Math.cos(Math.toRadians(angle));
-		double vecY = -(dist * (double) Math.sin(Math.toRadians(angle)));
+		double vecY = -(dist * Math.sin(Math.toRadians(angle)));
 
 		this.setPosition(new Position(this.getPosition().getX() + vecX, this.getPosition().getY()
 				+ vecY));

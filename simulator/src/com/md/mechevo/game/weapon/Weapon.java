@@ -49,10 +49,12 @@ public abstract class Weapon implements EventObservable {
 		return this.currentCooldown;
 	}
 
-	public void setCurrentCooldown(double currentCooldown) {
-		this.currentCooldown = currentCooldown;
-	}
-
+    public void updateCurrentCooldown(double dtime) {
+        this.currentCooldown -= dtime;
+        if (this.currentCooldown < 0) {
+            this.currentCooldown = 0;
+        }
+    }
 	public WeaponSlot getCurrentSlot() {
 		return this.currentSlot;
 	}

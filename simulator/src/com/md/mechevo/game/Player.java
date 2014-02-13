@@ -214,39 +214,41 @@ public class Player extends Solid {
 
 	@Override
 	public void update(State state, double dtime) {
+        // Update all weapon's cooldown
+        for (Weapon weapon : weapons) {
+            weapon.updateCurrentCooldown(dtime);
+        }
+
+        // A player can't move when it's paralysed
 		if (!isParalysed()) {
-			// switch actions if they already finished
 			if (this.currentAction != null && this.currentAction.hasFinished()) {
 				this.currentAction = this.currentAction.getNext();
 			}
 
-			// try to cancel the action and find a new one
-			if (this.currentAction != null) {
-				if (this.currentAction.isCancelable()) {
-					AISuggestion suggestion = this.algorithm.calculateBestAction(state);
-					if (suggestion.getAiEntry() != this.currentAiEntry) {
-						this.currentAiEntry = suggestion.getAiEntry();
-						this.currentAction = suggestion.getFirstAction();
-						this.currentActionTime = 0;
-					}
-				}
+			// Find a new AIEntry
+			if ((this.currentAction != null && this.currentAction.isCancelable()) || this.currentAction == null) {
+                AISuggestion suggestion = this.algorithm.calculateBestAction(state);
+                if (suggestion.getAiEntry() != this.currentAiEntry) {
+                    if (this.currentAction != null) {
+                        this.currentAction.end(state);
+                    }
+
+                    this.currentAiEntry = suggestion.getAiEntry();
+                    this.currentAction = suggestion.getFirstAction();
+                    this.currentActionTime = 0;
+                }
 			}
 
-			if (this.currentAction != null) {
-				// perform the current action
-				if (this.currentActionTime == 0) {
-					this.currentAction.begin(state);
-				}
-				this.currentAction.update(state, dtime);
+            if (this.currentActionTime == 0) {
+                this.currentAction.begin(state);
+            }
 
-				// post-update
-				this.currentActionTime += dtime;
-			}
+            this.currentAction.update(state, dtime);
+            this.currentActionTime += dtime;
 		}
 	}
 
 	public void end(State state) {
-        // TODO
     }
 
     public static enum FieldOfViewAngle {
