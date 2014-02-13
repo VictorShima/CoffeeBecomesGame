@@ -165,20 +165,31 @@ public class Player extends Solid {
 		this.setParalysed(true);
 	}
 
+    /**
+     * fieldOfView returns all players that are in the field of view or in the field of fire
+     * @param state
+     * @param angle FieldOfViewAngle.FIRE or FieldOfViewAngle.VIEW
+     * @return
+     */
     public ArrayList fieldOfView(State state, FieldOfViewAngle angle){
-        //angle.getAngle();
-        /*double vectorPlayerX = Math.cos(Math.toRadians(this.getAngle()));
+        //vectorPlayer is the vector where the player is looking
+        ArrayList<Player> playersInView= new ArrayList<>();
+        double vectorPlayerX = Math.cos(Math.toRadians(this.getAngle()));
+        double vectorPlayerY = Math.sin(Math.toRadians(this.getAngle()));
         ArrayList<Player> players = state.getPlayers();
         for (Player p : players){
             if(!(this.getId() == p.getId())){
                 double vecX = this.getPosition().getX() - p.getPosition().getX();
                 double vecY = this.getPosition().getY() - p.getPosition().getY();
-                double cosValue = ()
-                double angleToPlayer =
+                double cosValue = ((vectorPlayerX * vecX) + (vectorPlayerY * vecY))/((Math.sqrt(Math.pow(vecX, 2) + Math.pow(vecY,2))) *
+                        (Math.sqrt(Math.pow(vectorPlayerX, 2) + Math.pow(vectorPlayerY,2))));
+                double angleToPlayer = Math.acos(cosValue);
+                if(angleToPlayer < angle.getAngle()) {
+                    playersInView.add(p);
+                }
             }
         }
-*/
-        return new ArrayList();
+        return playersInView;
     }
 
 	// TODO: Needs to generate weapon name
