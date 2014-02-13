@@ -3,12 +3,24 @@ package com.md.mechevo.game.condition;
 import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
 
+import java.util.ArrayList;
+
 /**
  * Selects the closest/furthest visible enemy
  */
 public class EnemySpotted extends Condition {
+    private Player preferredEnemy; // /< TODO The enemy spotted in this condition will be used in it's actions??
+
     public EnemySpotted(Player owner, String param) {
         super(owner, param);
+    }
+
+    public Player getPreferredEnemy() {
+        return preferredEnemy;
+    }
+
+    public void setPreferredEnemy(Player preferredEnemy) {
+        this.preferredEnemy = preferredEnemy;
     }
 
     /**
@@ -19,6 +31,21 @@ public class EnemySpotted extends Condition {
      */
     @Override
     public boolean check(State state) {
+        ArrayList<Player> players = getOwner().fieldOfView(state, Player.FieldOfViewAngle.VIEW);
+        if(!players.isEmpty()){
+            double nearestDist = 99999;
+            double dist;
+            for(Player p : players){
+                double distX = this.getOwner().getPosition().getX() - p.getPosition().getX();
+                double distY = this.getOwner().getPosition().getY() - p.getPosition().getY();
+                dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
+                if(dist < nearestDist){
+                    nearestDist = dist;
+                    this.setPreferredEnemy(p);
+                }
+            }
+            return true;
+        }
         return false;
     }
 
@@ -30,6 +57,6 @@ public class EnemySpotted extends Condition {
      */
     @Override
     public Player getPreferredPlayer(State state) {
-        return null;
+        return this.getPreferredEnemy();
     }
 }

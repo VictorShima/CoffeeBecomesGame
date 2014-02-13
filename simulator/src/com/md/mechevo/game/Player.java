@@ -39,6 +39,7 @@ public class Player extends Solid {
 	private AIAlgorithm algorithm;
 	private AIEntry currentAiEntry;
 	private Action currentAction;
+    private double lastHitAngle; // /< The absolute angle of the last hit
 
 	/**
 	 * Time since the begin of the action's execution.
@@ -94,8 +95,26 @@ public class Player extends Solid {
         return currentActionTime;
     }
 
+    /**
+     * takeDamage drops the health of the player (this is only used for mines
+     * because it makes no sense updating the lastHitAngle)
+     * @param damage
+     */
     public void takeDamage(int damage) {
+        health -= damage;
+        if (health <= 0) {
+            setDestroyed(true);
+        }
+    }
+
+    /**
+     * take Damage drops the health of player
+     * @param damage
+     * @param angle the angle of the projectile
+     */
+    public void takeDamage(int damage, double angle) {
 		health -= damage;
+        lastHitAngle = angle;
 		if (health <= 0) {
 			setDestroyed(true);
 		}

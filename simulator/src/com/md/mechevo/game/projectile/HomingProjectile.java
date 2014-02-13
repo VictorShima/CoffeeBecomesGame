@@ -37,7 +37,7 @@ public class HomingProjectile extends Projectile {
 	 */
 	@Override
 	public void collidesWith(State state, Player p) {
-		p.takeDamage(this.getWeapon().getDamage());
+		p.takeDamage(this.getWeapon().getDamage(), this.getAngle());
 		this.setDestroyed(true);
 	}
 
