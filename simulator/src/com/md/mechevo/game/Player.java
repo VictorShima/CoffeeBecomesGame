@@ -203,7 +203,7 @@ public class Player extends Solid {
      * @param angle FieldOfViewAngle.FIRE or FieldOfViewAngle.VIEW
      * @return
      */
-    public ArrayList fieldOfView(State state, FieldOfViewAngle angle){
+    public ArrayList<Player> fieldOfView(State state, FieldOfViewAngle angle){
         //vectorPlayer is the vector where the player is looking
         ArrayList<Player> playersInView= new ArrayList<>();
         double vectorPlayerX = Math.cos(Math.toRadians(this.getAngle()));
