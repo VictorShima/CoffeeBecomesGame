@@ -16,7 +16,7 @@ public class Flame extends Projectile {
 	}
 
 	public void update(State state, double dtime) {
-		super.moveForward(this.getAngle(), this.getSpeed(), dtime);
+		super.move(this.getAngle(), this.getSpeed(), dtime, true);
 	}
 
 

@@ -19,9 +19,14 @@ public class Player extends Solid {
 	public static final double RADIUS = 30;
 
 	/**
-	 * Speed is measured by number of pixels per second.
+	 * Move speed is measured by MapUnits per second.
 	 */
-	public static final double SPEED = 5;
+	public static final double MOVE_SPEED = 5;
+
+    /**
+     * Sprint speed is measured by MapUnits per second.
+     */
+    public static final double SPRINT_SPEED = 10;
 
 	private static final int WEAPON_TRANSLATION = 15;
 
@@ -49,7 +54,7 @@ public class Player extends Solid {
 	 * @param angle the initial angle
 	 */
 	public Player(int id, int teamId, Position position, double angle) {
-		super(id, position, RADIUS, SPEED, angle);
+		super(id, position, RADIUS, MOVE_SPEED, angle);
 		this.teamId = teamId;
 		this.health = HEALTH;
 		this.weapons = new ArrayList<>();
@@ -151,8 +156,8 @@ public class Player extends Solid {
 		double dist = Math.sqrt(Math.pow(vecX, 2) + Math.pow(vecY, 2));
 		// distance shouldn't count the radius of the solid
 		dist = -(dist - (this.getRadius() * 2));
-		this.moveForward(dist / 2, angle);
-		p.moveForward(dist / 2, angle + 180f);
+		this.move(dist / 2, angle, true);
+		p.move(dist / 2, angle, false);
 
 	}
 

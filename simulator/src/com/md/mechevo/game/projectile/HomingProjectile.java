@@ -94,8 +94,8 @@ public class HomingProjectile extends Projectile {
 			}
 		}
 
-		// After calculating the new angle we simply moveForward the missile like a regular solid
-		super.moveForward(this.getAngle(), this.getSpeed(), dtime);
+		// After calculating the new angle we simply move forward the missile like a regular solid
+		super.move(this.getAngle(), this.getSpeed(), dtime, true);
 	}
 
 }

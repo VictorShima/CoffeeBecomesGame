@@ -5,6 +5,8 @@ import com.md.mechevo.game.projectile.Projectile;
 import com.md.mechevo.game.sentry.Sentry;
 
 public abstract class Solid implements CollisionVisitor, EventObservable {
+    public static final double FULL_CIRCLE_DEGREES = 360;
+    public static final double HALF_CIRCLE_DEGREES = 180;
 	/**
 	 * This is the center position.
 	 */
@@ -133,15 +135,16 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
         this.notifyEventObserver(eventData);
     }
 
-
 	/**
 	 * Moves the Solid in direction given by angle with given speed in a straight line.
 	 * 
 	 * @param angle Angle of movement (independent of current angle)
 	 * @param speed Velocity in MapUnits per Second (independent of current angle)
 	 * @param dtime Time in seconds of duration of movement
+     * @param forward Move forward or backward
 	 */
-	public void moveForward(double angle, double speed, double dtime) {
+	public void move(double angle, double speed, double dtime, boolean forward) {
+        angle = (angle + FULL_CIRCLE_DEGREES) % FULL_CIRCLE_DEGREES;
 		double velX = Math.cos(Math.toRadians(angle));
 		double velY = Math.sin(Math.toRadians(angle));
 		// Normalization of the velocity vector
@@ -149,8 +152,13 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 		velX = (velX / vel) * dtime * speed;
 		velY = -(velY / vel) * dtime * speed;
 
-		this.setPosition(new Position(this.getPosition().getX() + velX, this.getPosition().getY()
-				+ velY));
+        if (forward) {
+            this.setPosition(new Position(this.getPosition().getX() + velX,
+                    this.getPosition().getY() + velY));
+        } else {
+            this.setPosition(new Position(this.getPosition().getX() - velX,
+                    this.getPosition().getY() - velY));
+        }
 	}
 
 	/**
@@ -158,19 +166,22 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 	 * 
 	 * @param angle Angle of movement (independent of current angle)
 	 * @param dist Distance to moveForward
+     * @param forward Move forward or backward
 	 */
-	public void moveForward(double angle, double dist) {
+	public void move(double angle, double dist, boolean forward) {
 		double vecX = dist * Math.cos(Math.toRadians(angle));
 		double vecY = -(dist * Math.sin(Math.toRadians(angle)));
 
-		this.setPosition(new Position(this.getPosition().getX() + vecX, this.getPosition().getY()
-				+ vecY));
+		if (forward) {
+            this.setPosition(new Position(this.getPosition().getX() + vecX,
+                    this.getPosition().getY() + vecY));
+        } else {
+            this.setPosition(new Position(this.getPosition().getX() - vecX,
+                    this.getPosition().getY() - vecY));
+        }
 	}
 
-
-
 	// interface CollisionVisitor
-
 	@Override
 	public abstract void collidesWith(State state, Player p);
 

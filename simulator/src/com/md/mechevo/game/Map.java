@@ -60,6 +60,10 @@ public class Map {
 		}
 	}
 
+    public boolean canSolidMove(Solid s, double angle) {
+        // TODO
+        return true;
+    }
 
 	/**
 	 * Check collision between 2 solids

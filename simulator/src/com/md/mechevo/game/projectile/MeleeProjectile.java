@@ -17,7 +17,7 @@ public class MeleeProjectile extends Projectile {
 
 	@Override
 	public void update(State state, double dtime) {
-		super.moveForward(this.getAngle(), this.getSpeed(), dtime);
+		super.move(this.getAngle(), this.getSpeed(), dtime, true);
 	}
 
 	@Override

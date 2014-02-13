@@ -1,6 +1,8 @@
 package com.md.mechevo.game.action;
 
+import com.md.mechevo.game.EventData;
 import com.md.mechevo.game.Player;
+import com.md.mechevo.game.Solid;
 import com.md.mechevo.game.State;
 
 /**
@@ -9,11 +11,22 @@ import com.md.mechevo.game.State;
 public class MoveInLine extends Action {
     private static final boolean CANCELABLE = true;
 
+    private final Mode mode;
+
     /**
-     * @param param indicates wether the player moves forward or backward.
+     * @param param indicates if the player moves forward or backward.
      */
-    public MoveInLine(Player owner, String param) {
+    public MoveInLine(Player owner, String param) throws InvalidActionParameter {
         super(owner, param, CANCELABLE);
+        this.mode = convertParam();
+    }
+
+    private Mode convertParam() throws InvalidActionParameter {
+        try {
+            return Mode.valueOf(this.getParam());
+        } catch (IllegalArgumentException e) {
+            throw new InvalidActionParameter(Mode.class.getName(), this.getParam());
+        }
     }
 
     /**
@@ -26,14 +39,22 @@ public class MoveInLine extends Action {
     }
 
     /**
-     * Check if the required condition for an action applies.
-     *
-     * @param state Current State of the game
-     * @return True if the condition applies
+     * @return if it can move in the wished direction
      */
     @Override
     public boolean check(State state) {
-        return true;
+        switch (mode) {
+            case MOVE_FORWARD: // fall-through
+            case SPRINT_FORWARD:
+                return state.getMap().canSolidMove(this.getOwner(), this.getOwner().getAngle());
+            case MOVE_BACKWARD: // fall-through
+            case SPRINT_BACKWARD:
+                return state.getMap().canSolidMove(this.getOwner(), this.getOwner().getAngle() +
+                        Solid.HALF_CIRCLE_DEGREES);
+        }
+
+        System.err.println("MoveInLine#check: invalid mode.");
+        return false;
     }
 
     /**
@@ -43,7 +64,9 @@ public class MoveInLine extends Action {
      */
     @Override
     public void begin(State state) {
-
+        EventData eventData = new EventData("startMoving").addAttribute("id", getOwner().getId())
+                .addAttribute("mode", this.mode.toString());
+        this.notifyEventObserver(eventData);
     }
 
     /**
@@ -54,7 +77,21 @@ public class MoveInLine extends Action {
      */
     @Override
     public void update(State state, double dtime) {
-
+        Player owner = this.getOwner();
+        switch (mode) {
+            case MOVE_FORWARD:
+                owner.move(owner.getAngle(), Player.MOVE_SPEED, dtime, true);
+                break;
+            case SPRINT_FORWARD:
+                owner.move(owner.getAngle(), Player.SPRINT_SPEED, dtime, true);
+                break;
+            case MOVE_BACKWARD:
+                owner.move(owner.getAngle(), Player.MOVE_SPEED, dtime, false);
+                break;
+            case SPRINT_BACKWARD:
+                owner.move(owner.getAngle(), Player.SPRINT_SPEED, dtime, false);
+                break;
+        }
     }
 
     /**
@@ -64,6 +101,11 @@ public class MoveInLine extends Action {
      */
     @Override
     public void end(State state) {
+        EventData eventData = new EventData("stopMoving").addAttribute("id", getOwner().getId());
+        this.notifyEventObserver(eventData);
+    }
 
+    private enum Mode {
+        MOVE_FORWARD, MOVE_BACKWARD, SPRINT_FORWARD, SPRINT_BACKWARD
     }
 }
