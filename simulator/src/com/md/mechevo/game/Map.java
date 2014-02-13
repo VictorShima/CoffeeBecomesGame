@@ -79,7 +79,7 @@ public class Map {
 	 * @param state the current state of the map
 	 * @param dtime Delta Time since the last state
 	 */
-	public void update(State state, float dtime) {
+	public void update(State state, double dtime) {
 		// update all elements
 		for (Solid s : elements) {
 			s.update(state, dtime);

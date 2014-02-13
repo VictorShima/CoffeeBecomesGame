@@ -6,7 +6,7 @@ public class Simulator {
 	/**
 	 * Time between rounds is in seconds
 	 */
-	public static final float TIME_BETWEEN_ROUNDS = 0.1f;
+	public static final double TIME_BETWEEN_ROUNDS = 0.1f;
 
 
 

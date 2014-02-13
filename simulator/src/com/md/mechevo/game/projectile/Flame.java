@@ -11,7 +11,7 @@ public class Flame extends Projectile {
 	public static final double RADIUS = 15;
 	public static final double SPEED = 15;
 
-	public Flame(int id, Position position, float angle, Weapon weapon) {
+	public Flame(int id, Position position, double angle, Weapon weapon) {
 		super(id, position, RADIUS, SPEED, angle, weapon);
 	}
 

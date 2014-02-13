@@ -31,7 +31,7 @@ public class State implements EventObservable {
 	/**
 	 * Total time passed since beginning.
 	 */
-	private float totalTime;
+	private double totalTime;
 
 	/**
 	 * Variable that holds the EventObserver, later will be converted to report
@@ -81,7 +81,7 @@ public class State implements EventObservable {
         return projectiles;
     }
 
-    public float getTotalTime() {
+    public double getTotalTime() {
 		return totalTime;
 	}
 
@@ -94,7 +94,7 @@ public class State implements EventObservable {
 	 * 
 	 * @param dtime Time since the last state
 	 */
-	public void update(float dtime) {
+	public void update(double dtime) {
 		this.report.setCurrentTime(this.totalTime);
 		this.map.update(this, dtime);
 		this.totalTime += dtime;
