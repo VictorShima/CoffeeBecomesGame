@@ -3,11 +3,22 @@ package com.md.mechevo.game.action;
 import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
 
+/**
+ * Move or sprint to the nearest obstacle in a direct line
+ */
 public class MoveNearObstacle extends Action {
     private static final boolean CANCELABLE = true;
 
     public MoveNearObstacle(Player owner) {
         super(owner, CANCELABLE);
+    }
+
+    /**
+     * Check if the the action has already finished.
+     */
+    @Override
+    public boolean hasFinished() {
+        return false;
     }
 
     /**

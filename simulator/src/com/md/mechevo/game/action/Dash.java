@@ -4,7 +4,7 @@ import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
 
 /**
- * Performs a fast run to either Left or Right and stops for a while.
+ * Sideways dash.
  */
 public class Dash extends Action {
     private static final double DURATION = 0.2;

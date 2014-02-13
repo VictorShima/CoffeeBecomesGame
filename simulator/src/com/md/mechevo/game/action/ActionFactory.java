@@ -17,6 +17,10 @@ public class ActionFactory {
                 return new MoveNearObstacle(player);
             case "MoveToEnemy":
                 return new MoveToEnemy(player);
+            case "Scout":
+                return new Scout(player, param);
+            case "Sprint":
+                return new Sprint(player, param);
             case "Turn":
                 return new Turn(player, param);
 			default:

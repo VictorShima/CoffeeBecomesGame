@@ -17,6 +17,14 @@ public class Turn extends Action {
     }
 
     /**
+     * Check if the the action has already finished.
+     */
+    @Override
+    public boolean hasFinished() {
+        return false;
+    }
+
+    /**
      * Check if the required condition for an action applies.
      *
      * @param state Current State of the game

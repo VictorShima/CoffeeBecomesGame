@@ -4,15 +4,13 @@ import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
 
 /**
- * (move forward, move back, sprint forward, sprint back) in a direct line
+ * Faster movement (forward or backward)
  */
-public class MoveInLine extends Action {
+public class Sprint extends Action {
+    private static final double DURATION = 1;
     private static final boolean CANCELABLE = true;
 
-    /**
-     * @param param indicates wether the player moves forward or backward.
-     */
-    public MoveInLine(Player owner, String param) {
+    public Sprint(Player owner, String param) {
         super(owner, param, CANCELABLE);
     }
 
@@ -21,8 +19,7 @@ public class MoveInLine extends Action {
      */
     @Override
     public boolean hasFinished() {
-        // TODO
-        return false;
+        return DURATION <= this.getOwner().getCurrentActionTime();
     }
 
     /**
@@ -33,7 +30,7 @@ public class MoveInLine extends Action {
      */
     @Override
     public boolean check(State state) {
-        return true;
+        return false;
     }
 
     /**

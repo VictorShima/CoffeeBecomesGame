@@ -13,9 +13,6 @@ public abstract class Condition {
 	private Player owner; // /< Player that controls object with condition
 	private String param; // /< Condition dependant attribute
 
-	/**
-	 * Class Constructor
-	 */
 	public Condition(Player owner) {
 		this.owner = owner;
 	}
