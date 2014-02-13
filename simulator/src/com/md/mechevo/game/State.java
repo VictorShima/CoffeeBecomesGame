@@ -59,7 +59,11 @@ public class State implements EventObservable {
 		map.addSolid(p);
 	}
 
-	public void addPlayer(Player p) {
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    public void addPlayer(Player p) {
 		this.players.add(p);
 		this.map.addSolid(p);
 	}

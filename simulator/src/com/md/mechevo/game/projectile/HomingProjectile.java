@@ -66,8 +66,8 @@ public class HomingProjectile extends Projectile {
 		double vecToTargetX = this.getTarget().getPosition().getX() - this.getPosition().getX();
 		double vecToTargetY = this.getTarget().getPosition().getY() - this.getPosition().getY();
 
-		double vecX = Math.cos(this.getAngle());
-		double vecY = Math.sin(this.getAngle());
+		double vecX = Math.cos(Math.toRadians(this.getAngle()));
+		double vecY = Math.sin(Math.toRadians(this.getAngle()));
 
 		double cosValue =
 				((vecToTargetX * vecX) + (vecToTargetY * vecY))
