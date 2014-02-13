@@ -13,24 +13,18 @@ public abstract class Action implements EventObservable {
 	private Player owner; // /< Player that controls object with condition
 	private String param; // /< Action dependant attribute
 	private Action next; // /< Next action to execute after this one
-	private float duration; // /< Duration of the action
 	private boolean cancelable; // /< Whether or not the action can be canceled mid-action
 
 	private EventObserver report;
 
-	/**
-	 * Class Constructor
-	 */
-	public Action(Player owner, float duration, boolean cancelable) {
+	protected Action(Player owner, boolean cancelable) {
 		this.owner = owner;
-		this.duration = duration;
 		this.cancelable = cancelable;
 	}
 
-	protected Action(Player owner, String param, float duration, boolean cancelable) {
+	protected Action(Player owner, String param, boolean cancelable) {
 		this.owner = owner;
 		this.param = param;
-		this.duration = duration;
 		this.cancelable = cancelable;
 	}
 
@@ -75,15 +69,6 @@ public abstract class Action implements EventObservable {
 		this.next = next;
 	}
 
-
-	/**
-	 * Get Duration in seconds
-	 */
-	public float getDuration() {
-		return this.duration;
-	}
-
-
 	/**
 	 * Check if it can be canceled
 	 */
@@ -98,7 +83,7 @@ public abstract class Action implements EventObservable {
 	 * @param state Current State of the game
 	 * @return True if the condition applies
 	 */
-	abstract public boolean check(State state);
+	public abstract boolean check(State state);
 
 
 	/**
@@ -125,10 +110,7 @@ public abstract class Action implements EventObservable {
 	 */
 	public abstract void end(State state);
 
-
-
 	// interface EventObservable
-
 	public void registerEventObserver(EventObserver eventObserver) {
 		this.report = eventObserver;
 	}
@@ -138,6 +120,4 @@ public abstract class Action implements EventObservable {
 			this.report.notify(eventData);
 		}
 	}
-
-
 }

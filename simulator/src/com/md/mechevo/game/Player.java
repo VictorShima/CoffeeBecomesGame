@@ -31,7 +31,6 @@ public class Player extends Solid {
 	private ArrayList<Sentry> sentries;
 	private boolean paralysed = false;
 	private boolean confused = false;
-	private MovementState movementState;
 	private AIAlgorithm algorithm;
 	private AIEntry currentAiEntry;
 	private Action currentAction;
@@ -55,7 +54,7 @@ public class Player extends Solid {
 		this.health = HEALTH;
 		this.weapons = new ArrayList<>();
 		this.sentries = new ArrayList<>();
-		this.algorithm = new AIAlgorithm();
+		this.algorithm = new AIAlgorithm(this);
 	}
 
 	public Position getLeftWeaponPosition() {
@@ -129,14 +128,6 @@ public class Player extends Solid {
 		sentries.remove(s);
 	}
 
-	public MovementState getMovementState() {
-		return this.movementState;
-	}
-
-	public void setMovementState(MovementState state) {
-		this.movementState = state;
-	}
-
 	@Override
 	public void accept(CollisionVisitor s, State state) {
 		s.collidesWith(state, this);
@@ -189,14 +180,7 @@ public class Player extends Solid {
 
 	@Override
 	public void update(State state, double dtime) {
-
-		// TODO remover esta merda CARALHO
-		if (true) {
-			return;
-		}
-
 		if (!isParalysed()) {
-
 			// switch actions if they already finished
 			if (this.currentAction != null
 					&& this.currentActionTime >= this.currentAction.getDuration()) {
@@ -228,18 +212,9 @@ public class Player extends Solid {
 		}
 	}
 
-
-
-	public void end(State state) {}
-
-
-	/**
-	 * Current state of movement
-	 */
-	public static enum MovementState {
-		STOPPED, MOVING, SPRINTING, DASHING
-	}
-
+	public void end(State state) {
+        // TODO
+    }
 
 	// interface EventObservable
 

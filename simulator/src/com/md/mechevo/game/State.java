@@ -69,16 +69,24 @@ public class State implements EventObservable {
 		this.map.addSolid(o);
 	}
 
-	public float getTotalTime() {
+    public Map getMap() {
+        return map;
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    public ArrayList<Projectile> getProjectiles() {
+        return projectiles;
+    }
+
+    public float getTotalTime() {
 		return totalTime;
 	}
 
 	public EventObserver getReport() {
 		return report;
-	}
-
-	public void setReport(EventObserver report) {
-		this.report = report;
 	}
 
 	/**

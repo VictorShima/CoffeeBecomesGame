@@ -88,14 +88,6 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 		return report;
 	}
 
-	/**
-	 * TODO: This must be called somewhere.
-	 * @param report the report to be notified.
-	 */
-	public void setReport(EventObserver report) {
-		this.report = report;
-	}
-
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Solid) {

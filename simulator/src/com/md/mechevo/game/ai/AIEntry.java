@@ -57,10 +57,10 @@ public class AIEntry {
 		for (Condition cond : this.conditions) {
 			pass = pass && cond.check(state);
 			if (!pass) {
-				break;
+				return false;
 			}
 		}
-		return pass;
+		return true;
 	}
 
 	/**

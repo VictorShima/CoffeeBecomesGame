@@ -29,7 +29,6 @@ public class Simulator {
 
 		// game loop
 		while (!gameHasFinished() && (i++) < 5) {
-			// report.setCurrentTime(state.getTotalTime());
 			state.update(TIME_BETWEEN_ROUNDS);
 		}
 

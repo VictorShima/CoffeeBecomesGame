@@ -3,14 +3,19 @@ package com.md.mechevo.game.action;
 import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
 
-public class MoveInLine extends Action {
+
+/**
+ * Attack will shot with the selected weapon, first by checking if it's cooldown is up.
+ */
+public class Attack extends Action {
+    private static final double DURATION = 0.5;
     private static final boolean CANCELABLE = true;
 
     /**
-     * @param param indicates wether the player moves forward or backward.
+     * @param param the selected weapon (LEFT, CENTER, RIGHT)
      */
-    public MoveInLine(Player owner, String param) {
-        super(owner, param, CANCELABLE);
+    public Attack(Player owner, String param) {
+        super(owner, param, Attack.CANCELABLE);
     }
 
     /**
@@ -21,7 +26,8 @@ public class MoveInLine extends Action {
      */
     @Override
     public boolean check(State state) {
-        return true;
+        // TODO check weapon cooldown and action duration
+        return false;
     }
 
     /**
