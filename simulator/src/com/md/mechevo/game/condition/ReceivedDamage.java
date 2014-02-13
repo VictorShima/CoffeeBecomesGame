@@ -19,6 +19,8 @@ public class ReceivedDamage extends Condition {
      */
     @Override
     public boolean check(State state) {
+        //If this condition applies we should update the players lastHitAngle to null
+        //so that the player doesnt keep repeating this action
         return false;
     }
 
@@ -31,5 +33,22 @@ public class ReceivedDamage extends Condition {
     @Override
     public Player getPreferredPlayer(State state) {
         return null;
+    }
+
+    public static enum Face {
+        FRONT(45f, 135f), LEFT(135f, 225f), RIGHT(315f, 45f), BACK(225f, 315f);
+
+        private final double minAngle;
+        private final double maxAngle;
+
+        Face(double minAngle, double maxAngle) {
+            this.minAngle = minAngle;
+            this.maxAngle = maxAngle;
+        }
+
+        private double getMinAngle() {
+            return minAngle;
+        }
+        private double getMaxAngle() { return maxAngle; }
     }
 }
