@@ -132,7 +132,11 @@ public class Player extends Solid {
 		sentries.remove(s);
 	}
 
-	@Override
+    public ArrayList<Weapon> getWeapons() {
+        return weapons;
+    }
+
+    @Override
 	public void accept(CollisionVisitor s, State state) {
 		s.collidesWith(state, this);
 	}

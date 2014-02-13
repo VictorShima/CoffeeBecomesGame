@@ -72,7 +72,6 @@ public abstract class Weapon implements EventObservable {
 		}
 	}
 
-
 	/**
 	 * Maps the Slot name to a number
 	 */
