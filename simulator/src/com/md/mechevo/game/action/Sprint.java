@@ -42,7 +42,7 @@ public class Sprint extends Action {
      * @param state Current state of the game
      */
     @Override
-    public void begin(State state) {
+	public void begin(State state) {
 
     }
 

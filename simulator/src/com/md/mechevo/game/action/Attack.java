@@ -2,25 +2,57 @@ package com.md.mechevo.game.action;
 
 import java.util.ArrayList;
 
+import com.md.mechevo.game.EventData;
 import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
+import com.md.mechevo.game.weapon.Weapon;
 
 
 /**
- * Attack will shot with the selected weapon, first by checking if it's cooldown is up.
+ * Attack will shoot with the selected weapon, first by checking if it's cooldown is up.
  */
 public class Attack extends Action {
     private static final double DURATION = 0.5;
-    private static final boolean CANCELABLE = true;
+    private static final boolean CANCELABLE = false;
+	private Weapon.WeaponSlot slot;
+	private Weapon weapon;
+	private Player target;
 
     /**
      * @param param the selected weapon (LEFT, CENTER, RIGHT)
      */
     public Attack(Player owner, ArrayList<String> param) {
         super(owner, param, Attack.CANCELABLE);
+		target = this.getOwner().getCurrentOrder().getPreferredTarget();
+		convertParam();
     }
 
-    /**
+	public Weapon getWeapon() {
+		return weapon;
+	}
+
+	public Player getTarget() {
+		return target;
+	}
+
+	public void convertParam(){
+		if (this.getParam().size() != 1) {
+			throw new InvalidActionParameter(Attack.class.getName());
+		}
+		try {
+			ArrayList<Weapon> weapons = this.getOwner().getWeapons();
+			slot = Weapon.WeaponSlot.valueOf(this.getParam().get(0));
+			for (Weapon w : weapons) {
+				if (w.getCurrentSlot() == slot) {
+					this.weapon = w;
+				}
+			}
+		} catch (IllegalArgumentException e) {
+			throw new InvalidActionParameter(Attack.class.getName());
+		}
+	}
+
+	/**
      * Check if the the action has already finished.
      */
     @Override
@@ -36,8 +68,7 @@ public class Attack extends Action {
      */
     @Override
     public boolean check(State state) {
-        // TODO check weapon cooldown and action duration
-        return false;
+        return ((this.getOwner().getCurrentActionTime() < DURATION) && (this.getWeapon().getCooldown() < 0));
     }
 
     /**
@@ -47,7 +78,9 @@ public class Attack extends Action {
      */
     @Override
     public void begin(State state) {
-
+		EventData eventData = new EventData("startAttacking").addAttribute("id", getOwner().getId())
+				.addAttribute("slot", this.slot.toString());
+		this.notifyEventObserver(eventData);
     }
 
     /**
@@ -58,7 +91,7 @@ public class Attack extends Action {
      */
     @Override
     public void update(State state, double dtime) {
-
+		this.getWeapon().fire(state, getTarget());
     }
 
     /**
@@ -68,6 +101,8 @@ public class Attack extends Action {
      */
     @Override
     public void end(State state) {
-
+		EventData eventData = new EventData("stopAttacking").addAttribute("id", getOwner().getId())
+				.addAttribute("slot", this.slot.toString());
+		this.notifyEventObserver(eventData);
     }
 }

@@ -69,7 +69,11 @@ public class Player extends Solid {
 		this.sentries = new ArrayList<>();
 	}
 
-    public double getLastHitAngle() {
+	public AISuggestion getCurrentOrder() {
+		return currentOrder;
+	}
+
+	public double getLastHitAngle() {
         return lastHitAngle;
     }
 
@@ -116,6 +120,7 @@ public class Player extends Solid {
         }
     }
 
+	//TODO where to update currentActionTime??
     public double getCurrentActionTime() {
         return currentActionTime;
     }
