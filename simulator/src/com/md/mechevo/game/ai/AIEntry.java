@@ -8,6 +8,10 @@ import com.md.mechevo.game.State;
 import com.md.mechevo.game.action.Action;
 import com.md.mechevo.game.condition.Condition;
 
+
+/**
+ * TODO: There should also be a findPreferredPosition in case there is no target Playher.
+ */
 public class AIEntry {
 
 	private AIAlgorithm algorithm;

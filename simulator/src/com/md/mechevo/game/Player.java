@@ -33,13 +33,11 @@ public class Player extends Solid {
 	private boolean confused = false;
 	private MovementState movementState;
 	private AIAlgorithm algorithm;
-	private AIEntry currentAiEntry;
-	private Action currentAction;
-
+	
 	/**
-	 * Time since the begin of the action's execution.
+	 * Current order that the Player is executing.
 	 */
-	private double currentActionTime;
+	private AISuggestion currentOrder;
 
 	/**
 	 * The class constructor. All these parameters are required.
@@ -197,33 +195,27 @@ public class Player extends Solid {
 
 		if (!isParalysed()) {
 
-			// switch actions if they already finished
-			if (this.currentAction != null
-					&& this.currentActionTime >= this.currentAction.getDuration()) {
-				this.currentAction = this.currentAction.getNext();
-			}
-
-			// try to cancel the action and find a new one
-			if (this.currentAction != null) {
-				if (this.currentAction.isCancelable()) {
-					AISuggestion suggestion = this.algorithm.calculateBestAction(state);
-					if (suggestion.getAiEntry() != this.currentAiEntry) {
-						this.currentAiEntry = suggestion.getAiEntry();
-						this.currentAction = suggestion.getFirstAction();
-						this.currentActionTime = 0;
-					}
+			// try to cancel the action and find a new one (if no current action or cancelable)
+			// TODO: add a method to signal that the action has been Canceled, or finished!
+			if (this.currentOrder == null
+					|| this.currentOrder.getAction() == null
+					|| this.currentOrder.getAction().isCancelable()) {
+				AISuggestion suggestion = this.algorithm.calculateBestAction(state);
+				if (this.currentOrder == null
+						|| suggestion.getAiEntry() != this.currentOrder.getAiEntry()) {
+					this.currentOrder = suggestion;
 				}
 			}
 
-			if (this.currentAction != null) {
+			if (this.currentOrder.getAction() != null) {
 				// perform the current action
-				if (this.currentActionTime == 0) {
-					this.currentAction.begin(state);
+				if (this.currentOrder.isActionStart()) {
+					this.currentOrder.getAction().begin(state);
 				}
-				this.currentAction.update(state, dtime);
+				this.currentOrder.getAction().update(state, dtime);
 
 				// post-update
-				this.currentActionTime += dtime;
+				this.currentOrder.addActionTime(dtime);
 			}
 		}
 	}
