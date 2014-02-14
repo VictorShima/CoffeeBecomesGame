@@ -20,6 +20,7 @@ public class Turn extends Action {
      */
     public Turn(Player owner, ArrayList<String> param) {
         super(owner, param, CANCELABLE);
+        this.alreadyTurned = 0;
         this.convertParam();
     }
 

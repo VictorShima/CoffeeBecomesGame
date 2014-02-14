@@ -9,6 +9,7 @@ import com.md.mechevo.game.State;
  * Faster movement (forward or backward)
  */
 public class Sprint extends Action {
+    //TODO I think we can delete this and use MoveInLine instead
     private static final double DURATION = 1;
     private static final boolean CANCELABLE = true;
 

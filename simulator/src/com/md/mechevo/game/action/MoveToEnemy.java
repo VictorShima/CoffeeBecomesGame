@@ -3,14 +3,41 @@ package com.md.mechevo.game.action;
 import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
 
+import java.util.ArrayList;
+
 /**
  * Move or sprint to target or to closest enemy.
  */
 public class MoveToEnemy extends Action {
+    private static final double MARGIN_ERROR = 0.01;
     private static final boolean CANCELABLE = true;
+
+    private Mode mode;
+    private double distance;
+    private double distanceAlreadyMoved;
+    private Player target;
+    //TODO How do i get the target??
+    //TODO This action can be a "FaceOpponent" Followed by a "MoveInLIne"
+
 
     public MoveToEnemy(Player owner) {
         super(owner, CANCELABLE);
+        this.distanceAlreadyMoved = 0f;
+        //this.target = owner.getIaSuggestion.getTarget;
+        convertParam();
+    }
+
+    private void convertParam() throws InvalidActionParameter {
+        ArrayList<String> params = this.getParam();
+        if (params.size() != 1) {
+            throw new InvalidActionParameter(MoveInLine.class.getName());
+        }
+
+        try {
+            this.mode = Mode.valueOf(params.get(0));
+        } catch (IllegalArgumentException e) {
+            throw new InvalidActionParameter(MoveInLine.class.getName());
+        }
     }
 
     /**
@@ -61,5 +88,9 @@ public class MoveToEnemy extends Action {
     @Override
     public void end(State state) {
 
+    }
+
+    private enum Mode {
+        MOVE, SPRINT
     }
 }
