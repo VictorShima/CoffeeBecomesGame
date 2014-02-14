@@ -53,7 +53,7 @@ public class MoveInLine extends Action {
      */
     @Override
     public boolean hasFinished() {
-        return (distance - distanceAlreadyMoved) < MARGIN_ERROR;
+        return Math.abs(distance - distanceAlreadyMoved) < MARGIN_ERROR;
     }
 
     /**

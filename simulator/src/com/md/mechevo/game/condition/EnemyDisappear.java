@@ -19,6 +19,7 @@ public class EnemyDisappear extends Condition {
      */
     @Override
     public boolean check(State state) {
+        //TODO
         return false;
     }
 

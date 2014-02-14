@@ -6,13 +6,13 @@ import com.md.mechevo.game.weapon.Weapon;
 
 public class HomingProjectile extends Projectile {
 	private Solid target;
-	private double rotVel; // Rotation Velocity
+	private double rotSpeed; // Rotation Velocity
 
 	protected HomingProjectile(int id, Position position, double radius, double speed,
-			double angle, Weapon weapon, Solid target, double rotVel) {
+			double angle, Weapon weapon, Solid target, double rotSpeed) {
 		super(id, position, radius, speed, angle, weapon);
 		this.setTarget(target);
-		this.setRotVel(rotVel);
+		this.setRotSpeed(rotSpeed);
 	}
 
 	public Solid getTarget() {
@@ -23,12 +23,12 @@ public class HomingProjectile extends Projectile {
 		this.target = target;
 	}
 
-	public double getRotVel() {
-		return rotVel;
+	public double getRotSpeed() {
+		return rotSpeed;
 	}
 
-	public void setRotVel(double rotVel) {
-		this.rotVel = rotVel;
+	public void setRotSpeed(double rotSpeed) {
+		this.rotSpeed = rotSpeed;
 	}
 
 	/**
@@ -80,7 +80,7 @@ public class HomingProjectile extends Projectile {
 		// Rotate clockwise/counter-clockwise is determined by sign of cross-product
 		double crossProd = (vecToTargetX * vecY) - (vecToTargetY * vecX);
 
-		if (rotationAngle < rotVel * dtime) {
+		if (rotationAngle < rotSpeed * dtime) {
 			if (crossProd < 0) {
 				this.setAngle(this.getAngle() + rotationAngle);
 			} else {
@@ -88,9 +88,9 @@ public class HomingProjectile extends Projectile {
 			}
 		} else {
 			if (crossProd < 0) {
-				this.setAngle(this.getAngle() + rotVel * dtime);
+				this.setAngle(this.getAngle() + rotSpeed * dtime);
 			} else {
-				this.setAngle(this.getAngle() - rotVel * dtime);
+				this.setAngle(this.getAngle() - rotSpeed * dtime);
 			}
 		}
 

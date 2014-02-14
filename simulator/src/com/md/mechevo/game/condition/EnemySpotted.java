@@ -9,7 +9,7 @@ import com.md.mechevo.game.State;
  * Selects the closest/furthest visible enemy
  */
 public class EnemySpotted extends Condition {
-    private Player preferredEnemy; // /< TODO The enemy spotted in this condition will be used in it's actions??
+    private Player preferredEnemy;
 
     public EnemySpotted(Player owner, ArrayList<String> param) {
         super(owner, param);

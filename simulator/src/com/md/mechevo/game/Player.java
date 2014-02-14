@@ -23,6 +23,8 @@ public class Player extends Solid {
 	 */
 	public static final double MOVE_SPEED = 5;
 
+    public static final double ROT_SPEED = 10;
+
     /**
      * Sprint speed is measured by MapUnits per second.
      */
@@ -69,7 +71,15 @@ public class Player extends Solid {
 		this.sentries = new ArrayList<>();
 	}
 
-	public Position getLeftWeaponPosition() {
+    public double getLastHitAngle() {
+        return lastHitAngle;
+    }
+
+    public void setLastHitAngle(double lastHitAngle) {
+        this.lastHitAngle = lastHitAngle;
+    }
+
+    public Position getLeftWeaponPosition() {
 		double angle = 90 - this.getAngle();
 		double vecX = WEAPON_TRANSLATION * Math.cos(Math.toRadians(angle));
 		double vecY = -(WEAPON_TRANSLATION * Math.sin(Math.toRadians(angle)));
@@ -131,7 +141,7 @@ public class Player extends Solid {
      */
     public void takeDamage(int damage, double angle) {
 		health -= damage;
-        lastHitAngle = angle;
+        setLastHitAngle(angle);
 		if (health <= 0) {
 			setDestroyed(true);
 		}

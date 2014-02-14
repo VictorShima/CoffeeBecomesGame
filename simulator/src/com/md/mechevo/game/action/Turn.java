@@ -2,6 +2,7 @@ package com.md.mechevo.game.action;
 
 import java.util.ArrayList;
 
+import com.md.mechevo.game.EventData;
 import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
 
@@ -9,13 +10,44 @@ import com.md.mechevo.game.State;
  * A turn by an angle that is multiple of 45 degrees.
  */
 public class Turn extends Action {
+    private static final double MARGIN_ERROR = 0.01;
     private static final boolean CANCELABLE = true;
+    private double turnAmount;
+    private double alreadyTurned;
 
     /**
      * @param param the angle of the turn
      */
     public Turn(Player owner, ArrayList<String> param) {
         super(owner, param, CANCELABLE);
+        this.convertParam();
+    }
+
+    public double getTurnAmount() {
+        return turnAmount;
+    }
+
+    public void setTurnAmount(double turnAmount) {
+        this.turnAmount = turnAmount;
+    }
+
+    public double getAlreadyTurned() {
+        return alreadyTurned;
+    }
+
+    public void setAlreadyTurned(double alreadyTurned) {
+        this.alreadyTurned = alreadyTurned;
+    }
+
+    public void convertParam() throws InvalidActionParameter {
+        if (this.getParam().size() != 1) {
+            throw new InvalidActionParameter(Turn.class.getName());
+        }
+        try {
+            this.setTurnAmount(Double.parseDouble(this.getParam().get(0)));
+        } catch (Exception e) {
+            throw new InvalidActionParameter(Turn.class.getName());
+        }
     }
 
     /**
@@ -23,7 +55,7 @@ public class Turn extends Action {
      */
     @Override
     public boolean hasFinished() {
-        return false;
+        return Math.abs(this.getAlreadyTurned() - this.getTurnAmount()) < MARGIN_ERROR;
     }
 
     /**
@@ -34,6 +66,7 @@ public class Turn extends Action {
      */
     @Override
     public boolean check(State state) {
+        //TODO do i have to do something here??
         return true;
     }
 
@@ -44,7 +77,9 @@ public class Turn extends Action {
      */
     @Override
     public void begin(State state) {
-
+        //TODO attribute "side" can be used??
+        EventData eventData = new EventData("startTurning").addAttribute("id", getOwner().getId()).addAttribute("side", (turnAmount > 0f) ? 1f : -1f);
+        this.notifyEventObserver(eventData);
     }
 
     /**
@@ -55,6 +90,10 @@ public class Turn extends Action {
      */
     @Override
     public void update(State state, double dtime) {
+        Player owner = this.getOwner();
+        double rotation = (owner.ROT_SPEED * dtime) * ((turnAmount > 0f) ? 1f : -1f);
+        owner.setAngle(owner.getAngle() + rotation);
+        this.setAlreadyTurned(this.getAlreadyTurned() + rotation);
 
     }
 
@@ -65,6 +104,7 @@ public class Turn extends Action {
      */
     @Override
     public void end(State state) {
-
+        EventData eventData = new EventData("stopTurning").addAttribute("id", getOwner().getId());
+        this.notifyEventObserver(eventData);
     }
 }
