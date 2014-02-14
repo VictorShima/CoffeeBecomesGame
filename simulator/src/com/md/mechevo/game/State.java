@@ -17,14 +17,13 @@ public class State implements EventObservable {
 	private Map map;
 
 	/**
-	 * The list of players in the game. Can belong to any team.
+	 * A player can belong to any team.
 	 */
 	private ArrayList<Player> players;
 
-	/**
-	 * The list of projectiles in the game. All the projectiles are here.
-	 */
 	private ArrayList<Projectile> projectiles;
+
+    private ArrayList<Obstacle> obstacles;
 
 	/**
 	 * The id generator.
@@ -45,16 +44,13 @@ public class State implements EventObservable {
 		this.map = map;
 		this.players = new ArrayList<>();
 		this.projectiles = new ArrayList<>();
+        this.obstacles = new ArrayList<>();
 		this.totalTime = 0;
 		this.nextId = 0;
 	}
 
 	public int getNextId() {
 		return nextId++;
-	}
-
-	public void setMap(Map map) {
-		this.map = map;
 	}
 
 	public void addProjectile(Projectile p) {
@@ -69,7 +65,8 @@ public class State implements EventObservable {
 
 
 	public void addObstacle(Obstacle o) {
-		this.map.addSolid(o);
+		this.obstacles.add(o);
+        this.map.addSolid(o);
 	}
 
     public Map getMap() {
@@ -82,6 +79,10 @@ public class State implements EventObservable {
 
     public ArrayList<Projectile> getProjectiles() {
         return projectiles;
+    }
+
+    public ArrayList<Obstacle> getObstacles() {
+        return obstacles;
     }
 
     public double getTotalTime() {
