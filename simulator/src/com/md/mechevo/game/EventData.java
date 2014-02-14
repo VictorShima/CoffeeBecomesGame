@@ -49,15 +49,6 @@ public class EventData {
 		return this; // enable chain calling
 	}
 
-
-	/**
-	 * @see com.md.mechevo.game.EventData#addAttribute
-	 */
-	public EventData addAttribute(String key, float value) {
-		this.attributes.add(new SimpleImmutableEntry<>(key, Float.toString(value)));
-		return this; // enable chain calling
-	}
-
 	/**
 	 * @see com.md.mechevo.game.EventData#addAttribute
 	 */

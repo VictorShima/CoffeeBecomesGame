@@ -5,6 +5,8 @@ import com.md.mechevo.game.projectile.Projectile;
 import com.md.mechevo.game.sentry.Sentry;
 
 public abstract class Solid implements CollisionVisitor, EventObservable {
+    public static final double FULL_CIRCLE_DEGREES = 360;
+    public static final double HALF_CIRCLE_DEGREES = 180;
 	/**
 	 * This is the center position.
 	 */
@@ -88,14 +90,6 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 		return report;
 	}
 
-	/**
-	 * TODO: This must be called somewhere.
-	 * @param report the report to be notified.
-	 */
-	public void setReport(EventObserver report) {
-		this.report = report;
-	}
-
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Solid) {
@@ -132,11 +126,14 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 
 	/**
 	 * Method that is called when a new Solid is destroyed.
+     * Default implementation creates an event where the only attribute is the 'id'.
 	 * 
 	 * @param state Current State of the game
 	 */
-	public abstract void end(State state);
-
+	public void end(State state) {
+        EventData eventData = new EventData("destroySolid").addAttribute("id", this.getId());
+        this.notifyEventObserver(eventData);
+    }
 
 	/**
 	 * Moves the Solid in direction given by angle with given speed in a straight line.
@@ -144,17 +141,24 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 	 * @param angle Angle of movement (independent of current angle)
 	 * @param speed Velocity in MapUnits per Second (independent of current angle)
 	 * @param dtime Time in seconds of duration of movement
+     * @param forward Move forward or backward
 	 */
-	public void moveForward(double angle, double speed, double dtime) {
-		double velX = Math.cos(angle);
-		double velY = Math.sin(angle);
+	public void move(double angle, double speed, double dtime, boolean forward) {
+        angle = (angle + FULL_CIRCLE_DEGREES) % FULL_CIRCLE_DEGREES;
+		double velX = Math.cos(Math.toRadians(angle));
+		double velY = Math.sin(Math.toRadians(angle));
 		// Normalization of the velocity vector
 		double vel = velX + velY;
 		velX = (velX / vel) * dtime * speed;
 		velY = -(velY / vel) * dtime * speed;
 
-		this.setPosition(new Position(this.getPosition().getX() + velX, this.getPosition().getY()
-				+ velY));
+        if (forward) {
+            this.setPosition(new Position(this.getPosition().getX() + velX,
+                    this.getPosition().getY() + velY));
+        } else {
+            this.setPosition(new Position(this.getPosition().getX() - velX,
+                    this.getPosition().getY() - velY));
+        }
 	}
 
 	/**
@@ -162,19 +166,22 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 	 * 
 	 * @param angle Angle of movement (independent of current angle)
 	 * @param dist Distance to moveForward
+     * @param forward Move forward or backward
 	 */
-	public void moveForward(double angle, double dist) {
-		double vecX = dist * Math.cos(angle);
-		double vecY = -(dist * (double) Math.sin(angle));
+	public void move(double angle, double dist, boolean forward) {
+		double vecX = dist * Math.cos(Math.toRadians(angle));
+		double vecY = -(dist * Math.sin(Math.toRadians(angle)));
 
-		this.setPosition(new Position(this.getPosition().getX() + vecX, this.getPosition().getY()
-				+ vecY));
+		if (forward) {
+            this.setPosition(new Position(this.getPosition().getX() + vecX,
+                    this.getPosition().getY() + vecY));
+        } else {
+            this.setPosition(new Position(this.getPosition().getX() - vecX,
+                    this.getPosition().getY() - vecY));
+        }
 	}
 
-
-
 	// interface CollisionVisitor
-
 	@Override
 	public abstract void collidesWith(State state, Player p);
 

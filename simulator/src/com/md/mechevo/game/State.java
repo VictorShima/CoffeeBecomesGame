@@ -11,17 +11,19 @@ import com.md.mechevo.game.projectile.Projectile;
  * teams, ...
  */
 public class State implements EventObservable {
+    public static final int NUM_TEAMS = 2;
+    public static final int INVALID_WINNER_TEAM = -1;
+
 	private Map map;
 
 	/**
-	 * The list of players in the game. Can belong to any team.
+	 * A player can belong to any team.
 	 */
 	private ArrayList<Player> players;
 
-	/**
-	 * The list of projectiles in the game. All the projectiles are here.
-	 */
 	private ArrayList<Projectile> projectiles;
+
+    private ArrayList<Obstacle> obstacles;
 
 	/**
 	 * The id generator.
@@ -31,7 +33,7 @@ public class State implements EventObservable {
 	/**
 	 * Total time passed since beginning.
 	 */
-	private float totalTime;
+	private double totalTime;
 
 	/**
 	 * Variable that holds the EventObserver, later will be converted to report
@@ -42,6 +44,7 @@ public class State implements EventObservable {
 		this.map = map;
 		this.players = new ArrayList<>();
 		this.projectiles = new ArrayList<>();
+        this.obstacles = new ArrayList<>();
 		this.totalTime = 0;
 		this.nextId = 0;
 	}
@@ -50,26 +53,39 @@ public class State implements EventObservable {
 		return nextId++;
 	}
 
-	public void setMap(Map map) {
-		this.map = map;
-	}
-
 	public void addProjectile(Projectile p) {
 		this.projectiles.add(p);
 		map.addSolid(p);
 	}
 
-	public void addPlayer(Player p) {
+      public void addPlayer(Player p) {
 		this.players.add(p);
 		this.map.addSolid(p);
 	}
 
 
 	public void addObstacle(Obstacle o) {
-		this.map.addSolid(o);
+		this.obstacles.add(o);
+        this.map.addSolid(o);
 	}
 
-	public float getTotalTime() {
+    public Map getMap() {
+        return map;
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    public ArrayList<Projectile> getProjectiles() {
+        return projectiles;
+    }
+
+    public ArrayList<Obstacle> getObstacles() {
+        return obstacles;
+    }
+
+    public double getTotalTime() {
 		return totalTime;
 	}
 
@@ -77,21 +93,16 @@ public class State implements EventObservable {
 		return report;
 	}
 
-	public void setReport(EventObserver report) {
-		this.report = report;
-	}
-
 	/**
 	 * Update the current state to the next one
 	 * 
 	 * @param dtime Time since the last state
 	 */
-	public void update(float dtime) {
+	public void update(double dtime) {
 		this.report.setCurrentTime(this.totalTime);
 		this.map.update(this, dtime);
 		this.totalTime += dtime;
 	}
-
 
 	/**
 	 * 
@@ -108,7 +119,44 @@ public class State implements EventObservable {
 		return null;
 	}
 
+    /**
+     * A game has finished when all players for a team are destroyed.
+     */
+    public boolean gameHasFinished() {
+        boolean[] teamAlive = new boolean[NUM_TEAMS];
+        for (int i = 0; i < teamAlive.length; i++) {
+            teamAlive[i] = false;
+        }
 
+        // Assign to each team if any player of that team is alive
+        for (Player p : this.players) {
+            if (!p.isDestroyed()) {
+                teamAlive[p.getTeamId()] = true;
+            }
+        }
+
+        int teamAliveCounter = 0;
+        for (int i = 0; i < teamAlive.length; i++) {
+            if (teamAlive[i]) {
+                teamAliveCounter += 1;
+            }
+        }
+        return teamAliveCounter == 1;
+    }
+
+    /**
+     * @return the winning team's id or INVALID_WINNER_TEAM if no team has won yet.
+     */
+    public int getWinnerTeam() {
+        if (this.gameHasFinished()) {
+            for (Player p : this.players) {
+                if (!p.isDestroyed()) {
+                    return p.getTeamId();
+                }
+            }
+        }
+        return INVALID_WINNER_TEAM;
+    }
 
 	/**
 	 * Build the event report. Get the events from the EventObserver
@@ -122,7 +170,6 @@ public class State implements EventObservable {
 
 
 	// interface EventObservable
-
 	/**
 	 * This registerEventObserver will try to recursively set the event observer on himself and its
 	 * Players
@@ -141,5 +188,14 @@ public class State implements EventObservable {
 			this.report.notify(eventData);
 		}
 	}
+
+    /**
+     * Method that is called when state ends.
+     * Sends an event informing whose the winning team.
+     */
+    public void end() {
+        EventData eventData = new EventData("winningTeam").addAttribute("id", this.getWinnerTeam());
+        this.notifyEventObserver(eventData);
+    }
 
 }

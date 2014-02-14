@@ -19,21 +19,34 @@ public class Player extends Solid {
 	public static final double RADIUS = 30;
 
 	/**
-	 * Speed is measured by number of pixels per second.
+	 * Move speed is measured by MapUnits per second.
 	 */
-	public static final double SPEED = 5;
+	public static final double MOVE_SPEED = 5;
+
+    public static final double ROT_SPEED = 10;
+
+    /**
+     * Sprint speed is measured by MapUnits per second.
+     */
+    public static final double SPRINT_SPEED = 10;
+
+    /**
+     * The speed at which the heat decreases per second.
+     */
+    public static final double HEAT_RATE = 10;
 
 	private static final int WEAPON_TRANSLATION = 15;
 
 	private int teamId;
 	private int health;
+	private double heat;
 	private ArrayList<Weapon> weapons;
 	private ArrayList<Sentry> sentries;
 	private boolean paralysed = false;
 	private boolean confused = false;
-	private MovementState movementState;
 	private AIAlgorithm algorithm;
-	
+	private double lastHitAngle; // /< The absolute angle of the last hit
+
 	/**
 	 * Current order that the Player is executing.
 	 */
@@ -48,18 +61,26 @@ public class Player extends Solid {
 	 * @param angle the initial angle
 	 */
 	public Player(int id, int teamId, Position position, double angle) {
-		super(id, position, RADIUS, SPEED, angle);
+		super(id, position, RADIUS, MOVE_SPEED, angle);
 		this.teamId = teamId;
 		this.health = HEALTH;
+        this.heat = 0;
 		this.weapons = new ArrayList<>();
 		this.sentries = new ArrayList<>();
-		this.algorithm = new AIAlgorithm();
 	}
 
-	public Position getLeftWeaponPosition() {
+    public double getLastHitAngle() {
+        return lastHitAngle;
+    }
+
+    public void setLastHitAngle(double lastHitAngle) {
+        this.lastHitAngle = lastHitAngle;
+    }
+
+    public Position getLeftWeaponPosition() {
 		double angle = 90 - this.getAngle();
-		double vecX = WEAPON_TRANSLATION * Math.cos(angle);
-		double vecY = -(WEAPON_TRANSLATION * Math.sin(angle));
+		double vecX = WEAPON_TRANSLATION * Math.cos(Math.toRadians(angle));
+		double vecY = -(WEAPON_TRANSLATION * Math.sin(Math.toRadians(angle)));
 		int posX = (int) (this.getPosition().getX() - vecX);
 		int posY = (int) (this.getPosition().getY() + vecY);
 
@@ -68,8 +89,8 @@ public class Player extends Solid {
 
 	public Position getRightWeaponPosition() {
 		double angle = 90 - this.getAngle();
-		double vecX = WEAPON_TRANSLATION * Math.cos(angle);
-		double vecY = -(WEAPON_TRANSLATION * Math.sin(angle));
+		double vecX = WEAPON_TRANSLATION * Math.cos(Math.toRadians(angle));
+		double vecY = -(WEAPON_TRANSLATION * Math.sin(Math.toRadians(angle)));
 		int posX = (int) (this.getPosition().getX() + vecX);
 		int posY = (int) (this.getPosition().getY() - vecY);
 
@@ -84,8 +105,41 @@ public class Player extends Solid {
 		return health;
 	}
 
-	public void takeDamage(int damage) {
+    public double getHeat() {
+        return heat;
+    }
+
+    public void updateHeat(double dtime) {
+        this.heat -= Player.HEAT_RATE * dtime;
+        if (this.heat < 0) {
+            this.heat = 0;
+        }
+    }
+
+    public double getCurrentActionTime() {
+        return currentActionTime;
+    }
+
+    /**
+     * takeDamage drops the health of the player (this is only used for mines
+     * because it makes no sense updating the lastHitAngle)
+     * @param damage
+     */
+    public void takeDamage(int damage) {
+        health -= damage;
+        if (health <= 0) {
+            setDestroyed(true);
+        }
+    }
+
+    /**
+     * take Damage drops the health of player
+     * @param damage
+     * @param angle the angle of the projectile
+     */
+    public void takeDamage(int damage, double angle) {
 		health -= damage;
+        setLastHitAngle(angle);
 		if (health <= 0) {
 			setDestroyed(true);
 		}
@@ -127,15 +181,11 @@ public class Player extends Solid {
 		sentries.remove(s);
 	}
 
-	public MovementState getMovementState() {
-		return this.movementState;
-	}
+    public ArrayList<Weapon> getWeapons() {
+        return weapons;
+    }
 
-	public void setMovementState(MovementState state) {
-		this.movementState = state;
-	}
-
-	@Override
+    @Override
 	public void accept(CollisionVisitor s, State state) {
 		s.collidesWith(state, this);
 	}
@@ -150,8 +200,8 @@ public class Player extends Solid {
 		double dist = Math.sqrt(Math.pow(vecX, 2) + Math.pow(vecY, 2));
 		// distance shouldn't count the radius of the solid
 		dist = -(dist - (this.getRadius() * 2));
-		this.moveForward(dist / 2, angle);
-		p.moveForward(dist / 2, angle + 180f);
+		this.move(dist / 2, angle, true);
+		p.move(dist / 2, angle, false);
 
 	}
 
@@ -172,6 +222,32 @@ public class Player extends Solid {
 		this.setParalysed(true);
 	}
 
+    /**
+     * fieldOfView returns all players that are in the field of view or in the field of fire
+     * @param state
+     * @param angle FieldOfViewAngle.FIRE or FieldOfViewAngle.VIEW
+     * @return
+     */
+    public ArrayList<Player> fieldOfView(State state, FieldOfViewAngle angle){
+        //vectorPlayer is the vector where the player is looking
+        ArrayList<Player> playersInView= new ArrayList<>();
+        double vectorPlayerX = Math.cos(Math.toRadians(this.getAngle()));
+        double vectorPlayerY = Math.sin(Math.toRadians(this.getAngle()));
+        ArrayList<Player> players = state.getPlayers();
+        for (Player p : players){
+            if(!(this.getId() == p.getId())){
+                double vecX = this.getPosition().getX() - p.getPosition().getX();
+                double vecY = this.getPosition().getY() - p.getPosition().getY();
+                double cosValue = ((vectorPlayerX * vecX) + (vectorPlayerY * vecY))/((Math.sqrt(Math.pow(vecX, 2) + Math.pow(vecY,2))) *
+                        (Math.sqrt(Math.pow(vectorPlayerX, 2) + Math.pow(vectorPlayerY,2))));
+                double angleToPlayer = Math.acos(cosValue);
+                if(angleToPlayer < angle.getAngle()) {
+                    playersInView.add(p);
+                }
+            }
+        }
+        return playersInView;
+    }
 
 	// TODO: Needs to generate weapon name
 	public void begin(State state) {
@@ -187,12 +263,15 @@ public class Player extends Solid {
 
 	@Override
 	public void update(State state, double dtime) {
+        // Update player's heat
+        this.updateHeat(dtime);
 
-		// TODO remover esta merda CARALHO
-		if (true) {
-			return;
-		}
+        // Update all weapon's cooldown
+        for (Weapon weapon : weapons) {
+            weapon.updateCurrentCooldown(dtime);
+        }
 
+        // A player can't move when it's paralysed
 		if (!isParalysed()) {
 
 			// try to cancel the action and find a new one (if no current action or cancelable)
@@ -220,18 +299,22 @@ public class Player extends Solid {
 		}
 	}
 
+	public void end(State state) {
+    }
 
-
-	public void end(State state) {}
-
-
-	/**
-	 * Current state of movement
-	 */
-	public static enum MovementState {
-		STOPPED, MOVING, SPRINTING, DASHING
-	}
-
+    public static enum FieldOfViewAngle {
+        VIEW(60), FIRE(30);
+        
+        private final double angle;
+        
+        FieldOfViewAngle(double angle) {
+            this.angle = angle;
+        }
+        
+        private double getAngle() {
+            return angle;
+        }
+    }
 
 	// interface EventObservable
 

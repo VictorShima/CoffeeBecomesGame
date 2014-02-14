@@ -16,7 +16,19 @@ public class Map {
 		this.height = height;
 	}
 
-	public void addSolid(Solid s) {
+    public double getWidth() {
+        return width;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public ArrayList<Solid> getElements() {
+        return elements;
+    }
+
+    public void addSolid(Solid s) {
 		elements.add(s);
 	}
 
@@ -48,9 +60,13 @@ public class Map {
 		}
 	}
 
+    public boolean canSolidMove(Solid s, double angle, boolean forward) {
+        // TODO
+        return true;
+    }
 
 	/**
-	 * Check Collision between 2 solids
+	 * Check collision between 2 solids
 	 * 
 	 * @param s1 Solid A
 	 * @param s2 Solid B
@@ -67,7 +83,7 @@ public class Map {
 	 * @param state the current state of the map
 	 * @param dtime Delta Time since the last state
 	 */
-	public void update(State state, float dtime) {
+	public void update(State state, double dtime) {
 		// update all elements
 		for (Solid s : elements) {
 			s.update(state, dtime);

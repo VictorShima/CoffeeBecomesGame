@@ -17,12 +17,12 @@ public class EventObserver {
 	 * Current time for the events. All events that are added are assigned to the time this variable
 	 * holds.
 	 */
-	private float currentTime;
+	private double currentTime;
 
 	/**
 	 * Holds all the EventDatas that have been received.
 	 */
-	private ArrayList<SimpleImmutableEntry<Float, EventData>> events;
+	private ArrayList<SimpleImmutableEntry<Double, EventData>> events;
 
 
 	/**
@@ -30,7 +30,7 @@ public class EventObserver {
 	 */
 	public EventObserver() {
 		this.currentTime = 0;
-		this.events = new ArrayList<SimpleImmutableEntry<Float, EventData>>();
+		this.events = new ArrayList<>();
 	}
 
 	/**
@@ -39,7 +39,7 @@ public class EventObserver {
 	 * @see com.md.mechevo.game.EventData
 	 */
 	public void notify(EventData event) {
-		this.events.add(new SimpleImmutableEntry<Float, EventData>(new Float(this.currentTime),
+		this.events.add(new SimpleImmutableEntry<>(new Double(this.currentTime),
 				event));
 	}
 
@@ -51,7 +51,7 @@ public class EventObserver {
 	 */
 	public JsonElement generateReport() {
 		JsonArray head = new JsonArray();
-		for (SimpleImmutableEntry<Float, EventData> entry : this.events) {
+		for (SimpleImmutableEntry<Double, EventData> entry : this.events) {
 
 			// build the head of an Event entry
 			JsonObject event = new JsonObject();
@@ -74,7 +74,7 @@ public class EventObserver {
 	/**
 	 * Set current time for events added afterwards.
 	 */
-	public void setCurrentTime(float time) {
+	public void setCurrentTime(double time) {
 		this.currentTime = time;
 	}
 

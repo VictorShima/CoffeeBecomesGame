@@ -1,7 +1,8 @@
 package com.md.mechevo.game.action;
 
-import com.md.mechevo.game.*;
+import java.util.ArrayList;
 
+import com.md.mechevo.game.*;
 
 
 /**
@@ -11,26 +12,20 @@ import com.md.mechevo.game.*;
 public abstract class Action implements EventObservable {
 
 	private Player owner; // /< Player that controls object with condition
-	private String param; // /< Action dependant attribute
+	private ArrayList<String> param; // /< Action dependant attribute
 	private Action next; // /< Next action to execute after this one
-	private float duration; // /< Duration of the action
 	private boolean cancelable; // /< Whether or not the action can be canceled mid-action
 
 	private EventObserver report;
 
-	/**
-	 * Class Constructor
-	 */
-	public Action(Player owner, float duration, boolean cancelable) {
+	protected Action(Player owner, boolean cancelable) {
 		this.owner = owner;
-		this.duration = duration;
 		this.cancelable = cancelable;
 	}
 
-	protected Action(Player owner, String param, float duration, boolean cancelable) {
+	protected Action(Player owner, ArrayList<String> param, boolean cancelable) {
 		this.owner = owner;
 		this.param = param;
-		this.duration = duration;
 		this.cancelable = cancelable;
 	}
 
@@ -49,14 +44,14 @@ public abstract class Action implements EventObservable {
 	/**
 	 * Get the param attribute
 	 */
-	public String getParam() {
+	public ArrayList<String> getParam() {
 		return this.param;
 	}
 
 	/**
 	 * Set the param attribute
 	 */
-	public void setParam(String param) {
+	public void setParam(ArrayList<String> param) {
 		this.param = param;
 	}
 
@@ -75,15 +70,6 @@ public abstract class Action implements EventObservable {
 		this.next = next;
 	}
 
-
-	/**
-	 * Get Duration in seconds
-	 */
-	public float getDuration() {
-		return this.duration;
-	}
-
-
 	/**
 	 * Check if it can be canceled
 	 */
@@ -91,6 +77,10 @@ public abstract class Action implements EventObservable {
 		return this.cancelable;
 	}
 
+    /**
+     * Check if the the action has already finished.
+     */
+    public abstract boolean hasFinished();
 
 	/**
 	 * Check if the required condition for an action applies.
@@ -98,7 +88,7 @@ public abstract class Action implements EventObservable {
 	 * @param state Current State of the game
 	 * @return True if the condition applies
 	 */
-	abstract public boolean check(State state);
+	public abstract boolean check(State state);
 
 
 	/**
@@ -125,10 +115,7 @@ public abstract class Action implements EventObservable {
 	 */
 	public abstract void end(State state);
 
-
-
 	// interface EventObservable
-
 	public void registerEventObserver(EventObserver eventObserver) {
 		this.report = eventObserver;
 	}
@@ -138,6 +125,4 @@ public abstract class Action implements EventObservable {
 			this.report.notify(eventData);
 		}
 	}
-
-
 }

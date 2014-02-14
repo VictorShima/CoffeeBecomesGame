@@ -1,20 +1,20 @@
 package com.md.mechevo.game.action;
 
-import com.md.mechevo.game.EventData;
-import com.md.mechevo.game.Obstacle;
+import java.util.ArrayList;
+
 import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
 
 /**
- * Move or sprint to the nearest obstacle in a direct line
+ * Faster movement (forward or backward)
  */
-public class MoveNearObstacle extends Action {
+public class Sprint extends Action {
+    //TODO I think we can delete this and use MoveInLine instead
+    private static final double DURATION = 1;
     private static final boolean CANCELABLE = true;
 
-    private Obstacle target;
-
-    public MoveNearObstacle(Player owner) {
-        super(owner, CANCELABLE);
+    public Sprint(Player owner, ArrayList<String> param) {
+        super(owner, param, CANCELABLE);
     }
 
     /**
@@ -22,7 +22,7 @@ public class MoveNearObstacle extends Action {
      */
     @Override
     public boolean hasFinished() {
-        return false;
+        return DURATION <= this.getOwner().getCurrentActionTime();
     }
 
     /**
@@ -43,11 +43,7 @@ public class MoveNearObstacle extends Action {
      */
     @Override
     public void begin(State state) {
-        // TODO find target
 
-        EventData eventData = new EventData("startMovingObstacle").addAttribute("id",
-                this.getOwner().getId());
-        this.notifyEventObserver(eventData);
     }
 
     /**
@@ -68,8 +64,6 @@ public class MoveNearObstacle extends Action {
      */
     @Override
     public void end(State state) {
-        EventData eventData = new EventData("stopMovingObstacle").addAttribute("id",
-                this.getOwner().getId());
-        this.notifyEventObserver(eventData);
+
     }
 }

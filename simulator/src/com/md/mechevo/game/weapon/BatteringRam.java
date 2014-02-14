@@ -13,7 +13,7 @@ public class BatteringRam extends Weapon {
 
 	@Override
 	public void fire(State state, Solid target) {
-		float angle = super.getAngleToTarget(target);
+		double angle = super.getAngleToTarget(target);
 		Projectile proj =
 				new MeleeProjectile(state.getNextId(), this.getPlayer().getPosition(), angle, this);
 		state.addProjectile(proj);

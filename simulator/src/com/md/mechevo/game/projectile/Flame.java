@@ -11,18 +11,18 @@ public class Flame extends Projectile {
 	public static final double RADIUS = 15;
 	public static final double SPEED = 15;
 
-	public Flame(int id, Position position, float angle, Weapon weapon) {
+	public Flame(int id, Position position, double angle, Weapon weapon) {
 		super(id, position, RADIUS, SPEED, angle, weapon);
 	}
 
 	public void update(State state, double dtime) {
-		super.moveForward(this.getAngle(), this.getSpeed(), dtime);
+		super.move(this.getAngle(), this.getSpeed(), dtime, true);
 	}
 
 
 	@Override
 	public void collidesWith(State state, Player p) {
-		p.takeDamage(this.getWeapon().getDamage());
+		p.takeDamage(this.getWeapon().getDamage(), this.getAngle());
 		this.setDestroyed(true);
 	}
 

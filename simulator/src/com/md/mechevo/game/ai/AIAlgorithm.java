@@ -15,13 +15,6 @@ public final class AIAlgorithm {
 	private Player owner;
 	private ArrayList<AIEntry> entries;
 
-
-	/**
-	 * Default constructor
-	 */
-	public AIAlgorithm() {}
-
-
 	/**
 	 * Constructor with specified owner.
 	 * 
@@ -29,6 +22,7 @@ public final class AIAlgorithm {
 	 */
 	public AIAlgorithm(Player owner) {
 		this.owner = owner;
+        this.entries = new ArrayList<>();
 	}
 
 	public Player getOwner() {

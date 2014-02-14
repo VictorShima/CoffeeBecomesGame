@@ -1,5 +1,6 @@
 package com.md.mechevo.io;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,17 +26,17 @@ public final class Importer {
 	 * structure: 
 	 *   {
 	 *     "map" : { "width":double, "height":double },
-	 *     "obstacles : [ { "x":double, "y":double, "radius":double }, ... ],
+	 *     "obstacles" : [ { "x":double, "y":double, "radius":double }, ... ],
 	 *     "players" : [ {
 	 *       "teamId":int, 
-	 *       "weapon":[string,string,string],
+	 *       "weapons":[string,string,string],
 	 *       "color":string,
 	 *       "x":double,
 	 *       "y":double,
 	 *       "angle":double,
 	 *       "algorithm": [ { 
-	 *         "conditions": [ { "name":string, "param":string }, ... ],
-	 *         "actions": [ { "name":string, "param":string }, ... ]
+	 *         "conditions": [ { "name":string, "param":[string] }, ... ],
+	 *         "actions": [ { "name":string, "param":[string] }, ... ]
 	 *       }]
 	 *     }]
 	 *   }
@@ -55,7 +56,7 @@ public final class Importer {
 
 		EventObserver report = new EventObserver();
 		State state = new State(new Map(mapWidth, mapHeight));
-		state.setReport(report);
+		state.registerEventObserver(report);
 
 		List<Obstacle> obstacles =
 				Importer.createObstacles(tree.get("obstacles").getAsJsonArray(), state, report);
@@ -93,11 +94,11 @@ public final class Importer {
 			Player player =
 					new Player(state.getNextId(), teamId, new Position(playerX, playerY),
 							playerAngle);
-			player.setReport(report);
+			player.registerEventObserver(report);
 			player.begin(state);
 
-			createWeapons(playerJson.get("weapons").getAsJsonArray(), player);
-			createAIAlgorithm(playerJson.get("algorithm").getAsJsonArray(), player);
+			createWeapons(playerJson.get("weapons").getAsJsonArray(), player, report);
+			createAIAlgorithm(playerJson.get("algorithm").getAsJsonArray(), player, report);
 
 			listPlayers.add(player);
 		}
@@ -110,7 +111,7 @@ public final class Importer {
 	 * @param algorithmJson the array with all the AIEntries
 	 * @param player the owner
 	 */
-	private static void createAIAlgorithm(JsonArray algorithmJson, Player player) {
+	private static void createAIAlgorithm(JsonArray algorithmJson, Player player, EventObserver report) {
 		AIAlgorithm algorithm = new AIAlgorithm(player);
 		player.setAlgorithm(algorithm);
 
@@ -122,7 +123,7 @@ public final class Importer {
 					.getAsJsonArray(), entry, player);
 
 			createActions(algorithmJson.get(entryId).getAsJsonObject().get("actions")
-					.getAsJsonArray(), entry, player);
+					.getAsJsonArray(), entry, player, report);
 		}
 	}
 
@@ -136,9 +137,16 @@ public final class Importer {
 	private static void createConditions(JsonArray conditionsJson, AIEntry entry, Player player) {
 		for (int conditionId = 0; conditionId < conditionsJson.size(); conditionId++) {
 			JsonObject conditionJson = conditionsJson.get(conditionId).getAsJsonObject();
+
+            JsonArray paramsJson = conditionJson.get("param").getAsJsonArray();
+            ArrayList<String> params = new ArrayList<>();
+            for (int i = 0; i < paramsJson.size(); i++) {
+                params.add(paramsJson.get(i).getAsString());
+            }
+
 			Condition condition =
-					ConditionFactory.createCondition(conditionJson.get("name").getAsString(),
-							player, conditionJson.get("param").getAsString());
+                    ConditionFactory.createCondition(conditionJson.get("name").getAsString(),
+							player, params);
 			entry.addCondition(condition);
 		}
 	}
@@ -150,12 +158,19 @@ public final class Importer {
 	 * @param entry the entry these conditions belong to.
 	 * @param player the owner.
 	 */
-	private static void createActions(JsonArray actionsJson, AIEntry entry, Player player) {
+	private static void createActions(JsonArray actionsJson, AIEntry entry, Player player, EventObserver report) {
 		for (int actionId = 0; actionId < actionsJson.size(); actionId++) {
 			JsonObject actionJson = actionsJson.get(actionId).getAsJsonObject();
-			Action action =
-					ActionFactory.createAction(actionJson.get("name").getAsString(), player,
-							actionJson.get("param").getAsString());
+
+            JsonArray paramsJson = actionJson.get("param").getAsJsonArray();
+            ArrayList<String> params = new ArrayList<>();
+            for (int i = 0; i < paramsJson.size(); i++) {
+                params.add(paramsJson.get(i).getAsString());
+            }
+
+            Action action = ActionFactory.createAction(actionJson.get("name").getAsString(),
+                            player, params);
+            action.registerEventObserver(report);
 			entry.addAction(action);
 		}
 	}
@@ -167,10 +182,11 @@ public final class Importer {
 	 * @param weaponJson the array of weapons for this player
 	 * @param player the owner of these weapons
 	 */
-	private static void createWeapons(JsonArray weaponJson, Player player) {
+	private static void createWeapons(JsonArray weaponJson, Player player, EventObserver report) {
 		for (int weaponId = 0; weaponId < weaponJson.size(); weaponId++) {
 			Weapon weapon =
 					WeaponFactory.createWeapon(weaponJson.get(weaponId).getAsString(), player);
+            weapon.registerEventObserver(report);
 			player.equipWeapon(weapon, Weapon.WeaponSlot.values()[weaponId]);
 		}
 	}
@@ -196,7 +212,7 @@ public final class Importer {
 			Obstacle obstacle =
 					new Obstacle(state.getNextId(), new Position(obstacleX, obstacleY),
 							obstacleRadius);
-			obstacle.setReport(report);
+			obstacle.registerEventObserver(report);
 			obstacle.begin(state);
 
 			listObstacles.add(obstacle);

@@ -5,18 +5,18 @@ import com.md.mechevo.game.*;
 public abstract class Weapon implements EventObservable {
 	private Player player;
 	private int damage;
-	private float cooldown;
+	private double cooldown;
 	// TODO: maybe specify which slots the weapon may be used
 	// private ArrayList<WeaponSlot> possibleSlots;
 
 	// Variable weapon attributes
-	private float currentCooldown;
+	private double currentCooldown;
 	private WeaponSlot currentSlot;
 
 	private EventObserver report;
 
 
-	protected Weapon(int damage, float cooldown, Player player) {
+	protected Weapon(int damage, double cooldown, Player player) {
 		this.damage = damage;
 		this.cooldown = cooldown;
 		this.player = player;
@@ -34,25 +34,27 @@ public abstract class Weapon implements EventObservable {
 		return damage;
 	}
 
-	public float getCooldown() {
+	public double getCooldown() {
 		return cooldown;
 	}
 
-	public float getAngleToTarget(Solid target) {
+	public double getAngleToTarget(Solid target) {
 		// TODO Implement this
 		return 0f;
 	}
 
 	public abstract void fire(State state, Solid target);
 
-	public float getCurrentCooldown() {
+	public double getCurrentCooldown() {
 		return this.currentCooldown;
 	}
 
-	public void setCurrentCooldown(float currentCooldown) {
-		this.currentCooldown = currentCooldown;
-	}
-
+    public void updateCurrentCooldown(double dtime) {
+        this.currentCooldown -= dtime;
+        if (this.currentCooldown < 0) {
+            this.currentCooldown = 0;
+        }
+    }
 	public WeaponSlot getCurrentSlot() {
 		return this.currentSlot;
 	}
@@ -71,7 +73,6 @@ public abstract class Weapon implements EventObservable {
 			this.report.notify(eventData);
 		}
 	}
-
 
 	/**
 	 * Maps the Slot name to a number

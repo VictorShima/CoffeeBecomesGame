@@ -6,18 +6,9 @@ public class Simulator {
 	/**
 	 * Time between rounds is in seconds
 	 */
-	public static final float TIME_BETWEEN_ROUNDS = 0.1f;
-
-
+	public static final double TIME_BETWEEN_ROUNDS = 0.1f;
 
 	private Simulator() {}
-
-	private static boolean gameHasFinished() {
-		// TODO
-		return false;
-	}
-
-
 
 	/**
 	 * Run the game until end.
@@ -28,10 +19,10 @@ public class Simulator {
 		int i = 0;
 
 		// game loop
-		while (!gameHasFinished() && (i++) < 5) {
-			// report.setCurrentTime(state.getTotalTime());
+		while (!state.gameHasFinished() && (i++) < 5) {
 			state.update(TIME_BETWEEN_ROUNDS);
 		}
+        state.end();
 
 		return Simulator.buildFullReport(state);
 	}
@@ -41,7 +32,7 @@ public class Simulator {
 	 * Build the report. Get the events from the state and add some additional info to it.
 	 * 
 	 * @param state State of the game (usually the final state)
-	 * @report Json Object that defines the full report
+	 * @return Json Object that defines the full report
 	 */
 	private static Report buildFullReport(State state) {
 		JsonObject head = new JsonObject();
