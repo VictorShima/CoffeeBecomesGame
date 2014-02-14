@@ -1,5 +1,7 @@
 package com.md.mechevo.game.action;
 
+import java.util.ArrayList;
+
 import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
 
@@ -14,7 +16,7 @@ public class Attack extends Action {
     /**
      * @param param the selected weapon (LEFT, CENTER, RIGHT)
      */
-    public Attack(Player owner, String param) {
+    public Attack(Player owner, ArrayList<String> param) {
         super(owner, param, Attack.CANCELABLE);
     }
 

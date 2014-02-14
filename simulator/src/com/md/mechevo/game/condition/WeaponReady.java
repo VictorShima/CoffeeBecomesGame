@@ -2,6 +2,7 @@ package com.md.mechevo.game.condition;
 
 import static com.md.mechevo.game.weapon.Weapon.WeaponSlot;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.md.mechevo.game.Player;
@@ -9,21 +10,25 @@ import com.md.mechevo.game.State;
 import com.md.mechevo.game.weapon.Weapon;
 
 /**
- * WeaponReady (left, right, central) : true if a weapon is off cooldown
+ * WeaponReady (LEFT, RIGHT, CENTER) : true if a weapon is off cooldown
  */
 public class WeaponReady extends Condition {
-    private final WeaponSlot weaponSlot;
+    private WeaponSlot weaponSlot;
 
-    public WeaponReady(Player owner, String param) throws InvalidConditionParameter {
+    public WeaponReady(Player owner, ArrayList<String> param) throws InvalidConditionParameter {
         super(owner, param);
-        weaponSlot = this.convertParam();
+        this.convertParam();
     }
 
-    private WeaponSlot convertParam() throws InvalidConditionParameter {
+    private void convertParam() throws InvalidConditionParameter {
+        if (this.getParam().size() != 1) {
+            throw new InvalidConditionParameter(WeaponReady.class.getName());
+        }
+
         try {
-            return WeaponSlot.valueOf(this.getParam());
+            this.weaponSlot = WeaponSlot.valueOf(this.getParam().get(0));
         } catch (IllegalArgumentException e) {
-            throw new InvalidConditionParameter(WeaponReady.class.getName(), this.getParam());
+            throw new InvalidConditionParameter(WeaponReady.class.getName());
         }
     }
 

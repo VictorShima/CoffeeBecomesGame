@@ -1,7 +1,7 @@
 package com.md.mechevo.game.action;
 
 public class InvalidActionParameter extends Error {
-    public InvalidActionParameter(String name, String param) {
-        super(String.format("Invalid parameter %s in %s", param, name));
+    public InvalidActionParameter(String name) {
+        super(String.format("Invalid param in %s", name));
     }
 }

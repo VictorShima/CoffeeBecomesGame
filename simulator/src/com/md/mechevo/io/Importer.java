@@ -1,5 +1,6 @@
 package com.md.mechevo.io;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -34,8 +35,8 @@ public final class Importer {
 	 *       "y":double,
 	 *       "angle":double,
 	 *       "algorithm": [ { 
-	 *         "conditions": [ { "name":string, "param":string }, ... ],
-	 *         "actions": [ { "name":string, "param":string }, ... ]
+	 *         "conditions": [ { "name":string, "param":[string] }, ... ],
+	 *         "actions": [ { "name":string, "param":[string] }, ... ]
 	 *       }]
 	 *     }]
 	 *   }
@@ -136,9 +137,16 @@ public final class Importer {
 	private static void createConditions(JsonArray conditionsJson, AIEntry entry, Player player) {
 		for (int conditionId = 0; conditionId < conditionsJson.size(); conditionId++) {
 			JsonObject conditionJson = conditionsJson.get(conditionId).getAsJsonObject();
+
+            JsonArray paramsJson = conditionJson.get("param").getAsJsonArray();
+            ArrayList<String> params = new ArrayList<>();
+            for (int i = 0; i < paramsJson.size(); i++) {
+                params.add(paramsJson.get(i).getAsString());
+            }
+
 			Condition condition =
-					ConditionFactory.createCondition(conditionJson.get("name").getAsString(),
-							player, conditionJson.get("param").getAsString());
+                    ConditionFactory.createCondition(conditionJson.get("name").getAsString(),
+							player, params);
 			entry.addCondition(condition);
 		}
 	}
@@ -153,9 +161,15 @@ public final class Importer {
 	private static void createActions(JsonArray actionsJson, AIEntry entry, Player player, EventObserver report) {
 		for (int actionId = 0; actionId < actionsJson.size(); actionId++) {
 			JsonObject actionJson = actionsJson.get(actionId).getAsJsonObject();
-			Action action =
-					ActionFactory.createAction(actionJson.get("name").getAsString(), player,
-							actionJson.get("param").getAsString());
+
+            JsonArray paramsJson = actionJson.get("param").getAsJsonArray();
+            ArrayList<String> params = new ArrayList<>();
+            for (int i = 0; i < paramsJson.size(); i++) {
+                params.add(paramsJson.get(i).getAsString());
+            }
+
+            Action action = ActionFactory.createAction(actionJson.get("name").getAsString(),
+                            player, params);
             action.registerEventObserver(report);
 			entry.addAction(action);
 		}

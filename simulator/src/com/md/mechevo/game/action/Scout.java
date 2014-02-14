@@ -1,5 +1,7 @@
 package com.md.mechevo.game.action;
 
+import java.util.ArrayList;
+
 import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
 
@@ -9,7 +11,7 @@ import com.md.mechevo.game.State;
 public class Scout extends Action {
     private static final boolean CANCELABLE = true;
 
-    public Scout(Player owner, String param) {
+    public Scout(Player owner, ArrayList<String> param) {
         super(owner, param, CANCELABLE);
     }
 

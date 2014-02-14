@@ -1,5 +1,7 @@
 package com.md.mechevo.game.action;
 
+import java.util.ArrayList;
+
 import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
 
@@ -12,7 +14,7 @@ public class Turn extends Action {
     /**
      * @param param the angle of the turn
      */
-    public Turn(Player owner, String param) {
+    public Turn(Player owner, ArrayList<String> param) {
         super(owner, param, CANCELABLE);
     }
 

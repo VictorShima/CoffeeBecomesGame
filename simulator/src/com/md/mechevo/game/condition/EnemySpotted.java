@@ -1,9 +1,9 @@
 package com.md.mechevo.game.condition;
 
+import java.util.ArrayList;
+
 import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
-
-import java.util.ArrayList;
 
 /**
  * Selects the closest/furthest visible enemy
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class EnemySpotted extends Condition {
     private Player preferredEnemy; // /< TODO The enemy spotted in this condition will be used in it's actions??
 
-    public EnemySpotted(Player owner, String param) {
+    public EnemySpotted(Player owner, ArrayList<String> param) {
         super(owner, param);
     }
 
@@ -31,6 +31,7 @@ public class EnemySpotted extends Condition {
      */
     @Override
     public boolean check(State state) {
+        // TODO the preferredEnemy can be the closest or the farthest
         ArrayList<Player> players = getOwner().fieldOfView(state, Player.FieldOfViewAngle.VIEW);
         if(!players.isEmpty()){
             double nearestDist = 99999;

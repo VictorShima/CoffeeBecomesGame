@@ -60,7 +60,7 @@ public class Map {
 		}
 	}
 
-    public boolean canSolidMove(Solid s, double angle) {
+    public boolean canSolidMove(Solid s, double angle, boolean forward) {
         // TODO
         return true;
     }

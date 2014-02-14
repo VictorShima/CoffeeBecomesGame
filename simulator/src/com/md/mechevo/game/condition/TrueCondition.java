@@ -11,11 +11,6 @@ public class TrueCondition extends Condition {
 		super(owner);
 	}
 
-	public TrueCondition(Player owner, String param) {
-		super(owner, param);
-	}
-
-
 	/**
 	 * Check if the condition applies.
 	 * 

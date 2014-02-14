@@ -1,5 +1,7 @@
 package com.md.mechevo.game.action;
 
+import java.util.ArrayList;
+
 import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
 
@@ -10,7 +12,7 @@ public class Sprint extends Action {
     private static final double DURATION = 1;
     private static final boolean CANCELABLE = true;
 
-    public Sprint(Player owner, String param) {
+    public Sprint(Player owner, ArrayList<String> param) {
         super(owner, param, CANCELABLE);
     }
 

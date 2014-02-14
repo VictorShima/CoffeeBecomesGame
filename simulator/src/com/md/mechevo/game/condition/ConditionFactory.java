@@ -1,9 +1,11 @@
 package com.md.mechevo.game.condition;
 
+import java.util.ArrayList;
+
 import com.md.mechevo.game.Player;
 
 public class ConditionFactory {
-	public static Condition createCondition(String name, Player player, String param) {
+	public static Condition createCondition(String name, Player player, ArrayList<String> param) {
 		switch (name) {
             case "EnemyDisappear":
                 return new EnemyDisappear(player);
@@ -12,7 +14,7 @@ public class ConditionFactory {
             case "ReceivedDamage":
                 return new ReceivedDamage(player, param);
 			case "TrueCondition":
-				return new TrueCondition(player, param);
+				return new TrueCondition(player);
             case "WeaponReady":
                 return new WeaponReady(player, param);
 			default:

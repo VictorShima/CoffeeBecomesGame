@@ -1,5 +1,7 @@
 package com.md.mechevo.game.action;
 
+import java.util.ArrayList;
+
 import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
 
@@ -13,7 +15,7 @@ public class Dash extends Action {
     /**
      * @param param the direction of the dash (LEFT or RIGHT)
      */
-    public Dash(Player owner, String param) {
+    public Dash(Player owner, ArrayList<String> param) {
         super(owner, param, Dash.CANCELABLE);
     }
 

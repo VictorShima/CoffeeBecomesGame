@@ -1,9 +1,11 @@
 package com.md.mechevo.game.action;
 
+import java.util.ArrayList;
+
 import com.md.mechevo.game.Player;
 
 public class ActionFactory {
-	public static Action createAction(String name, Player player, String param) {
+	public static Action createAction(String name, Player player, ArrayList<String> param) {
 		switch (name) {
 			case "Attack":
 				return new Attack(player, param);

@@ -1,5 +1,7 @@
 package com.md.mechevo.game.condition;
 
+import java.util.ArrayList;
+
 import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
 
@@ -7,7 +9,7 @@ import com.md.mechevo.game.State;
  * ReceivedDamage (frontal, back, side) : true if just received damage
  */
 public class ReceivedDamage extends Condition {
-    public ReceivedDamage(Player owner, String param) {
+    public ReceivedDamage(Player owner, ArrayList<String> param) {
         super(owner, param);
     }
 

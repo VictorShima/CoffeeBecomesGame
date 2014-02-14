@@ -1,5 +1,7 @@
 package com.md.mechevo.game.condition;
 
+import java.util.ArrayList;
+
 import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
 
@@ -11,13 +13,13 @@ import com.md.mechevo.game.State;
 public abstract class Condition {
 
 	private Player owner; // /< Player that controls object with condition
-	private String param; // /< Condition dependent attribute
+	private ArrayList<String> param; // /< Condition dependent attribute
 
 	public Condition(Player owner) {
 		this.owner = owner;
 	}
 
-	protected Condition(Player owner, String param) {
+	protected Condition(Player owner, ArrayList<String> param) {
 		this.owner = owner;
 		this.param = param;
 	}
@@ -30,11 +32,11 @@ public abstract class Condition {
 		this.owner = owner;
 	}
 
-	public String getParam() {
+	public ArrayList<String> getParam() {
 		return param;
 	}
 
-	public void setParam(String param) {
+	public void setParam(ArrayList<String> param) {
 		this.param = param;
 	}
 

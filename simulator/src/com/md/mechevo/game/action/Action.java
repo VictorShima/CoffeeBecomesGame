@@ -1,7 +1,8 @@
 package com.md.mechevo.game.action;
 
-import com.md.mechevo.game.*;
+import java.util.ArrayList;
 
+import com.md.mechevo.game.*;
 
 
 /**
@@ -11,7 +12,7 @@ import com.md.mechevo.game.*;
 public abstract class Action implements EventObservable {
 
 	private Player owner; // /< Player that controls object with condition
-	private String param; // /< Action dependant attribute
+	private ArrayList<String> param; // /< Action dependant attribute
 	private Action next; // /< Next action to execute after this one
 	private boolean cancelable; // /< Whether or not the action can be canceled mid-action
 
@@ -22,7 +23,7 @@ public abstract class Action implements EventObservable {
 		this.cancelable = cancelable;
 	}
 
-	protected Action(Player owner, String param, boolean cancelable) {
+	protected Action(Player owner, ArrayList<String> param, boolean cancelable) {
 		this.owner = owner;
 		this.param = param;
 		this.cancelable = cancelable;
@@ -43,14 +44,14 @@ public abstract class Action implements EventObservable {
 	/**
 	 * Get the param attribute
 	 */
-	public String getParam() {
+	public ArrayList<String> getParam() {
 		return this.param;
 	}
 
 	/**
 	 * Set the param attribute
 	 */
-	public void setParam(String param) {
+	public void setParam(ArrayList<String> param) {
 		this.param = param;
 	}
 
