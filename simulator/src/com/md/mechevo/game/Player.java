@@ -255,7 +255,7 @@ public class Player extends Solid {
 
 	@Override
 	public void update(State state, double dtime) {
-        // Update layer's heat
+        // Update player's heat
         this.updateHeat(dtime);
 
         // Update all weapon's cooldown
