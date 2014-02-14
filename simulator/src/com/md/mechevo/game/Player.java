@@ -28,10 +28,16 @@ public class Player extends Solid {
      */
     public static final double SPRINT_SPEED = 10;
 
+    /**
+     * The speed at which the heat decreases per second.
+     */
+    public static final double HEAT_RATE = 10;
+
 	private static final int WEAPON_TRANSLATION = 15;
 
 	private int teamId;
 	private int health;
+    private double heat;
 	private ArrayList<Weapon> weapons;
 	private ArrayList<Sentry> sentries;
 	private boolean paralysed = false;
@@ -58,9 +64,9 @@ public class Player extends Solid {
 		super(id, position, RADIUS, MOVE_SPEED, angle);
 		this.teamId = teamId;
 		this.health = HEALTH;
+        this.heat = 0;
 		this.weapons = new ArrayList<>();
 		this.sentries = new ArrayList<>();
-		this.algorithm = new AIAlgorithm(this);
 	}
 
 	public Position getLeftWeaponPosition() {
@@ -90,6 +96,17 @@ public class Player extends Solid {
 	public int getHealth() {
 		return health;
 	}
+
+    public double getHeat() {
+        return heat;
+    }
+
+    public void updateHeat(double dtime) {
+        this.heat -= Player.HEAT_RATE * dtime;
+        if (this.heat < 0) {
+            this.heat = 0;
+        }
+    }
 
     public double getCurrentActionTime() {
         return currentActionTime;
@@ -238,6 +255,9 @@ public class Player extends Solid {
 
 	@Override
 	public void update(State state, double dtime) {
+        // Update layer's heat
+        this.updateHeat(dtime);
+
         // Update all weapon's cooldown
         for (Weapon weapon : weapons) {
             weapon.updateCurrentCooldown(dtime);

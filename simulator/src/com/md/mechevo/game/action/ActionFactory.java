@@ -20,7 +20,7 @@ public class ActionFactory {
             case "MoveToEnemy":
                 return new MoveToEnemy(player);
             case "Scout":
-                return new Scout(player, param);
+                return new Turn(player, new ArrayList<String>() {{ add("360"); }});
             case "Sprint":
                 return new Sprint(player, param);
             case "Turn":
