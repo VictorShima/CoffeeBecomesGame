@@ -7,7 +7,7 @@ import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
 
 /**
- * Sideways dash. //TODO param left or right
+ * Sideways dash. //TODO param left or right is sent by JSON?
  */
 public class Dash extends Action {
     private static final double DURATION = 0.2;
