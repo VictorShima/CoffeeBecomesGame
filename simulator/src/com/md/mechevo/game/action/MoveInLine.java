@@ -63,6 +63,7 @@ public class MoveInLine extends Action {
      */
     @Override
     public boolean check(State state) {
+		//TODO if he wants to sprint but the heat is at max he cant
         return (direction.equals(Direction.FORWARD)) ?
                 state.getMap().canSolidMove(this.getOwner(), this.getOwner().getAngle(), true) :
                 state.getMap().canSolidMove(this.getOwner(), this.getOwner().getAngle(), false);
@@ -88,6 +89,7 @@ public class MoveInLine extends Action {
      */
     @Override
     public void update(State state, double dtime) {
+		//TODO this has to increase heat while it's sprinting
         Player owner = this.getOwner();
         Position oldPos = owner.getPosition();
         owner.move(owner.getAngle(), (mode == Mode.MOVE) ? Player.MOVE_SPEED : Player.SPRINT_SPEED,

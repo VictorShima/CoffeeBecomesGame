@@ -93,9 +93,8 @@ public class Turn extends Action {
     public void update(State state, double dtime) {
         Player owner = this.getOwner();
         double rotation = (owner.ROT_SPEED * dtime) * ((turnAmount > 0f) ? 1f : -1f);
-        owner.setAngle(owner.getAngle() + rotation);
+        owner.turn(rotation);
         this.setAlreadyTurned(this.getAlreadyTurned() + rotation);
-
     }
 
     /**

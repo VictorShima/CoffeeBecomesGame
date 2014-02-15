@@ -37,8 +37,11 @@ public class Player extends Solid {
 
 	private static final int WEAPON_TRANSLATION = 15;
 
+	private static final double MAX_HEAT = 200;
+
 	private int teamId;
 	private int health;
+	//TODO heat goes from 0-100?
 	private double heat;
 	private ArrayList<Weapon> weapons;
 	private ArrayList<Sentry> sentries;
@@ -69,6 +72,10 @@ public class Player extends Solid {
 		this.sentries = new ArrayList<>();
 	}
 
+	public static double getMaxHeat() {
+		return MAX_HEAT;
+	}
+
 	public AISuggestion getCurrentOrder() {
 		return currentOrder;
 	}
@@ -80,6 +87,19 @@ public class Player extends Solid {
     public void setLastHitAngle(double lastHitAngle) {
         this.lastHitAngle = lastHitAngle;
     }
+
+	//TODO can this angle be negative? I needed it to be :'(
+	public double getAngleToTarget(Solid target) {
+		//VecRight is a vector pointing right
+		double vecRightX = -20;
+		double vecRightY = 0;
+		double vecX = this.getPosition().getX() - target.getPosition().getX();
+		double vecY = this.getPosition().getY() - target.getPosition().getY();
+		double cosValue = ((vecX * vecRightX) + (vecY * vecRightY)) / (Math.sqrt(Math.pow(vecRightX, 2) + Math.pow(vecRightY, 2))
+				* Math.sqrt(Math.pow(vecX, 2) + Math.pow(vecY, 2)));
+		double angle = Math.acos(cosValue);
+		return angle;
+	}
 
     public Position getLeftWeaponPosition() {
 		double angle = 90 - this.getAngle();
@@ -119,6 +139,13 @@ public class Player extends Solid {
             this.heat = 0;
         }
     }
+
+	public void increaseHeat(double amount){
+		this.heat += amount;
+		if(this.heat > MAX_HEAT){
+			this.heat = MAX_HEAT;
+		}
+	}
 
 	//TODO where to update currentActionTime??
     public double getCurrentActionTime() {

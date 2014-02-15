@@ -181,6 +181,13 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
         }
 	}
 
+	/**
+	  * @param amount Amount can be positive or negative (relative left or right respectively)
+	 */
+	public void turn(double amount){
+		this.setAngle(this.getAngle() + amount);
+	}
+
 	// interface CollisionVisitor
 	@Override
 	public abstract void collidesWith(State state, Player p);
