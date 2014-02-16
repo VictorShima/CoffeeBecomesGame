@@ -1,7 +1,7 @@
 package com.md.mechevo.game.ai;
 
-import com.md.mechevo.game.Position;
 import com.md.mechevo.game.Player;
+import com.md.mechevo.game.Position;
 import com.md.mechevo.game.action.Action;
 
 /**
@@ -13,25 +13,25 @@ public final class AISuggestion {
 	 * Preferred target. Takes priority over preferredPosition
 	 */
 	private Player preferredTarget;
-	
-	
+
+
 	/**
 	 * Preferred position. Effective if no preferredTarget is mentioned.
 	 */
 	private Position preferredPosition;
-	
-	
+
+
 	/**
 	 * Reference to AiEntry to know if player is performing the same Order or a new one.
 	 */
 	private AIEntry aiEntry;
-	
-	
+
+
 	/**
 	 * Current Action being performed.
 	 */
 	private Action action;
-	
+
 	/**
 	 * Time since the begin of current action.
 	 */
@@ -47,8 +47,8 @@ public final class AISuggestion {
 		this.action = (entry.getActions().size() > 0) ? entry.getActions().get(0) : null;
 		this.currentActionTime = 0;
 	}
-	
-	
+
+
 	/**
 	 * Constructor with specified position.
 	 */
@@ -58,23 +58,25 @@ public final class AISuggestion {
 		this.action = (entry.getActions().size() > 0) ? entry.getActions().get(0) : null;
 		this.currentActionTime = 0;
 	}
-	
-	
+
+
 	/**
 	 * Add time to the current action
 	 * If the action has ended automatically set the next one.
 	 */
 	public void addActionTime(double dtime) {
 		this.currentActionTime += dtime;
-		
+
 		// switch actions if they already finished
-		if (this.action != null
-				&& this.currentActionTime >= this.action.getDuration()) {
+		if (this.action != null && this.action.hasFinished()) {
 			this.action = this.action.getNext();
 			this.currentActionTime = 0;
 		}
 	}
 
+	public double getCurrentActionTime() {
+		return currentActionTime;
+	}
 
 	/**
 	 * Discover if action is on start.
@@ -102,8 +104,8 @@ public final class AISuggestion {
 	public Player getPreferredTarget() {
 		return this.preferredTarget;
 	}
-	
-	
+
+
 	/**
 	 * Get the preferred position. Can be fetched from target Player or directly from the
 	 * position.

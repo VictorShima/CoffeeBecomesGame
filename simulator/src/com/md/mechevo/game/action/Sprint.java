@@ -22,7 +22,7 @@ public class Sprint extends Action {
      */
     @Override
     public boolean hasFinished() {
-        return DURATION <= this.getOwner().getCurrentActionTime();
+		return DURATION <= this.getOwner().getCurrentOrder().getCurrentActionTime();
     }
 
     /**

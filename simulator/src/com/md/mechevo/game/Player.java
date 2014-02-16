@@ -23,17 +23,17 @@ public class Player extends Solid {
 	 */
 	public static final double MOVE_SPEED = 5;
 
-    public static final double ROT_SPEED = 10;
+	public static final double ROT_SPEED = 10;
 
-    /**
-     * Sprint speed is measured by MapUnits per second.
-     */
-    public static final double SPRINT_SPEED = 10;
+	/**
+	 * Sprint speed is measured by MapUnits per second.
+	 */
+	public static final double SPRINT_SPEED = 10;
 
-    /**
-     * The speed at which the heat decreases per second.
-     */
-    public static final double HEAT_RATE = 10;
+	/**
+	 * The speed at which the heat decreases per second.
+	 */
+	public static final double HEAT_RATE = 10;
 
 	private static final int WEAPON_TRANSLATION = 15;
 
@@ -41,7 +41,7 @@ public class Player extends Solid {
 
 	private int teamId;
 	private int health;
-	//TODO heat goes from 0-100?
+	// TODO heat goes from 0-100?
 	private double heat;
 	private ArrayList<Weapon> weapons;
 	private ArrayList<Sentry> sentries;
@@ -67,7 +67,7 @@ public class Player extends Solid {
 		super(id, position, RADIUS, MOVE_SPEED, angle);
 		this.teamId = teamId;
 		this.health = HEALTH;
-        this.heat = 0;
+		this.heat = 0;
 		this.weapons = new ArrayList<>();
 		this.sentries = new ArrayList<>();
 	}
@@ -81,27 +81,33 @@ public class Player extends Solid {
 	}
 
 	public double getLastHitAngle() {
-        return lastHitAngle;
-    }
+		return lastHitAngle;
+	}
 
-    public void setLastHitAngle(double lastHitAngle) {
-        this.lastHitAngle = lastHitAngle;
-    }
+	public void setLastHitAngle(double lastHitAngle) {
+		this.lastHitAngle = lastHitAngle;
+	}
 
-	//TODO can this angle be negative? I needed it to be :'(
+	public AIAlgorithm getAlgorithm() {
+		return algorithm;
+	}
+
+	// TODO can this angle be negative? I needed it to be :'(
 	public double getAngleToTarget(Solid target) {
-		//VecRight is a vector pointing right
+		// VecRight is a vector pointing right
 		double vecRightX = -20;
 		double vecRightY = 0;
 		double vecX = this.getPosition().getX() - target.getPosition().getX();
 		double vecY = this.getPosition().getY() - target.getPosition().getY();
-		double cosValue = ((vecX * vecRightX) + (vecY * vecRightY)) / (Math.sqrt(Math.pow(vecRightX, 2) + Math.pow(vecRightY, 2))
-				* Math.sqrt(Math.pow(vecX, 2) + Math.pow(vecY, 2)));
+		double cosValue =
+				((vecX * vecRightX) + (vecY * vecRightY))
+						/ (Math.sqrt(Math.pow(vecRightX, 2) + Math.pow(vecRightY, 2)) * Math
+								.sqrt(Math.pow(vecX, 2) + Math.pow(vecY, 2)));
 		double angle = Math.acos(cosValue);
 		return angle;
 	}
 
-    public Position getLeftWeaponPosition() {
+	public Position getLeftWeaponPosition() {
 		double angle = 90 - this.getAngle();
 		double vecX = WEAPON_TRANSLATION * Math.cos(Math.toRadians(angle));
 		double vecY = -(WEAPON_TRANSLATION * Math.sin(Math.toRadians(angle)));
@@ -129,49 +135,44 @@ public class Player extends Solid {
 		return health;
 	}
 
-    public double getHeat() {
-        return heat;
-    }
+	public double getHeat() {
+		return heat;
+	}
 
-    public void updateHeat(double dtime) {
-        this.heat -= Player.HEAT_RATE * dtime;
-        if (this.heat < 0) {
-            this.heat = 0;
-        }
-    }
+	public void updateHeat(double dtime) {
+		this.heat -= Player.HEAT_RATE * dtime;
+		if (this.heat < 0) {
+			this.heat = 0;
+		}
+	}
 
-	public void increaseHeat(double amount){
+	public void increaseHeat(double amount) {
 		this.heat += amount;
-		if(this.heat > MAX_HEAT){
+		if (this.heat > MAX_HEAT) {
 			this.heat = MAX_HEAT;
 		}
 	}
 
-	//TODO where to update currentActionTime??
-    public double getCurrentActionTime() {
-        return currentActionTime;
-    }
-
-    /**
-     * takeDamage drops the health of the player (this is only used for mines
-     * because it makes no sense updating the lastHitAngle)
-     * @param damage
-     */
-    public void takeDamage(int damage) {
-        health -= damage;
-        if (health <= 0) {
-            setDestroyed(true);
-        }
-    }
-
-    /**
-     * take Damage drops the health of player
-     * @param damage
-     * @param angle the angle of the projectile
-     */
-    public void takeDamage(int damage, double angle) {
+	/**
+	 * takeDamage drops the health of the player (this is only used for mines
+	 * because it makes no sense updating the lastHitAngle)
+	 * @param damage
+	 */
+	public void takeDamage(int damage) {
 		health -= damage;
-        setLastHitAngle(angle);
+		if (health <= 0) {
+			setDestroyed(true);
+		}
+	}
+
+	/**
+	 * take Damage drops the health of player
+	 * @param damage
+	 * @param angle the angle of the projectile
+	 */
+	public void takeDamage(int damage, double angle) {
+		health -= damage;
+		setLastHitAngle(angle);
 		if (health <= 0) {
 			setDestroyed(true);
 		}
@@ -213,11 +214,11 @@ public class Player extends Solid {
 		sentries.remove(s);
 	}
 
-    public ArrayList<Weapon> getWeapons() {
-        return weapons;
-    }
+	public ArrayList<Weapon> getWeapons() {
+		return weapons;
+	}
 
-    @Override
+	@Override
 	public void accept(CollisionVisitor s, State state) {
 		s.collidesWith(state, this);
 	}
@@ -254,32 +255,57 @@ public class Player extends Solid {
 		this.setParalysed(true);
 	}
 
-    /**
-     * fieldOfView returns all players that are in the field of view or in the field of fire
-     * @param state
-     * @param angle FieldOfViewAngle.FIRE or FieldOfViewAngle.VIEW
-     * @return
-     */
-    public ArrayList<Player> fieldOfView(State state, FieldOfViewAngle angle){
-        //vectorPlayer is the vector where the player is looking
-        ArrayList<Player> playersInView= new ArrayList<>();
-        double vectorPlayerX = Math.cos(Math.toRadians(this.getAngle()));
-        double vectorPlayerY = Math.sin(Math.toRadians(this.getAngle()));
-        ArrayList<Player> players = state.getPlayers();
-        for (Player p : players){
-            if(!(this.getId() == p.getId())){
-                double vecX = this.getPosition().getX() - p.getPosition().getX();
-                double vecY = this.getPosition().getY() - p.getPosition().getY();
-                double cosValue = ((vectorPlayerX * vecX) + (vectorPlayerY * vecY))/((Math.sqrt(Math.pow(vecX, 2) + Math.pow(vecY,2))) *
-                        (Math.sqrt(Math.pow(vectorPlayerX, 2) + Math.pow(vectorPlayerY,2))));
-                double angleToPlayer = Math.acos(cosValue);
-                if(angleToPlayer < angle.getAngle()) {
-                    playersInView.add(p);
-                }
-            }
-        }
-        return playersInView;
-    }
+	/**
+	 * fieldOfView returns all players that are in the field of view or in the field of fire
+	 * @param state
+	 * @param angle FieldOfViewAngle.FIRE or FieldOfViewAngle.VIEW
+	 * @return
+	 */
+	public ArrayList<Player> fieldOfView(State state, FieldOfViewAngle angle) {
+		// vectorPlayer is the vector where the player is looking
+		ArrayList<Player> playersInView = new ArrayList<>();
+		double vectorPlayerX = Math.cos(Math.toRadians(this.getAngle()));
+		double vectorPlayerY = Math.sin(Math.toRadians(this.getAngle()));
+		ArrayList<Player> players = state.getPlayers();
+		for (Player p : players) {
+			if (!(this.getId() == p.getId())) {
+				double vecX = this.getPosition().getX() - p.getPosition().getX();
+				double vecY = this.getPosition().getY() - p.getPosition().getY();
+				double cosValue =
+						((vectorPlayerX * vecX) + (vectorPlayerY * vecY))
+								/ ((Math.sqrt(Math.pow(vecX, 2) + Math.pow(vecY, 2))) * (Math
+										.sqrt(Math.pow(vectorPlayerX, 2)
+												+ Math.pow(vectorPlayerY, 2))));
+				double angleToPlayer = Math.acos(cosValue);
+				if (angleToPlayer < angle.getAngle() || angleToPlayer > 360.0 - angle.getAngle()) {
+					playersInView.add(p);
+				}
+			}
+		}
+		return playersInView;
+	}
+
+	public ArrayList<Obstacle> fieldOfViewObstacles(State state, FieldOfViewAngle angle) {
+		// vectorPlayer is the vector where the player is looking
+		ArrayList<Obstacle> obstaclesInView = new ArrayList<>();
+		double vectorPlayerX = Math.cos(Math.toRadians(this.getAngle()));
+		double vectorPlayerY = Math.sin(Math.toRadians(this.getAngle()));
+
+		for (Obstacle o : state.getObstacles()) {
+			double vecX = this.getPosition().getX() - o.getPosition().getX();
+			double vecY = this.getPosition().getY() - o.getPosition().getY();
+			double cosValue =
+					((vectorPlayerX * vecX) + (vectorPlayerY * vecY))
+							/ ((Math.sqrt(Math.pow(vecX, 2) + Math.pow(vecY, 2))) * (Math.sqrt(Math
+									.pow(vectorPlayerX, 2) + Math.pow(vectorPlayerY, 2))));
+			double angleToObstacle = Math.acos(cosValue);
+			if (angleToObstacle < angle.getAngle() || angleToObstacle > 360.0 - angle.getAngle()) {
+				obstaclesInView.add(o);
+			}
+		}
+
+		return obstaclesInView;
+	}
 
 	// TODO: Needs to generate weapon name
 	public void begin(State state) {
@@ -295,21 +321,20 @@ public class Player extends Solid {
 
 	@Override
 	public void update(State state, double dtime) {
-        // Update player's heat
-        this.updateHeat(dtime);
+		// Update player's heat
+		this.updateHeat(dtime);
 
-        // Update all weapon's cooldown
-        for (Weapon weapon : weapons) {
-            weapon.updateCurrentCooldown(dtime);
-        }
+		// Update all weapon's cooldown
+		for (Weapon weapon : weapons) {
+			weapon.updateCurrentCooldown(dtime);
+		}
 
-        // A player can't move when it's paralysed
+		// A player can't move when it's paralysed
 		if (!isParalysed()) {
 
 			// try to cancel the action and find a new one (if no current action or cancelable)
 			// TODO: add a method to signal that the action has been Canceled, or finished!
-			if (this.currentOrder == null
-					|| this.currentOrder.getAction() == null
+			if (this.currentOrder == null || this.currentOrder.getAction() == null
 					|| this.currentOrder.getAction().isCancelable()) {
 				AISuggestion suggestion = this.algorithm.calculateBestAction(state);
 				if (this.currentOrder == null
@@ -331,22 +356,21 @@ public class Player extends Solid {
 		}
 	}
 
-	public void end(State state) {
-    }
+	public void end(State state) {}
 
-    public static enum FieldOfViewAngle {
-        VIEW(60), FIRE(30);
-        
-        private final double angle;
-        
-        FieldOfViewAngle(double angle) {
-            this.angle = angle;
-        }
-        
-        private double getAngle() {
-            return angle;
-        }
-    }
+	public static enum FieldOfViewAngle {
+		VIEW(60), FIRE(30);
+
+		private final double angle;
+
+		FieldOfViewAngle(double angle) {
+			this.angle = angle;
+		}
+
+		private double getAngle() {
+			return angle;
+		}
+	}
 
 	// interface EventObservable
 
