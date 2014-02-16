@@ -41,7 +41,7 @@ public class Attack extends Action {
 		}
 		try {
 			ArrayList<Weapon> weapons = this.getOwner().getWeapons();
-			slot = Weapon.WeaponSlot.valueOf(this.getParam().get(0));
+			slot = Weapon.WeaponSlot.valueOf(this.getParam().get(0).toUpperCase());
 			for (Weapon w : weapons) {
 				if (w.getCurrentSlot() == slot) {
 					this.weapon = w;
