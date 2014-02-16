@@ -40,8 +40,8 @@ public class MoveInLine extends Action {
         }
 
         try {
-            this.mode = Mode.valueOf(params.get(0));
-            this.direction = Direction.valueOf(params.get(1));
+            this.mode = Mode.valueOf(params.get(0).toUpperCase());
+            this.direction = Direction.valueOf(params.get(1).toUpperCase());
             this.distance = Double.valueOf(params.get(2));
         } catch (IllegalArgumentException e) {
             throw new InvalidActionParameter(MoveInLine.class.getName());
