@@ -16,19 +16,19 @@ public class Map {
 		this.height = height;
 	}
 
-    public double getWidth() {
-        return width;
-    }
+	public double getWidth() {
+		return width;
+	}
 
-    public double getHeight() {
-        return height;
-    }
+	public double getHeight() {
+		return height;
+	}
 
-    public ArrayList<Solid> getElements() {
-        return elements;
-    }
+	public ArrayList<Solid> getElements() {
+		return elements;
+	}
 
-    public void addSolid(Solid s) {
+	public void addSolid(Solid s) {
 		elements.add(s);
 	}
 
@@ -60,10 +60,10 @@ public class Map {
 		}
 	}
 
-    public boolean canSolidMove(Solid s, double angle, boolean forward) {
-        // TODO
-        return true;
-    }
+	public boolean canSolidMove(Solid s, double angle, boolean forward) {
+		// TODO
+		return true;
+	}
 
 	/**
 	 * Check collision between 2 solids

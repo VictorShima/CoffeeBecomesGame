@@ -39,8 +39,7 @@ public class EventObserver {
 	 * @see com.md.mechevo.game.EventData
 	 */
 	public void notify(EventData event) {
-		this.events.add(new SimpleImmutableEntry<>(new Double(this.currentTime),
-				event));
+		this.events.add(new SimpleImmutableEntry<>(new Double(this.currentTime), event));
 	}
 
 

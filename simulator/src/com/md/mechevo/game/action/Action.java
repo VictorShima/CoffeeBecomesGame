@@ -77,10 +77,10 @@ public abstract class Action implements EventObservable {
 		return this.cancelable;
 	}
 
-    /**
-     * Check if the the action has already finished.
-     */
-    public abstract boolean hasFinished();
+	/**
+	 * Check if the the action has already finished.
+	 */
+	public abstract boolean hasFinished();
 
 	/**
 	 * Check if the required condition for an action applies.

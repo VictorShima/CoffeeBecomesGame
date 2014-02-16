@@ -22,7 +22,7 @@ public final class AIAlgorithm {
 	 */
 	public AIAlgorithm(Player owner) {
 		this.owner = owner;
-        this.entries = new ArrayList<>();
+		this.entries = new ArrayList<>();
 	}
 
 	public Player getOwner() {

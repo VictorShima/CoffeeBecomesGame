@@ -22,7 +22,7 @@ public class Simulator {
 		while (!state.gameHasFinished() && (i++) < 5) {
 			state.update(TIME_BETWEEN_ROUNDS);
 		}
-        state.end();
+		state.end();
 
 		return Simulator.buildFullReport(state);
 	}

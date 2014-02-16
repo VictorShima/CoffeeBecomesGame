@@ -11,8 +11,8 @@ import com.md.mechevo.game.projectile.Projectile;
  * teams, ...
  */
 public class State implements EventObservable {
-    public static final int NUM_TEAMS = 2;
-    public static final int INVALID_WINNER_TEAM = -1;
+	public static final int NUM_TEAMS = 2;
+	public static final int INVALID_WINNER_TEAM = -1;
 
 	private Map map;
 
@@ -23,7 +23,7 @@ public class State implements EventObservable {
 
 	private ArrayList<Projectile> projectiles;
 
-    private ArrayList<Obstacle> obstacles;
+	private ArrayList<Obstacle> obstacles;
 
 	/**
 	 * The id generator.
@@ -44,7 +44,7 @@ public class State implements EventObservable {
 		this.map = map;
 		this.players = new ArrayList<>();
 		this.projectiles = new ArrayList<>();
-        this.obstacles = new ArrayList<>();
+		this.obstacles = new ArrayList<>();
 		this.totalTime = 0;
 		this.nextId = 0;
 	}
@@ -58,7 +58,7 @@ public class State implements EventObservable {
 		map.addSolid(p);
 	}
 
-      public void addPlayer(Player p) {
+	public void addPlayer(Player p) {
 		this.players.add(p);
 		this.map.addSolid(p);
 	}
@@ -66,26 +66,26 @@ public class State implements EventObservable {
 
 	public void addObstacle(Obstacle o) {
 		this.obstacles.add(o);
-        this.map.addSolid(o);
+		this.map.addSolid(o);
 	}
 
-    public Map getMap() {
-        return map;
-    }
+	public Map getMap() {
+		return map;
+	}
 
-    public ArrayList<Player> getPlayers() {
-        return players;
-    }
+	public ArrayList<Player> getPlayers() {
+		return players;
+	}
 
-    public ArrayList<Projectile> getProjectiles() {
-        return projectiles;
-    }
+	public ArrayList<Projectile> getProjectiles() {
+		return projectiles;
+	}
 
-    public ArrayList<Obstacle> getObstacles() {
-        return obstacles;
-    }
+	public ArrayList<Obstacle> getObstacles() {
+		return obstacles;
+	}
 
-    public double getTotalTime() {
+	public double getTotalTime() {
 		return totalTime;
 	}
 
@@ -119,44 +119,44 @@ public class State implements EventObservable {
 		return null;
 	}
 
-    /**
-     * A game has finished when all players for a team are destroyed.
-     */
-    public boolean gameHasFinished() {
-        boolean[] teamAlive = new boolean[NUM_TEAMS];
-        for (int i = 0; i < teamAlive.length; i++) {
-            teamAlive[i] = false;
-        }
+	/**
+	 * A game has finished when all players for a team are destroyed.
+	 */
+	public boolean gameHasFinished() {
+		boolean[] teamAlive = new boolean[NUM_TEAMS];
+		for (int i = 0; i < teamAlive.length; i++) {
+			teamAlive[i] = false;
+		}
 
-        // Assign to each team if any player of that team is alive
-        for (Player p : this.players) {
-            if (!p.isDestroyed()) {
-                teamAlive[p.getTeamId()] = true;
-            }
-        }
+		// Assign to each team if any player of that team is alive
+		for (Player p : this.players) {
+			if (!p.isDestroyed()) {
+				teamAlive[p.getTeamId()] = true;
+			}
+		}
 
-        int teamAliveCounter = 0;
-        for (int i = 0; i < teamAlive.length; i++) {
-            if (teamAlive[i]) {
-                teamAliveCounter += 1;
-            }
-        }
-        return teamAliveCounter == 1;
-    }
+		int teamAliveCounter = 0;
+		for (int i = 0; i < teamAlive.length; i++) {
+			if (teamAlive[i]) {
+				teamAliveCounter += 1;
+			}
+		}
+		return teamAliveCounter == 1;
+	}
 
-    /**
-     * @return the winning team's id or INVALID_WINNER_TEAM if no team has won yet.
-     */
-    public int getWinnerTeam() {
-        if (this.gameHasFinished()) {
-            for (Player p : this.players) {
-                if (!p.isDestroyed()) {
-                    return p.getTeamId();
-                }
-            }
-        }
-        return INVALID_WINNER_TEAM;
-    }
+	/**
+	 * @return the winning team's id or INVALID_WINNER_TEAM if no team has won yet.
+	 */
+	public int getWinnerTeam() {
+		if (this.gameHasFinished()) {
+			for (Player p : this.players) {
+				if (!p.isDestroyed()) {
+					return p.getTeamId();
+				}
+			}
+		}
+		return INVALID_WINNER_TEAM;
+	}
 
 	/**
 	 * Build the event report. Get the events from the EventObserver
@@ -189,13 +189,13 @@ public class State implements EventObservable {
 		}
 	}
 
-    /**
-     * Method that is called when state ends.
-     * Sends an event informing whose the winning team.
-     */
-    public void end() {
-        EventData eventData = new EventData("winningTeam").addAttribute("id", this.getWinnerTeam());
-        this.notifyEventObserver(eventData);
-    }
+	/**
+	 * Method that is called when state ends.
+	 * Sends an event informing whose the winning team.
+	 */
+	public void end() {
+		EventData eventData = new EventData("winningTeam").addAttribute("id", this.getWinnerTeam());
+		this.notifyEventObserver(eventData);
+	}
 
 }

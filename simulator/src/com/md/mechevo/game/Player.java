@@ -2,9 +2,7 @@ package com.md.mechevo.game;
 
 import java.util.ArrayList;
 
-import com.md.mechevo.game.action.Action;
 import com.md.mechevo.game.ai.AIAlgorithm;
-import com.md.mechevo.game.ai.AIEntry;
 import com.md.mechevo.game.ai.AISuggestion;
 import com.md.mechevo.game.projectile.Projectile;
 import com.md.mechevo.game.sentry.Sentry;
@@ -371,26 +369,4 @@ public class Player extends Solid {
 			return angle;
 		}
 	}
-
-	// interface EventObservable
-
-	/**
-	 * Will register the observer on himself and also on its belongings. Belongings with the
-	 * observer include: Weapon, Actions
-	 */
-	public void registerEventObserver(EventObserver eventObserver) {
-		// set himself
-		super.registerEventObserver(eventObserver);
-		// set all weapons
-		for (Weapon w : this.weapons) {
-			w.registerEventObserver(eventObserver);
-		}
-		// set all actions
-		for (AIEntry aiEntry : this.algorithm.getEntries()) {
-			for (Action action : aiEntry.getActions()) {
-				action.registerEventObserver(eventObserver);
-			}
-		}
-	}
-
 }

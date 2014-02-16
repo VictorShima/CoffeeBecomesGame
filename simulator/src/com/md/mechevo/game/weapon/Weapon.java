@@ -39,15 +39,17 @@ public abstract class Weapon implements EventObservable {
 	}
 
 	public double getAngleToTarget(Solid target) {
-		//If target is null then return the player's angle
-		if(target != null){
-			//VecRight is a vector pointing right
+		// If target is null then return the player's angle
+		if (target != null) {
+			// VecRight is a vector pointing right
 			double vecRightX = -20;
 			double vecRightY = 0;
 			double vecX = this.getPlayer().getPosition().getX() - target.getPosition().getX();
 			double vecY = this.getPlayer().getPosition().getY() - target.getPosition().getY();
-			double cosValue = ((vecX * vecRightX) + (vecY * vecRightY)) / (Math.sqrt(Math.pow(vecRightX, 2) + Math.pow(vecRightY, 2))
-					* Math.sqrt(Math.pow(vecX, 2) + Math.pow(vecY, 2)));
+			double cosValue =
+					((vecX * vecRightX) + (vecY * vecRightY))
+							/ (Math.sqrt(Math.pow(vecRightX, 2) + Math.pow(vecRightY, 2)) * Math
+									.sqrt(Math.pow(vecX, 2) + Math.pow(vecY, 2)));
 
 			double angle = Math.acos(cosValue);
 			return angle;
@@ -62,12 +64,13 @@ public abstract class Weapon implements EventObservable {
 		return this.currentCooldown;
 	}
 
-    public void updateCurrentCooldown(double dtime) {
-        this.currentCooldown -= dtime;
-        if (this.currentCooldown < 0) {
-            this.currentCooldown = 0;
-        }
-    }
+	public void updateCurrentCooldown(double dtime) {
+		this.currentCooldown -= dtime;
+		if (this.currentCooldown < 0) {
+			this.currentCooldown = 0;
+		}
+	}
+
 	public WeaponSlot getCurrentSlot() {
 		return this.currentSlot;
 	}
