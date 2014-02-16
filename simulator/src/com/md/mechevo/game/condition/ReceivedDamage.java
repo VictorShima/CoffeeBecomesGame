@@ -20,7 +20,7 @@ public class ReceivedDamage extends Condition {
 		if (this.getParam().size() != 1) {
 			throw new InvalidConditionParameter(ReceivedDamage.class.getName());
 		}
-		// TODO do i need try catch?
+
 		switch (this.getParam().get(0).toLowerCase()) {
 			case "front":
 				this.setFace(Face.FRONT);

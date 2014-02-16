@@ -6,15 +6,9 @@ public abstract class Weapon implements EventObservable {
 	private Player player;
 	private int damage;
 	private double cooldown;
-	// TODO: maybe specify which slots the weapon may be used
-	// private ArrayList<WeaponSlot> possibleSlots;
-
-	// Variable weapon attributes
 	private double currentCooldown;
 	private WeaponSlot currentSlot;
-
 	private EventObserver report;
-
 
 	protected Weapon(int damage, double cooldown, Player player) {
 		this.damage = damage;
@@ -38,6 +32,7 @@ public abstract class Weapon implements EventObservable {
 		return cooldown;
 	}
 
+    // TODO use cross product
 	public double getAngleToTarget(Solid target) {
 		// If target is null then return the player's angle
 		if (target != null) {

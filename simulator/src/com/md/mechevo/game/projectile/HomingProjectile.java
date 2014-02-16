@@ -74,7 +74,7 @@ public class HomingProjectile extends Projectile {
 						/ (Math.sqrt(Math.pow(vecX, 2f) + Math.pow(vecY, 2f)) * Math.sqrt(Math.pow(
 								vecToTargetX, 2f) + Math.pow(vecToTargetY, 2f)));
 
-		double rotationAngle = Math.acos(cosValue) * 180 / Math.PI;
+		double rotationAngle = Math.toDegrees(Math.acos(cosValue));
 		rotationAngle *= dtime;
 
 		// Rotate clockwise/counter-clockwise is determined by sign of cross-product

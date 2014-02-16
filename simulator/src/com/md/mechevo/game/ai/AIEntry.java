@@ -10,7 +10,7 @@ import com.md.mechevo.game.condition.Condition;
 
 
 /**
- * TODO: There should also be a findPreferredPosition in case there is no target Playher.
+ * TODO: There should also be a findPreferredPosition in case there is no target Player.
  */
 public class AIEntry {
 
@@ -73,7 +73,7 @@ public class AIEntry {
 	 * 
 	 * @param state Current state of the game
 	 * @return Player reference if there is one, else its null
-	 * @todo Optimize the preferredTarget retrieval
+	 * TODO: Optimize the preferredTarget retrieval
 	 */
 	public Player findPreferredTarget(State state) {
 		Player preferred = null;

@@ -35,11 +35,10 @@ public class Player extends Solid {
 
 	private static final int WEAPON_TRANSLATION = 15;
 
-	private static final double MAX_HEAT = 200;
+	private static final double MAX_HEAT = 100;
 
 	private int teamId;
 	private int health;
-	// TODO heat goes from 0-100?
 	private double heat;
 	private ArrayList<Weapon> weapons;
 	private ArrayList<Sentry> sentries;
@@ -91,6 +90,7 @@ public class Player extends Solid {
 	}
 
 	// TODO can this angle be negative? I needed it to be :'(
+    // TODO Use cross product
 	public double getAngleToTarget(Solid target) {
 		// VecRight is a vector pointing right
 		double vecRightX = -20;
@@ -101,7 +101,7 @@ public class Player extends Solid {
 				((vecX * vecRightX) + (vecY * vecRightY))
 						/ (Math.sqrt(Math.pow(vecRightX, 2) + Math.pow(vecRightY, 2)) * Math
 								.sqrt(Math.pow(vecX, 2) + Math.pow(vecY, 2)));
-		double angle = Math.acos(cosValue);
+		double angle = Math.toDegrees(Math.acos(cosValue));
 		return angle;
 	}
 
@@ -274,8 +274,8 @@ public class Player extends Solid {
 								/ ((Math.sqrt(Math.pow(vecX, 2) + Math.pow(vecY, 2))) * (Math
 										.sqrt(Math.pow(vectorPlayerX, 2)
 												+ Math.pow(vectorPlayerY, 2))));
-				double angleToPlayer = Math.acos(cosValue);
-				if (angleToPlayer < angle.getAngle() || angleToPlayer > 360.0 - angle.getAngle()) {
+				double angleToPlayer = Math.toDegrees(Math.acos(cosValue));
+				if (angleToPlayer < angle.getAngle()) {
 					playersInView.add(p);
 				}
 			}
@@ -297,7 +297,7 @@ public class Player extends Solid {
 							/ ((Math.sqrt(Math.pow(vecX, 2) + Math.pow(vecY, 2))) * (Math.sqrt(Math
 									.pow(vectorPlayerX, 2) + Math.pow(vectorPlayerY, 2))));
 			double angleToObstacle = Math.acos(cosValue);
-			if (angleToObstacle < angle.getAngle() || angleToObstacle > 360.0 - angle.getAngle()) {
+			if (angleToObstacle < angle.getAngle()) {
 				obstaclesInView.add(o);
 			}
 		}
