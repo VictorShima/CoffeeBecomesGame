@@ -19,7 +19,7 @@ public class Simulator {
 		int i = 0;
 
 		// game loop
-		while (!state.gameHasFinished() && (i++) < 5) {
+		while (!state.gameHasFinished()) {
 			state.update(TIME_BETWEEN_ROUNDS);
 		}
 		state.end();

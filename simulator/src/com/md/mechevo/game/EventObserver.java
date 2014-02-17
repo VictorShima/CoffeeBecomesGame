@@ -86,5 +86,7 @@ public class EventObserver {
 		this.currentTime = time;
 	}
 
-	public double getCurrentTime() { return currentTime; }
+	public double getCurrentTime() {
+		return currentTime;
+	}
 }

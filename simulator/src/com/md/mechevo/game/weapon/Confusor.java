@@ -13,14 +13,16 @@ public class Confusor extends Weapon {
 
 	@Override
 	public void fire(State state, Solid target) {
-		if(target != null){
+		if (target != null) {
 			double angle = super.getAngleToTarget(target);
 			Projectile proj =
-					new ConfusingRay(state.getNextId(), this.getPlayer().getPosition(), this.getPlayer().getAngle() + angle, this);
+					new ConfusingRay(state.getNextId(), this.getPlayer().getPosition(), this
+							.getPlayer().getAngle() + angle, this);
 			state.addProjectile(proj);
-		}else{
+		} else {
 			Projectile proj =
-					new ConfusingRay(state.getNextId(), this.getPlayer().getPosition(), this.getPlayer().getAngle(), this);
+					new ConfusingRay(state.getNextId(), this.getPlayer().getPosition(), this
+							.getPlayer().getAngle(), this);
 			state.addProjectile(proj);
 		}
 

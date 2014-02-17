@@ -19,7 +19,7 @@ public class Player extends Solid {
 	/**
 	 * Move speed is measured by MapUnits per second.
 	 */
-	public static final double MOVE_SPEED = 5;
+	public static final double MOVE_SPEED = 500;
 
 	public static final double ROT_SPEED = 10;
 
@@ -276,7 +276,7 @@ public class Player extends Solid {
 		double vectorPlayerY = Math.sin(Math.toRadians(this.getAngle()));
 		ArrayList<Player> players = state.getPlayers();
 		for (Player p : players) {
-			if (!(this.getId() == p.getId())) {
+			if (this.getId() != p.getId()) {
 				double vecX = this.getPosition().getX() - p.getPosition().getX();
 				double vecY = this.getPosition().getY() - p.getPosition().getY();
 				double cosValue =

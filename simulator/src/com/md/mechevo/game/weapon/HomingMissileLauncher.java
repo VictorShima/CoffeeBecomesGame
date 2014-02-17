@@ -13,11 +13,11 @@ public class HomingMissileLauncher extends Weapon {
 
 	@Override
 	public void fire(State state, Solid target) {
-		if(target != null){
+		if (target != null) {
 			double angle = super.getAngleToTarget(target);
 			Projectile proj =
-					new HomingMissile(state.getNextId(), this.getPlayer().getPosition(), this.getPlayer().getAngle() + angle, this,
-							target);
+					new HomingMissile(state.getNextId(), this.getPlayer().getPosition(), this
+							.getPlayer().getAngle() + angle, this, target);
 			state.addProjectile(proj);
 		}
 	}

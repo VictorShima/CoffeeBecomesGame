@@ -14,8 +14,7 @@ public class Obstacle extends Solid {
 	@Override
 	public void begin(State state) {
 		EventData event =
-				new EventData("createObstacle")
-						.addAttribute("id", this.getId())
+				new EventData("createObstacle").addAttribute("id", this.getId())
 						.addAttribute("x", this.getPosition().getX())
 						.addAttribute("y", this.getPosition().getY());
 		this.notifyEventObserver(event);
@@ -23,8 +22,7 @@ public class Obstacle extends Solid {
 
 	@Override
 	public void end(State state) {
-		EventData event =
-				new EventData("eraseObstacle").addAttribute("id", this.getId());
+		EventData event = new EventData("eraseObstacle").addAttribute("id", this.getId());
 		this.notifyEventObserver(event);
 	}
 

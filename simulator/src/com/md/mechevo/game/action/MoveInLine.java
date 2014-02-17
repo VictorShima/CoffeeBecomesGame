@@ -96,7 +96,10 @@ public class MoveInLine extends Action {
 		double distY = owner.getPosition().getY() - oldPos.getY();
 		double distance = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
 		this.distanceAlreadyMoved += distance;
-		this.getOwner().increaseHeat(distance * Player.HEAT_RATE);
+
+		if (mode == Mode.SPRINT) {
+			this.getOwner().increaseHeat(dtime * Player.HEAT_RATE);
+		}
 	}
 
 	/**

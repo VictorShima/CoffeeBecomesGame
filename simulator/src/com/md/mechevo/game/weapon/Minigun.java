@@ -13,14 +13,16 @@ public class Minigun extends Weapon {
 	}
 
 	public void fire(State state, Solid target) {
-		if(target != null){
+		if (target != null) {
 			double angle = super.getAngleToTarget(target);
 			Projectile proj =
-					new Bullet(state.getNextId(), this.getPlayer().getPosition(), this.getPlayer().getAngle() + angle, this);
+					new Bullet(state.getNextId(), this.getPlayer().getPosition(), this.getPlayer()
+							.getAngle() + angle, this);
 			state.addProjectile(proj);
-		}else{
+		} else {
 			Projectile proj =
-					new Bullet(state.getNextId(), this.getPlayer().getPosition(), this.getPlayer().getAngle(), this);
+					new Bullet(state.getNextId(), this.getPlayer().getPosition(), this.getPlayer()
+							.getAngle(), this);
 			state.addProjectile(proj);
 		}
 	}

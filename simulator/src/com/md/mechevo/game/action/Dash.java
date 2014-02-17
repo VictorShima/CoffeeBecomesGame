@@ -12,7 +12,8 @@ import com.md.mechevo.game.State;
 public class Dash extends Action {
 	private static final double DURATION = 0.2;
 	private static final boolean CANCELABLE = false;
-	private static final double HEAT_INCREASE = 70; // /< the increase in the player's heat by executing this action
+	private static final double HEAT_INCREASE = 70; // /< the increase in the player's heat by
+													// executing this action
 	private static final double DISTANCE = 60;
 
 	private Side side;

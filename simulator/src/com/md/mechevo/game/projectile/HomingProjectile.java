@@ -1,10 +1,10 @@
 package com.md.mechevo.game.projectile;
 
+import java.util.ArrayList;
+
 import com.md.mechevo.game.*;
 import com.md.mechevo.game.sentry.Sentry;
 import com.md.mechevo.game.weapon.Weapon;
-
-import java.util.ArrayList;
 
 public class HomingProjectile extends Projectile {
 	private Solid target;
@@ -113,13 +113,12 @@ public class HomingProjectile extends Projectile {
 	@Override
 	public void end(State state) {
 		String pathString = "M " + this.path.get(0).getX() + " " + this.path.get(0).getY();
-		for(int i = 1; i < path.size(); i++){
+		for (int i = 1; i < path.size(); i++) {
 			pathString += " L " + this.path.get(i).getX() + " " + this.path.get(i).getY();
 		}
 		EventData event =
-				new EventData("homingPath")
-						.addAttribute("id", this.getId())
-						.addAttribute("path", pathString);
+				new EventData("homingPath").addAttribute("id", this.getId()).addAttribute("path",
+						pathString);
 		this.notifyEventObserver(event, beginTime);
 	}
 
