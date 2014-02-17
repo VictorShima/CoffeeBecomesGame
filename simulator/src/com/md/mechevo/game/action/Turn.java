@@ -77,10 +77,9 @@ public class Turn extends Action {
 	 */
 	@Override
 	public void begin(State state) {
-		// TODO attribute "side" can be used??
 		EventData eventData =
 				new EventData("startTurning").addAttribute("id", getOwner().getId()).addAttribute(
-						"side", (turnAmount > 0f) ? 1f : -1f);
+						"angspeed", this.getOwner().ROT_SPEED * ((turnAmount > 0f) ? 1f : -1f));
 		this.notifyEventObserver(eventData);
 	}
 
