@@ -6,24 +6,19 @@ import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
 
 /**
- * Move or sprint to target or to closest enemy.
+ * Move or sprint to the closest enemy.
  */
 public class MoveToEnemy extends Action {
 	private static final double MARGIN_ERROR = 0.01;
 	private static final boolean CANCELABLE = true;
 
-	private Mode mode;
-	private double distance;
-	private double distanceAlreadyMoved;
+	private double speed;
 	private Player target;
-
-	// TODO How do i get the target??
-	// TODO This action can be a "FaceOpponent" Followed by a "MoveInLIne"
-
+	private double distanceToTarget;
 
 	public MoveToEnemy(Player owner) {
 		super(owner, CANCELABLE);
-		this.distanceAlreadyMoved = 0f;
+		this.distanceToTarget = 0.0;
 		convertParam();
 	}
 
@@ -34,7 +29,8 @@ public class MoveToEnemy extends Action {
 		}
 
 		try {
-			this.mode = Mode.valueOf(params.get(0));
+			Mode mode = Mode.valueOf(params.get(0));
+			this.speed = (mode.equals(Mode.MOVE) ? Player.MOVE_SPEED : Player.SPRINT_SPEED);
 		} catch (IllegalArgumentException e) {
 			throw new InvalidActionParameter(MoveToEnemy.class.getName());
 		}
@@ -45,7 +41,7 @@ public class MoveToEnemy extends Action {
 	 */
 	@Override
 	public boolean hasFinished() {
-		return false;
+		return this.distanceToTarget < 0 + MARGIN_ERROR;
 	}
 
 	/**
@@ -56,7 +52,7 @@ public class MoveToEnemy extends Action {
 	 */
 	@Override
 	public boolean check(State state) {
-		return true;
+		return this.getOwner().getCurrentOrder().getPreferredTarget() != null;
 	}
 
 	/**
@@ -66,8 +62,7 @@ public class MoveToEnemy extends Action {
 	 */
 	@Override
 	public void begin(State state) {
-		// this.target = owner.getIaSuggestion.getTarget;
-
+		this.target = this.getOwner().getCurrentOrder().getPreferredTarget();
 	}
 
 	/**
@@ -78,7 +73,27 @@ public class MoveToEnemy extends Action {
 	 */
 	@Override
 	public void update(State state, double dtime) {
+		// Turn at half the speed
+		double angleToTarget = this.getOwner().getAngleToTarget(target);
+		double updatedAngle = this.getOwner().getAngle();
+		double rotation = dtime * Player.ROT_SPEED / 2;
 
+		if (Math.abs(angleToTarget) < rotation) {
+			updatedAngle += angleToTarget;
+		} else {
+			updatedAngle += rotation * ((angleToTarget > 0) ? 1 : -1);
+		}
+		this.getOwner().setAngle(updatedAngle);
+
+		// Move at half the speed
+		double distanceToTarget = state.getMap().getDistance(this.getOwner(), this.target);
+		double moveDistance = dtime * this.speed / 2;
+
+		if (distanceToTarget < moveDistance) {
+			this.getOwner().move(this.getOwner().getAngle(), moveDistance, true);
+		} else {
+			this.getOwner().move(this.getOwner().getAngle(), this.speed / 2, dtime, true);
+		}
 	}
 
 	/**
@@ -88,7 +103,7 @@ public class MoveToEnemy extends Action {
 	 */
 	@Override
 	public void end(State state) {
-
+		// Empty on purpose
 	}
 
 	private enum Mode {

@@ -2,9 +2,7 @@ package com.md.mechevo.game;
 
 import java.util.ArrayList;
 
-import com.md.mechevo.game.action.Action;
 import com.md.mechevo.game.ai.AIAlgorithm;
-import com.md.mechevo.game.ai.AIEntry;
 import com.md.mechevo.game.ai.AISuggestion;
 import com.md.mechevo.game.projectile.Projectile;
 import com.md.mechevo.game.sentry.Sentry;
@@ -164,6 +162,11 @@ public class Player extends Solid {
 		if (health <= 0) {
 			setDestroyed(true);
 		}
+
+		EventData event =
+				new EventData("modifyHp").addAttribute("id", this.getId()).addAttribute("value",
+						this.getHealth());
+		this.notifyEventObserver(event);
 	}
 
 	/**
@@ -178,8 +181,8 @@ public class Player extends Solid {
 			setDestroyed(true);
 		}
 		EventData event =
-				new EventData("modifyHp").addAttribute("id", this.getId())
-						.addAttribute("value", this.getHealth());
+				new EventData("modifyHp").addAttribute("id", this.getId()).addAttribute("value",
+						this.getHealth());
 		this.notifyEventObserver(event);
 	}
 

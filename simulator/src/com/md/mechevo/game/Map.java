@@ -60,11 +60,6 @@ public class Map {
 		}
 	}
 
-	public boolean canSolidMove(Solid s, boolean forward) {
-		// TODO
-		return true;
-	}
-
 	/**
 	 * Check collision between 2 solids
 	 * 
@@ -72,9 +67,17 @@ public class Map {
 	 * @param s2 Solid B
 	 * @return True if they collide
 	 */
-	public boolean checkCollision(Solid s1, Solid s2) {
-		// TODO to implement
-		return false;
+	private boolean checkCollision(Solid s1, Solid s2) {
+		return getDistance(s1, s2) < (s1.getRadius() + s2.getRadius());
+	}
+
+	/**
+	 * @return the distance between the two solids
+	 */
+	public double getDistance(Solid s1, Solid s2) {
+		double distX = s1.getPosition().getX() - s2.getPosition().getX();
+		double distY = s1.getPosition().getY() - s2.getPosition().getY();
+		return Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
 	}
 
 	/**

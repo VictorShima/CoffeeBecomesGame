@@ -6,21 +6,39 @@ import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
 
 /**
- * Selects the closest/farthest visible enemy
+ * Receives the distance to the enemy
  */
-public class EnemySpotted extends Condition {
-	private Player preferredEnemy;
+public class DistanceToEnemy extends Condition {
+	private Player target;
+	private double distance;
 
-	public EnemySpotted(Player owner, ArrayList<String> param) {
+	public DistanceToEnemy(Player owner, ArrayList<String> param) throws InvalidConditionParameter {
 		super(owner, param);
+		convertParam();
 	}
 
-	public Player getPreferredEnemy() {
-		return preferredEnemy;
+	private void convertParam() throws InvalidConditionParameter {
+		if (this.getParam().size() != 1) {
+			throw new InvalidConditionParameter(DistanceToEnemy.class.getName());
+		}
+
+		try {
+			this.distance = Double.valueOf(this.getParam().get(0));
+		} catch (IllegalArgumentException e) {
+			throw new InvalidConditionParameter(DistanceToEnemy.class.getName());
+		}
 	}
 
-	public void setPreferredEnemy(Player preferredEnemy) {
-		this.preferredEnemy = preferredEnemy;
+	public Player getTarget() {
+		return target;
+	}
+
+	public void setTarget(Player target) {
+		this.target = target;
+	}
+
+	public double getDistance() {
+		return distance;
 	}
 
 	/**
@@ -31,7 +49,6 @@ public class EnemySpotted extends Condition {
 	 */
 	@Override
 	public boolean check(State state) {
-		// TODO the preferredEnemy can be the closest or the farthest
 		ArrayList<Player> players = getOwner().fieldOfView(state, Player.FieldOfViewAngle.VIEW);
 		if (!players.isEmpty()) {
 			double nearestDist = Double.MAX_VALUE;
@@ -42,12 +59,13 @@ public class EnemySpotted extends Condition {
 				dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
 				if (dist < nearestDist) {
 					nearestDist = dist;
-					this.setPreferredEnemy(p);
+					this.target = p;
 				}
 			}
-			return true;
 		}
-		return false;
+
+		return this.target != null
+				&& state.getMap().getDistance(this.getOwner(), this.target) < this.getDistance();
 	}
 
 	/**
@@ -58,6 +76,6 @@ public class EnemySpotted extends Condition {
 	 */
 	@Override
 	public Player getPreferredPlayer(State state) {
-		return this.getPreferredEnemy();
+		return this.target;
 	}
 }

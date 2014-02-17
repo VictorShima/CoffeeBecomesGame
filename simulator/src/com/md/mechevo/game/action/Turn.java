@@ -67,7 +67,6 @@ public class Turn extends Action {
 	 */
 	@Override
 	public boolean check(State state) {
-		// TODO do i have to do something here??
 		return true;
 	}
 
