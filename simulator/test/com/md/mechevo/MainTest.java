@@ -156,7 +156,7 @@ public class MainTest {
 				"    {" +
 				"      \"teamId\": 0," +
 				"      \"weapons\": [" +
-				"        \"Minigun\"," +
+				"        \"HomingMissileLauncher\"," +
 				"        \"\"," +
 				"        \"\"" +
 				"      ]," +
@@ -184,7 +184,7 @@ public class MainTest {
 				"    {" +
 				"      \"teamId\": 1," +
 				"      \"weapons\": [" +
-				"        \"Minigun\"," +
+				"        \"HomingMissileLauncher\"," +
 				"        \"\"," +
 				"        \"\"" +
 				"      ]," +

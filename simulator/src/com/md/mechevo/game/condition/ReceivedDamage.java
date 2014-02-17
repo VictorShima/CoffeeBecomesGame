@@ -18,7 +18,7 @@ public class ReceivedDamage extends Condition {
 
 	public void convertParam() throws InvalidConditionParameter {
 		if (this.getParam().size() != 1) {
-			throw new InvalidConditionParameter(ReceivedDamage.class.getName());
+			throw new InvalidConditionParameter(ReceivedDamage.class.getSimpleName());
 		}
 
 		switch (this.getParam().get(0).toLowerCase()) {
@@ -35,7 +35,7 @@ public class ReceivedDamage extends Condition {
 				this.setFace(Face.RIGHT);
 				break;
 			default:
-				throw new InvalidConditionParameter(ReceivedDamage.class.getName());
+				throw new InvalidConditionParameter(ReceivedDamage.class.getSimpleName());
 
 		}
 	}

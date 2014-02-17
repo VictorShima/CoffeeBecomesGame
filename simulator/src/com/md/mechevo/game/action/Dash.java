@@ -28,13 +28,13 @@ public class Dash extends Action {
 	private void convertParam() throws InvalidActionParameter {
 		ArrayList<String> params = this.getParam();
 		if (params.size() != 1) {
-			throw new InvalidActionParameter(Dash.class.getName());
+			throw new InvalidActionParameter(Dash.class.getSimpleName());
 		}
 
 		try {
 			this.side = Side.valueOf(params.get(0));
 		} catch (IllegalArgumentException e) {
-			throw new InvalidActionParameter(MoveInLine.class.getName());
+			throw new InvalidActionParameter(MoveInLine.class.getSimpleName());
 		}
 	}
 

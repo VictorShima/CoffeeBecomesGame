@@ -25,14 +25,14 @@ public class MoveToEnemy extends Action {
 	private void convertParam() throws InvalidActionParameter {
 		ArrayList<String> params = this.getParam();
 		if (params.size() != 1) {
-			throw new InvalidActionParameter(MoveToEnemy.class.getName());
+			throw new InvalidActionParameter(MoveToEnemy.class.getSimpleName());
 		}
 
 		try {
 			Mode mode = Mode.valueOf(params.get(0));
 			this.speed = (mode.equals(Mode.MOVE) ? Player.MOVE_SPEED : Player.SPRINT_SPEED);
 		} catch (IllegalArgumentException e) {
-			throw new InvalidActionParameter(MoveToEnemy.class.getName());
+			throw new InvalidActionParameter(MoveToEnemy.class.getSimpleName());
 		}
 	}
 

@@ -31,7 +31,7 @@ public abstract class Projectile extends Solid implements EventObservable {
 							.addAttribute("id", this.getId())
 							.addAttribute("x", this.getPosition().getX())
 							.addAttribute("y", this.getPosition().getY())
-							.addAttribute("type", this.getClass().getName());
+							.addAttribute("type", this.getClass().getSimpleName());
 			this.notifyEventObserver(event);
 		}
 	}

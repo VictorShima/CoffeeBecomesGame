@@ -42,12 +42,12 @@ public class Turn extends Action {
 
 	public void convertParam() throws InvalidActionParameter {
 		if (this.getParam().size() != 1) {
-			throw new InvalidActionParameter(Turn.class.getName());
+			throw new InvalidActionParameter(Turn.class.getSimpleName());
 		}
 		try {
 			this.setTurnAmount(Double.parseDouble(this.getParam().get(0)));
 		} catch (Exception e) {
-			throw new InvalidActionParameter(Turn.class.getName());
+			throw new InvalidActionParameter(Turn.class.getSimpleName());
 		}
 	}
 
