@@ -88,8 +88,8 @@ public class Map {
 	 */
 	public void update(State state, double dtime) {
 		// update all elements
-		for (Solid s : elements) {
-			s.update(state, dtime);
+		for (int i = 0; i < elements.size(); i++) {
+			elements.get(i).update(state, dtime);
 		}
 
 		// check collisions with map boundaries
@@ -110,5 +110,13 @@ public class Map {
 			}
 		}
 
+		// remove elements that are dead
+		for (int i = 0; i < elements.size();) {
+			if (elements.get(i).isDestroyed()) {
+				elements.remove(i);
+			} else {
+				i += 1;
+			}
+		}
 	}
 }
