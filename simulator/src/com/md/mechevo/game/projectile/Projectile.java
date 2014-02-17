@@ -26,7 +26,13 @@ public abstract class Projectile extends Solid implements EventObservable {
 	 */
 	public void begin(State state) {
 		if (this.getReport() != null) {
-			// this.report.notify( Event Data that I have been created );
+			EventData event =
+					new EventData("createProjectile")
+							.addAttribute("id", this.getId())
+							.addAttribute("x", this.getPosition().getX())
+							.addAttribute("y", this.getPosition().getY())
+							.addAttribute("type", this.getClass().getName());
+			this.notifyEventObserver(event);
 		}
 	}
 
@@ -35,7 +41,9 @@ public abstract class Projectile extends Solid implements EventObservable {
 	 */
 	public void end(State state) {
 		if (this.getReport() != null) {
-			// this.report.notify( Event Data that I have been destroyed );
+			EventData event =
+					new EventData("eraseProjectile").addAttribute("id", this.getId());
+			this.notifyEventObserver(event);
 		}
 	}
 

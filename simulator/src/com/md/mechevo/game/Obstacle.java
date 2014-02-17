@@ -13,12 +13,19 @@ public class Obstacle extends Solid {
 
 	@Override
 	public void begin(State state) {
-		// TODO: notify when it's created
+		EventData event =
+				new EventData("createObstacle")
+						.addAttribute("id", this.getId())
+						.addAttribute("x", this.getPosition().getX())
+						.addAttribute("y", this.getPosition().getY());
+		this.notifyEventObserver(event);
 	}
 
 	@Override
 	public void end(State state) {
-		// TODO: notify when it's destroyed
+		EventData event =
+				new EventData("eraseObstacle").addAttribute("id", this.getId());
+		this.notifyEventObserver(event);
 	}
 
 	@Override

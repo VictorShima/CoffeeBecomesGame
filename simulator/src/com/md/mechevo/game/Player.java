@@ -311,14 +311,19 @@ public class Player extends Solid {
 		return obstaclesInView;
 	}
 
-	// TODO: Needs to generate weapon name
 	public void begin(State state) {
 		EventData event =
 				new EventData("createPlayer").addAttribute("id", this.getId())
 						.addAttribute("teamId", this.getTeamId())
 						.addAttribute("x", this.getPosition().getX())
 						.addAttribute("y", this.getPosition().getY())
-						.addAttribute("angle", this.getAngle());
+						.addAttribute("angle", this.getAngle())
+						//TODO add color
+						.addAttribute("color", "shimMuchGaySuchWow")
+						.addAttribute("WeaponLeft", this.getWeapons().get(0).getClass().getName())
+						.addAttribute("WeaponRight", this.getWeapons().get(1).getClass().getName())
+						.addAttribute("WeaponCenter", this.getWeapons().get(2).getClass().getName())
+						.addAttribute("Hp", this.getHealth());
 		this.notifyEventObserver(event);
 	}
 
@@ -360,7 +365,11 @@ public class Player extends Solid {
 		}
 	}
 
-	public void end(State state) {}
+	public void end(State state) {
+		EventData event =
+				new EventData("erasePlayer").addAttribute("id", this.getId());
+		this.notifyEventObserver(event);
+	}
 
 	public static enum FieldOfViewAngle {
 		VIEW(60), FIRE(30);
