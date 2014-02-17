@@ -113,14 +113,14 @@ public class MainTest {
 				"        {" +
 				"          \"conditions\": [" +
 				"            {" +
-				"              \"name\": \"EnemySpotted\"," +
+				"              \"name\": \"TrueCondition\"," +
 				"              \"param\": [\"\"]" +
 				"            }" +
 				"          ]," +
 				"          \"actions\": [" +
 				"            {" +
 				"              \"name\": \"MoveInLine\"," +
-				"              \"param\": [\"MOVE\", \"FORWARD\", \"10\"]" +
+				"              \"param\": [\"MOVE\", \"FORWARD\", \"1\"]" +
 				"            }" +
 				"          ]" +
 				"        }" +
