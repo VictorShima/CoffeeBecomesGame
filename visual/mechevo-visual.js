@@ -259,6 +259,8 @@ var VS = function() {
 						VS.solids[ev.id] = new VS.SolidClass("player", ev.id,
 								ev.x, ev.y, ev.angle,
 								"mech", ev);
+						VS.solids[ev.id].attrs['health'] = ev.hp;
+						VS.solids[ev.id].attrs['maxHealth'] = ev.hp;
 						// create the weaponry for player
 						var weapons = {
 							'Left' : { 'x':-25, 'y':-10 },
@@ -405,7 +407,10 @@ var VS = function() {
 			'assets' : {
 				'map' : new VS.AssetClass('map', 'map.png', VS.options.canvasWidth, VS.options.canvasHeight, { }),
 				
-				'mech' : new VS.AssetClass('mech', 'mech.png', 50, 50, { }),
+				'mech' : new VS.AssetClass('mech', 'mech.png', 50, 50, {
+					'idle' : new VS.AnimationClass('idle', 0, 1, 10),
+					'moving' : new VS.AnimationClass('moving', 1, 5, 0.1),
+				}),
 				
 				'obstacle' : new VS.AssetClass('obstacle', 'obstacle.png', 70, 70, { }),
 				
@@ -481,7 +486,15 @@ var VS = function() {
 		// import the event report
 		// TODO: I am assuming already it is in: ORDER BY time ASC
 		VS.report = report.events;
+		VS.report.sort(function(a,b){ return a.time - b.time; });
 		VS.insertEvents(0);
+		
+		/*/ DEBUG test draw image
+		var img = new Image();
+		img.onload = function() {
+			 VS.canvas.drawImage(img, 0, 0);
+		}
+		img.src = 'images/mech.png';*/
 		
 		// wait some time and then play it
 		window.setTimeout(VS.play, 1000);
