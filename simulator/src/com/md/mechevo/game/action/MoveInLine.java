@@ -36,7 +36,7 @@ public class MoveInLine extends Action {
 	private void convertParams() throws InvalidActionParameter {
 		ArrayList<String> params = this.getParam();
 		if (params.size() != 3) {
-			throw new InvalidActionParameter(MoveInLine.class.getName());
+			throw new InvalidActionParameter(MoveInLine.class.getSimpleName());
 		}
 
 		try {
@@ -44,7 +44,7 @@ public class MoveInLine extends Action {
 			this.direction = Direction.valueOf(params.get(1).toUpperCase());
 			this.distance = Double.valueOf(params.get(2));
 		} catch (IllegalArgumentException e) {
-			throw new InvalidActionParameter(MoveInLine.class.getName());
+			throw new InvalidActionParameter(MoveInLine.class.getSimpleName());
 		}
 	}
 

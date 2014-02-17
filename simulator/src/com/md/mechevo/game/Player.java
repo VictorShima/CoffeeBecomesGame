@@ -324,9 +324,9 @@ public class Player extends Solid {
 						.addAttribute("angle", this.getAngle())
 						//TODO add color
 						.addAttribute("color", "shimMuchGaySuchWow")
-						.addAttribute("WeaponLeft", this.getWeapons().get(0).getClass().getName())
-						.addAttribute("WeaponRight", this.getWeapons().get(1).getClass().getName())
-						.addAttribute("WeaponCenter", this.getWeapons().get(2).getClass().getName())
+						.addAttribute("WeaponLeft", this.getWeapons().get(0).getClass().getSimpleName())
+						.addAttribute("WeaponRight", this.getWeapons().get(1).getClass().getSimpleName())
+						.addAttribute("WeaponCenter", this.getWeapons().get(2).getClass().getSimpleName())
 						.addAttribute("Hp", this.getHealth());
 		this.notifyEventObserver(event);
 	}

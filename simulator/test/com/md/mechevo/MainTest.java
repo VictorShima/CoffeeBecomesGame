@@ -113,14 +113,14 @@ public class MainTest {
 				"        {" +
 				"          \"conditions\": [" +
 				"            {" +
-				"              \"name\": \"EnemySpotted\"," +
+				"              \"name\": \"TrueCondition\"," +
 				"              \"param\": [\"\"]" +
 				"            }" +
 				"          ]," +
 				"          \"actions\": [" +
 				"            {" +
 				"              \"name\": \"MoveInLine\"," +
-				"              \"param\": [\"MOVE\", \"FORWARD\", \"10\"]" +
+				"              \"param\": [\"MOVE\", \"FORWARD\", \"1\"]" +
 				"            }" +
 				"          ]" +
 				"        }" +
@@ -156,7 +156,7 @@ public class MainTest {
 				"    {" +
 				"      \"teamId\": 0," +
 				"      \"weapons\": [" +
-				"        \"Minigun\"," +
+				"        \"HomingMissileLauncher\"," +
 				"        \"\"," +
 				"        \"\"" +
 				"      ]," +
@@ -184,7 +184,7 @@ public class MainTest {
 				"    {" +
 				"      \"teamId\": 1," +
 				"      \"weapons\": [" +
-				"        \"Minigun\"," +
+				"        \"HomingMissileLauncher\"," +
 				"        \"\"," +
 				"        \"\"" +
 				"      ]," +

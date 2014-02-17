@@ -19,13 +19,13 @@ public class DistanceToEnemy extends Condition {
 
 	private void convertParam() throws InvalidConditionParameter {
 		if (this.getParam().size() != 1) {
-			throw new InvalidConditionParameter(DistanceToEnemy.class.getName());
+			throw new InvalidConditionParameter(DistanceToEnemy.class.getSimpleName());
 		}
 
 		try {
 			this.distance = Double.valueOf(this.getParam().get(0));
 		} catch (IllegalArgumentException e) {
-			throw new InvalidConditionParameter(DistanceToEnemy.class.getName());
+			throw new InvalidConditionParameter(DistanceToEnemy.class.getSimpleName());
 		}
 	}
 

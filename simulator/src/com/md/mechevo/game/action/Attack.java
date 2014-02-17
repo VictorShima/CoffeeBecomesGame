@@ -36,7 +36,7 @@ public class Attack extends Action {
 
 	public void convertParam() {
 		if (this.getParam().size() != 1) {
-			throw new InvalidActionParameter(Attack.class.getName());
+			throw new InvalidActionParameter(Attack.class.getSimpleName());
 		}
 		try {
 			ArrayList<Weapon> weapons = this.getOwner().getWeapons();
@@ -47,7 +47,7 @@ public class Attack extends Action {
 				}
 			}
 		} catch (IllegalArgumentException e) {
-			throw new InvalidActionParameter(Attack.class.getName());
+			throw new InvalidActionParameter(Attack.class.getSimpleName());
 		}
 	}
 

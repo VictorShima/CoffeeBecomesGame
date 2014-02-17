@@ -22,13 +22,13 @@ public class WeaponReady extends Condition {
 
 	private void convertParam() throws InvalidConditionParameter {
 		if (this.getParam().size() != 1) {
-			throw new InvalidConditionParameter(WeaponReady.class.getName());
+			throw new InvalidConditionParameter(WeaponReady.class.getSimpleName());
 		}
 
 		try {
 			this.weaponSlot = WeaponSlot.valueOf(this.getParam().get(0));
 		} catch (IllegalArgumentException e) {
-			throw new InvalidConditionParameter(WeaponReady.class.getName());
+			throw new InvalidConditionParameter(WeaponReady.class.getSimpleName());
 		}
 	}
 
