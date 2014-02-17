@@ -24,7 +24,6 @@ public class MoveToEnemy extends Action {
 	public MoveToEnemy(Player owner) {
 		super(owner, CANCELABLE);
 		this.distanceAlreadyMoved = 0f;
-		// this.target = owner.getIaSuggestion.getTarget;
 		convertParam();
 	}
 
@@ -67,6 +66,7 @@ public class MoveToEnemy extends Action {
 	 */
 	@Override
 	public void begin(State state) {
+		// this.target = owner.getIaSuggestion.getTarget;
 
 	}
 

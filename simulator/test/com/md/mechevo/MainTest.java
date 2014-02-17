@@ -92,7 +92,7 @@ public class MainTest {
 				"          \"actions\": [" +
 				"            {" +
 				"              \"name\": \"Attack\"," +
-				"              \"param\": [\"LEFT\"]" +
+				"              \"param\": [\"\"]" +
 				"            }" +
 				"          ]" +
 				"        }" +
