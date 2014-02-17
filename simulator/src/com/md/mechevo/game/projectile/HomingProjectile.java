@@ -4,9 +4,13 @@ import com.md.mechevo.game.*;
 import com.md.mechevo.game.sentry.Sentry;
 import com.md.mechevo.game.weapon.Weapon;
 
+import java.util.ArrayList;
+
 public class HomingProjectile extends Projectile {
 	private Solid target;
 	private double rotSpeed; // Rotation Velocity
+	private ArrayList<Position> path = new ArrayList<>();
+	private double beginTime;
 
 	protected HomingProjectile(int id, Position position, double radius, double speed,
 			double angle, Weapon weapon, Solid target, double rotSpeed) {
@@ -96,6 +100,30 @@ public class HomingProjectile extends Projectile {
 
 		// After calculating the new angle we simply move forward the missile like a regular solid
 		super.move(this.getAngle(), this.getSpeed(), dtime, true);
+		path.add(this.getPosition());
 	}
+
+	@Override
+	public void begin(State state) {
+		super.begin(state);
+		beginTime = this.getReport().getCurrentTime();
+		path.add(this.getPosition());
+	}
+
+	@Override
+	public void end(State state) {
+		String pathString = "M " + this.path.get(0).getX() + " " + this.path.get(0).getY();
+		for(int i = 1; i < path.size(); i++){
+			pathString += " L " + this.path.get(i).getX() + " " + this.path.get(i).getY();
+		}
+		EventData event =
+				new EventData("homingPath")
+						.addAttribute("id", this.getId())
+						.addAttribute("path", pathString);
+		this.notifyEventObserver(event, beginTime);
+	}
+
+	// M x y L x y
+
 
 }
