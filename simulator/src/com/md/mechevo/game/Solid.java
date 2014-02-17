@@ -212,4 +212,10 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 			this.report.notify(eventData);
 		}
 	}
+
+	public void notifyEventObserver(EventData eventData, Double time) {
+		if (this.report != null) {
+			this.report.notify(eventData, time);
+		}
+	}
 }

@@ -23,7 +23,6 @@ public class Attack extends Action {
 	 */
 	public Attack(Player owner, ArrayList<String> param) {
 		super(owner, param, Attack.CANCELABLE);
-		target = this.getOwner().getCurrentOrder().getPreferredTarget();
 		convertParam();
 	}
 
@@ -79,6 +78,7 @@ public class Attack extends Action {
 	 */
 	@Override
 	public void begin(State state) {
+		target = this.getOwner().getCurrentOrder().getPreferredTarget();
 		EventData eventData =
 				new EventData("startAttacking").addAttribute("id", getOwner().getId())
 						.addAttribute("slot", this.slot.toString());

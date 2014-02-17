@@ -42,6 +42,15 @@ public class EventObserver {
 		this.events.add(new SimpleImmutableEntry<>(new Double(this.currentTime), event));
 	}
 
+	/**
+	 * Get notified to add the given EventData. This function let's you manipulate the time
+	 *
+	 * @see com.md.mechevo.game.EventData
+	 */
+	public void notify(EventData event, Double time) {
+		this.events.add(new SimpleImmutableEntry<>(time, event));
+	}
+
 
 	/**
 	 * Generate the event report.
@@ -77,5 +86,5 @@ public class EventObserver {
 		this.currentTime = time;
 	}
 
-
+	public double getCurrentTime() { return currentTime; }
 }

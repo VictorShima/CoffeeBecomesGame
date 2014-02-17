@@ -97,11 +97,10 @@ public final class Importer {
 					new Player(state.getNextId(), teamId, new Position(playerX, playerY),
 							playerAngle);
 			player.registerEventObserver(report);
-			player.begin(state);
-
 			createWeapons(playerJson.get("weapons").getAsJsonArray(), player, report);
 			createAIAlgorithm(playerJson.get("algorithm").getAsJsonArray(), player, report);
 
+			player.begin(state);
 			listPlayers.add(player);
 		}
 		return listPlayers;

@@ -13,8 +13,15 @@ public class Flamethrower extends Weapon {
 
 	@Override
 	public void fire(State state, Solid target) {
-		double angle = super.getAngleToTarget(target);
-		Projectile proj = new Flame(state.getNextId(), this.getPlayer().getPosition(), angle, this);
-		state.addProjectile(proj);
+		if(target != null){
+			double angle = super.getAngleToTarget(target);
+			Projectile proj =
+					new Flame(state.getNextId(), this.getPlayer().getPosition(), this.getPlayer().getAngle() + angle, this);
+			state.addProjectile(proj);
+		}else{
+			Projectile proj =
+					new Flame(state.getNextId(), this.getPlayer().getPosition(), this.getPlayer().getAngle(), this);
+			state.addProjectile(proj);
+		}
 	}
 }
