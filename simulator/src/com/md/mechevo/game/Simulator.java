@@ -16,10 +16,8 @@ public class Simulator {
 	 * @param state The initial state to begin with
 	 */
 	public static Report runGame(State state) {
-		int i = 0;
-
 		// game loop
-		while (!state.gameHasFinished() && (i++) < 5) {
+		while (!state.gameHasFinished()) {
 			state.update(TIME_BETWEEN_ROUNDS);
 		}
 		state.end();

@@ -10,10 +10,12 @@ import com.google.gson.JsonParser;
 import com.md.mechevo.game.*;
 import com.md.mechevo.game.action.Action;
 import com.md.mechevo.game.action.ActionFactory;
+import com.md.mechevo.game.action.IdleAction;
 import com.md.mechevo.game.ai.AIAlgorithm;
 import com.md.mechevo.game.ai.AIEntry;
 import com.md.mechevo.game.condition.Condition;
 import com.md.mechevo.game.condition.ConditionFactory;
+import com.md.mechevo.game.condition.TrueCondition;
 import com.md.mechevo.game.weapon.Weapon;
 import com.md.mechevo.game.weapon.WeaponFactory;
 
@@ -95,11 +97,10 @@ public final class Importer {
 					new Player(state.getNextId(), teamId, new Position(playerX, playerY),
 							playerAngle);
 			player.registerEventObserver(report);
-			player.begin(state);
-
 			createWeapons(playerJson.get("weapons").getAsJsonArray(), player, report);
 			createAIAlgorithm(playerJson.get("algorithm").getAsJsonArray(), player, report);
 
+			player.begin(state);
 			listPlayers.add(player);
 		}
 		return listPlayers;
@@ -126,6 +127,12 @@ public final class Importer {
 			createActions(algorithmJson.get(entryId).getAsJsonObject().get("actions")
 					.getAsJsonArray(), entry, player, report);
 		}
+
+		// Add TrueCondition and IdleAction
+		AIEntry entry = new AIEntry(algorithm);
+		algorithm.addEntry(entry);
+		entry.addCondition(new TrueCondition(player));
+		entry.addAction(new IdleAction(player));
 	}
 
 	/**

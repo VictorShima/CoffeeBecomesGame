@@ -25,8 +25,6 @@ public class ActionFactory {
 						add("360");
 					}
 				});
-			case "Sprint":
-				return new Sprint(player, param);
 			case "Turn":
 				return new Turn(player, param);
 			default:

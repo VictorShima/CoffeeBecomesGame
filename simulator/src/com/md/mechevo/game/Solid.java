@@ -148,7 +148,7 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 		double velX = Math.cos(Math.toRadians(angle));
 		double velY = Math.sin(Math.toRadians(angle));
 		// Normalization of the velocity vector
-		double vel = velX + velY;
+		double vel = Math.sqrt(velX * velX + velY * velY);
 		velX = (velX / vel) * dtime * speed;
 		velY = -(velY / vel) * dtime * speed;
 
@@ -210,6 +210,12 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 	public void notifyEventObserver(EventData eventData) {
 		if (this.report != null) {
 			this.report.notify(eventData);
+		}
+	}
+
+	public void notifyEventObserver(EventData eventData, Double time) {
+		if (this.report != null) {
+			this.report.notify(eventData, time);
 		}
 	}
 }

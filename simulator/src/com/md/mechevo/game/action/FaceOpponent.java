@@ -20,7 +20,6 @@ public class FaceOpponent extends Action {
 
 	public FaceOpponent(Player owner) {
 		super(owner, CANCELABLE);
-		target = this.getOwner().getCurrentOrder().getPreferredTarget();
 	}
 
 	/**
@@ -49,6 +48,7 @@ public class FaceOpponent extends Action {
 	 */
 	@Override
 	public void begin(State state) {
+		target = this.getOwner().getCurrentOrder().getPreferredTarget();
 		EventData eventData =
 				new EventData("startFacingOpponent").addAttribute("id", getOwner().getId());
 		this.notifyEventObserver(eventData);

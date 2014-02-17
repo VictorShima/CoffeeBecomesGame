@@ -97,12 +97,94 @@ public class MainTest {
 				"          ]" +
 				"        }" +
 				"      ]" +
-				"    }" +
+				"    } ," +
 
 				"    {" +
 				"      \"teamId\": 1," +
 				"      \"weapons\": [" +
 				"        \"Minigun\"," +
+				"        \"\"," +
+				"        \"\"" +
+				"      ]," +
+				"      \"x\": 500," +
+				"      \"y\": 500," +
+				"      \"angle\": 180," +
+				"      \"algorithm\": [" +
+				"        {" +
+				"          \"conditions\": [" +
+				"            {" +
+				"              \"name\": \"TrueCondition\"," +
+				"              \"param\": [\"\"]" +
+				"            }" +
+				"          ]," +
+				"          \"actions\": [" +
+				"            {" +
+				"              \"name\": \"MoveInLine\"," +
+				"              \"param\": [\"MOVE\", \"FORWARD\", \"1\"]" +
+				"            }" +
+				"          ]" +
+				"        }" +
+				"      ]" +
+				"    }" +
+
+				"  ]" +
+				"}";
+
+		Main.main(new String[] {
+				JSON
+		});
+	}
+
+	/**
+	 * Test for homing missiles
+	 */
+	@Test
+	public void testMain3() {
+		final String JSON = "{" +
+				"  \"map\": {" +
+				"    \"width\": 800," +
+				"    \"height\": 800" +
+				"  }," +
+				"  \"obstacles\": [" +
+				"    {" +
+				"      \"x\": 50," +
+				"      \"y\": 50," +
+				"      \"radius\": 10" +
+				"    }" +
+				"  ]," +
+				"  \"players\": [" +
+				"    {" +
+				"      \"teamId\": 0," +
+				"      \"weapons\": [" +
+				"        \"HomingMissileLauncher\"," +
+				"        \"\"," +
+				"        \"\"" +
+				"      ]," +
+				"      \"x\": 100," +
+				"      \"y\": 500," +
+				"      \"angle\": 0," +
+				"      \"algorithm\": [" +
+				"        {" +
+				"          \"conditions\": [" +
+				"            {" +
+				"              \"name\": \"EnemySpotted\"," +
+				"              \"param\": [\"\"]" +
+				"            }" +
+				"          ]," +
+				"          \"actions\": [" +
+				"            {" +
+				"              \"name\": \"Attack\"," +
+				"              \"param\": [\"LEFT\"]" +
+				"            }" +
+				"          ]" +
+				"        }" +
+				"      ]" +
+				"    } ," +
+
+				"    {" +
+				"      \"teamId\": 1," +
+				"      \"weapons\": [" +
+				"        \"HomingMissileLauncher\"," +
 				"        \"\"," +
 				"        \"\"" +
 				"      ]," +

@@ -42,12 +42,12 @@ public class Turn extends Action {
 
 	public void convertParam() throws InvalidActionParameter {
 		if (this.getParam().size() != 1) {
-			throw new InvalidActionParameter(Turn.class.getName());
+			throw new InvalidActionParameter(Turn.class.getSimpleName());
 		}
 		try {
 			this.setTurnAmount(Double.parseDouble(this.getParam().get(0)));
 		} catch (Exception e) {
-			throw new InvalidActionParameter(Turn.class.getName());
+			throw new InvalidActionParameter(Turn.class.getSimpleName());
 		}
 	}
 
@@ -67,7 +67,6 @@ public class Turn extends Action {
 	 */
 	@Override
 	public boolean check(State state) {
-		// TODO do i have to do something here??
 		return true;
 	}
 
@@ -78,10 +77,9 @@ public class Turn extends Action {
 	 */
 	@Override
 	public void begin(State state) {
-		// TODO attribute "side" can be used??
 		EventData eventData =
 				new EventData("startTurning").addAttribute("id", getOwner().getId()).addAttribute(
-						"side", (turnAmount > 0f) ? 1f : -1f);
+						"angspeed", this.getOwner().ROT_SPEED * ((turnAmount > 0f) ? 1f : -1f));
 		this.notifyEventObserver(eventData);
 	}
 

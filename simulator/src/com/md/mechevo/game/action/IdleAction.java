@@ -1,20 +1,13 @@
 package com.md.mechevo.game.action;
 
-import java.util.ArrayList;
-
 import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
 
-/**
- * Faster movement (forward or backward)
- */
-public class Sprint extends Action {
-	// TODO I think we can delete this and use MoveInLine instead
-	private static final double DURATION = 1;
+public class IdleAction extends Action {
 	private static final boolean CANCELABLE = true;
 
-	public Sprint(Player owner, ArrayList<String> param) {
-		super(owner, param, CANCELABLE);
+	public IdleAction(Player owner) {
+		super(owner, CANCELABLE);
 	}
 
 	/**
@@ -22,7 +15,7 @@ public class Sprint extends Action {
 	 */
 	@Override
 	public boolean hasFinished() {
-		return DURATION <= this.getOwner().getCurrentOrder().getCurrentActionTime();
+		return true;
 	}
 
 	/**
@@ -33,7 +26,7 @@ public class Sprint extends Action {
 	 */
 	@Override
 	public boolean check(State state) {
-		return false;
+		return true;
 	}
 
 	/**
@@ -43,7 +36,7 @@ public class Sprint extends Action {
 	 */
 	@Override
 	public void begin(State state) {
-
+		// Empty on purpose
 	}
 
 	/**
@@ -54,7 +47,7 @@ public class Sprint extends Action {
 	 */
 	@Override
 	public void update(State state, double dtime) {
-
+		// Empty on purpose
 	}
 
 	/**
@@ -64,6 +57,6 @@ public class Sprint extends Action {
 	 */
 	@Override
 	public void end(State state) {
-
+		// Empty on purpose
 	}
 }

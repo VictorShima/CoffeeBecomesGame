@@ -7,6 +7,8 @@ import com.md.mechevo.game.Player;
 public class ConditionFactory {
 	public static Condition createCondition(String name, Player player, ArrayList<String> param) {
 		switch (name) {
+			case "DistanceToEnemy":
+				return new DistanceToEnemy(player, param);
 			case "EnemyDisappear":
 				return new EnemyDisappear(player);
 			case "EnemySpotted":

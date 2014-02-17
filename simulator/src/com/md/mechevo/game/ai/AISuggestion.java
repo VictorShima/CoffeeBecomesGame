@@ -105,7 +105,6 @@ public final class AISuggestion {
 		return this.preferredTarget;
 	}
 
-
 	/**
 	 * Get the preferred position. Can be fetched from target Player or directly from the
 	 * position.

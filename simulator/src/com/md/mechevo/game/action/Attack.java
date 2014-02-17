@@ -23,7 +23,6 @@ public class Attack extends Action {
 	 */
 	public Attack(Player owner, ArrayList<String> param) {
 		super(owner, param, Attack.CANCELABLE);
-		target = this.getOwner().getCurrentOrder().getPreferredTarget();
 		convertParam();
 	}
 
@@ -37,7 +36,7 @@ public class Attack extends Action {
 
 	public void convertParam() {
 		if (this.getParam().size() != 1) {
-			throw new InvalidActionParameter(Attack.class.getName());
+			throw new InvalidActionParameter(Attack.class.getSimpleName());
 		}
 		try {
 			ArrayList<Weapon> weapons = this.getOwner().getWeapons();
@@ -48,7 +47,7 @@ public class Attack extends Action {
 				}
 			}
 		} catch (IllegalArgumentException e) {
-			throw new InvalidActionParameter(Attack.class.getName());
+			throw new InvalidActionParameter(Attack.class.getSimpleName());
 		}
 	}
 
@@ -79,6 +78,7 @@ public class Attack extends Action {
 	 */
 	@Override
 	public void begin(State state) {
+		target = this.getOwner().getCurrentOrder().getPreferredTarget();
 		EventData eventData =
 				new EventData("startAttacking").addAttribute("id", getOwner().getId())
 						.addAttribute("slot", this.slot.toString());

@@ -2,9 +2,7 @@ package com.md.mechevo.game;
 
 import java.util.ArrayList;
 
-import com.md.mechevo.game.action.Action;
 import com.md.mechevo.game.ai.AIAlgorithm;
-import com.md.mechevo.game.ai.AIEntry;
 import com.md.mechevo.game.ai.AISuggestion;
 import com.md.mechevo.game.projectile.Projectile;
 import com.md.mechevo.game.sentry.Sentry;
@@ -21,7 +19,7 @@ public class Player extends Solid {
 	/**
 	 * Move speed is measured by MapUnits per second.
 	 */
-	public static final double MOVE_SPEED = 5;
+	public static final double MOVE_SPEED = 500;
 
 	public static final double ROT_SPEED = 10;
 
@@ -37,7 +35,7 @@ public class Player extends Solid {
 
 	private static final int WEAPON_TRANSLATION = 15;
 
-	private static final double MAX_HEAT = 100;
+	public static final double MAX_HEAT = 100;
 
 	private int teamId;
 	private int health;
@@ -164,6 +162,11 @@ public class Player extends Solid {
 		if (health <= 0) {
 			setDestroyed(true);
 		}
+
+		EventData event =
+				new EventData("modifyHp").addAttribute("id", this.getId()).addAttribute("value",
+						this.getHealth());
+		this.notifyEventObserver(event);
 	}
 
 	/**
@@ -178,8 +181,8 @@ public class Player extends Solid {
 			setDestroyed(true);
 		}
 		EventData event =
-				new EventData("modifyHp").addAttribute("id", this.getId())
-						.addAttribute("value", this.getHealth());
+				new EventData("modifyHp").addAttribute("id", this.getId()).addAttribute("value",
+						this.getHealth());
 		this.notifyEventObserver(event);
 	}
 
@@ -267,13 +270,33 @@ public class Player extends Solid {
 	 * @return
 	 */
 	public ArrayList<Player> fieldOfView(State state, FieldOfViewAngle angle) {
-		// vectorPlayer is the vector where the player is looking
+		//A front; B player; C target
+		double frontPointX = this.getPosition().getX() + Math.cos(Math.toRadians(this.getAngle()));
+		double frontPointY = this.getPosition().getY() + Math.sin(Math.toRadians(this.getAngle()));
+		ArrayList<Player> playersInView = new ArrayList<>();
+		ArrayList<Player> players = state.getPlayers();
+		for (Player p : players){
+			if (this.getId() != p.getId()) {
+				double distBA = Math.sqrt(Math.pow((this.getPosition().getX() - p.getPosition().getX()), 2) + (Math.pow((this.getPosition().getY() - p.getPosition().getY()), 2)));
+				double distBC = Math.sqrt(Math.pow((this.getPosition().getX() - frontPointX), 2) + (Math.pow((this.getPosition().getY() - frontPointY), 2)));
+				double dotProd = ((frontPointX - this.getPosition().getX()) * (p.getPosition().getX() - this.getPosition().getX())
+						+ (frontPointY - this.getPosition().getY()) * (p.getPosition().getY() - this.getPosition().getY()));
+				double cosValue = (dotProd / (distBA * distBC));
+				double angleToPlayer = Math.toDegrees(Math.acos(cosValue));
+				if (angleToPlayer < angle.getAngle()) {
+					playersInView.add(p);
+				}
+			}
+		}
+		return playersInView;
+
+		/*// vectorPlayer is the vector where the player is looking
 		ArrayList<Player> playersInView = new ArrayList<>();
 		double vectorPlayerX = Math.cos(Math.toRadians(this.getAngle()));
 		double vectorPlayerY = Math.sin(Math.toRadians(this.getAngle()));
 		ArrayList<Player> players = state.getPlayers();
 		for (Player p : players) {
-			if (!(this.getId() == p.getId())) {
+			if (this.getId() != p.getId()) {
 				double vecX = this.getPosition().getX() - p.getPosition().getX();
 				double vecY = this.getPosition().getY() - p.getPosition().getY();
 				double cosValue =
@@ -287,7 +310,7 @@ public class Player extends Solid {
 				}
 			}
 		}
-		return playersInView;
+		return playersInView;*/
 	}
 
 	public ArrayList<Obstacle> fieldOfViewObstacles(State state, FieldOfViewAngle angle) {
@@ -321,9 +344,9 @@ public class Player extends Solid {
 						.addAttribute("angle", this.getAngle())
 						//TODO add color
 						.addAttribute("color", "shimMuchGaySuchWow")
-						.addAttribute("WeaponLeft", this.getWeapons().get(0).getClass().getName())
-						.addAttribute("WeaponRight", this.getWeapons().get(1).getClass().getName())
-						.addAttribute("WeaponCenter", this.getWeapons().get(2).getClass().getName())
+						.addAttribute("WeaponLeft", this.getWeapons().get(0).getClass().getSimpleName())
+						.addAttribute("WeaponRight", this.getWeapons().get(1).getClass().getSimpleName())
+						.addAttribute("WeaponCenter", this.getWeapons().get(2).getClass().getSimpleName())
 						.addAttribute("Hp", this.getHealth());
 		this.notifyEventObserver(event);
 	}
