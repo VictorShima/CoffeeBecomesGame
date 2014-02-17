@@ -270,7 +270,27 @@ public class Player extends Solid {
 	 * @return
 	 */
 	public ArrayList<Player> fieldOfView(State state, FieldOfViewAngle angle) {
-		// vectorPlayer is the vector where the player is looking
+		//A front; B player; C target
+		double frontPointX = this.getPosition().getX() + Math.cos(Math.toRadians(this.getAngle()));
+		double frontPointY = this.getPosition().getY() + Math.sin(Math.toRadians(this.getAngle()));
+		ArrayList<Player> playersInView = new ArrayList<>();
+		ArrayList<Player> players = state.getPlayers();
+		for (Player p : players){
+			if (this.getId() != p.getId()) {
+				double distBA = Math.sqrt(Math.pow((this.getPosition().getX() - p.getPosition().getX()), 2) + (Math.pow((this.getPosition().getY() - p.getPosition().getY()), 2)));
+				double distBC = Math.sqrt(Math.pow((this.getPosition().getX() - frontPointX), 2) + (Math.pow((this.getPosition().getY() - frontPointY), 2)));
+				double dotProd = ((frontPointX - this.getPosition().getX()) * (p.getPosition().getX() - this.getPosition().getX())
+						+ (frontPointY - this.getPosition().getY()) * (p.getPosition().getY() - this.getPosition().getY()));
+				double cosValue = (dotProd / (distBA * distBC));
+				double angleToPlayer = Math.toDegrees(Math.acos(cosValue));
+				if (angleToPlayer < angle.getAngle()) {
+					playersInView.add(p);
+				}
+			}
+		}
+		return playersInView;
+
+		/*// vectorPlayer is the vector where the player is looking
 		ArrayList<Player> playersInView = new ArrayList<>();
 		double vectorPlayerX = Math.cos(Math.toRadians(this.getAngle()));
 		double vectorPlayerY = Math.sin(Math.toRadians(this.getAngle()));
@@ -290,7 +310,7 @@ public class Player extends Solid {
 				}
 			}
 		}
-		return playersInView;
+		return playersInView;*/
 	}
 
 	public ArrayList<Obstacle> fieldOfViewObstacles(State state, FieldOfViewAngle angle) {

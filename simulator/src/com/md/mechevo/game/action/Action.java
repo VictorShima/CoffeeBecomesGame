@@ -125,4 +125,10 @@ public abstract class Action implements EventObservable {
 			this.report.notify(eventData);
 		}
 	}
+
+	public void notifyEventObserver(EventData eventData, Double time) {
+		if (this.report != null) {
+			this.report.notify(eventData, time);
+		}
+	}
 }

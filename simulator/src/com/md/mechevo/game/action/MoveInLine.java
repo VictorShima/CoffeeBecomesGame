@@ -75,7 +75,8 @@ public class MoveInLine extends Action {
 	public void begin(State state) {
 		EventData eventData =
 				new EventData("startMoving").addAttribute("id", getOwner().getId()).addAttribute(
-						"mode", this.mode.toString());
+						"mode", this.mode.toString()).addAttribute(
+						"speed", this.getOwner().getSpeed());
 		this.notifyEventObserver(eventData);
 	}
 
