@@ -2,6 +2,7 @@ package com.md.mechevo.game.action;
 
 import java.util.ArrayList;
 
+import com.md.mechevo.game.EventData;
 import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
 
@@ -73,6 +74,7 @@ public class MoveToEnemy extends Action {
 	 */
 	@Override
 	public void update(State state, double dtime) {
+
 		// Turn at half the speed
 		double angleToTarget = this.getOwner().getAngleToTarget(target);
 		double updatedAngle = this.getOwner().getAngle();
@@ -84,6 +86,17 @@ public class MoveToEnemy extends Action {
 			updatedAngle += rotation * ((angleToTarget > 0) ? 1 : -1);
 		}
 		this.getOwner().setAngle(updatedAngle);
+
+		EventData eventData =
+				new EventData("startTurning").addAttribute("id", getOwner().getId()).addAttribute(
+						"angspeed",
+						this.getOwner().ROT_SPEED / 2 * ((angleToTarget > 0.0) ? 1f : -1f));
+		this.notifyEventObserver(eventData);
+
+		eventData = new EventData("stopTurning").addAttribute("id", getOwner().getId());
+		this.notifyEventObserver(eventData);
+
+
 
 		// Move at half the speed
 		double distanceToTarget = state.getMap().getDistance(this.getOwner(), this.target);
