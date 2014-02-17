@@ -15,7 +15,7 @@ public class ParalyseShotLauncher extends Weapon {
 	public void fire(State state, Solid target) {
 		double angle = super.getAngleToTarget(target);
 		Projectile proj =
-				new ParalyseShot(state.getNextId(), this.getPlayer().getPosition(), angle, this);
+				new ParalyseShot(state.getNextId(), this.getPlayer().getPosition(), this.getPlayer().getAngle() + angle, this);
 		state.addProjectile(proj);
 	}
 }
