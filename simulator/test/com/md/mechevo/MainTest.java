@@ -97,7 +97,7 @@ public class MainTest {
 				"          ]" +
 				"        }" +
 				"      ]" +
-				"    }" +
+				"    } ," +
 
 				"    {" +
 				"      \"teamId\": 1," +
