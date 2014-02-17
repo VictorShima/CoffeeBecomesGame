@@ -16,7 +16,7 @@ public class MineLauncher extends Weapon {
 	public void fire(State state, Solid target) {
 		// double angle = super.getAngleToTarget(target);
 		Projectile proj =
-				new Mine(state.getNextId(), this.getPlayer().getPosition(), this.getPlayer()
+				new Mine(state.getNextId(), this.getOwner().getPosition(), this.getOwner()
 						.getAngle()/* + angle */, this);
 		state.addProjectile(proj);
 

@@ -16,12 +16,12 @@ public class Flamethrower extends Weapon {
 		if (target != null) {
 			double angle = super.getAngleToTarget(target);
 			Projectile proj =
-					new Flame(state.getNextId(), this.getPlayer().getPosition(), this.getPlayer()
+					new Flame(state.getNextId(), this.getOwner().getPosition(), this.getOwner()
 							.getAngle() + angle, this);
 			state.addProjectile(proj);
 		} else {
 			Projectile proj =
-					new Flame(state.getNextId(), this.getPlayer().getPosition(), this.getPlayer()
+					new Flame(state.getNextId(), this.getOwner().getPosition(), this.getOwner()
 							.getAngle(), this);
 			state.addProjectile(proj);
 		}

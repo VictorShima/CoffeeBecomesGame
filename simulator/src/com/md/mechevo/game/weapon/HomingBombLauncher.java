@@ -16,8 +16,8 @@ public class HomingBombLauncher extends Weapon {
 		if (target != null) {
 			double angle = super.getAngleToTarget(target);
 			Projectile proj =
-					new HomingBomb(state.getNextId(), this.getPlayer().getPosition(), this
-							.getPlayer().getAngle() + angle, this, target);
+					new HomingBomb(state.getNextId(), this.getOwner().getPosition(), this
+							.getOwner().getAngle() + angle, this, target);
 			state.addProjectile(proj);
 		}
 

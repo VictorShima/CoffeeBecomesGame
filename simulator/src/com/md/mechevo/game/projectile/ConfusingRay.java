@@ -22,9 +22,11 @@ public class ConfusingRay extends Projectile {
 
 	@Override
 	public void collidesWith(State state, Player p) {
-		p.takeDamage(this.getWeapon().getDamage(), this.getAngle());
-		p.confuse();
-		this.setDestroyed(true);
+		if (p.getId() != this.getWeapon().getOwner().getId()) {
+			p.takeDamage(this.getWeapon().getDamage(), this.getAngle());
+			p.confuse();
+			this.setDestroyed(true);
+		}
 	}
 
 	@Override

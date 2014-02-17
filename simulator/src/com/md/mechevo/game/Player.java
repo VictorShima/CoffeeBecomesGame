@@ -19,7 +19,7 @@ public class Player extends Solid {
 	/**
 	 * Move speed is measured by MapUnits per second.
 	 */
-	public static final double MOVE_SPEED = 500;
+	public static final double MOVE_SPEED = 50;
 
 	public static final double ROT_SPEED = 10;
 
@@ -241,8 +241,8 @@ public class Player extends Solid {
 		double dist = Math.sqrt(Math.pow(vecX, 2) + Math.pow(vecY, 2));
 		// distance shouldn't count the radius of the solid
 		dist = -(dist - (this.getRadius() * 2));
-		this.move(dist / 2, angle, true);
-		p.move(dist / 2, angle, false);
+		this.move(angle, dist / 2, true);
+		p.move(angle, dist / 2, false);
 
 	}
 

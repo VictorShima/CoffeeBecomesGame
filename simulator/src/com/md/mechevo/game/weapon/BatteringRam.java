@@ -16,13 +16,13 @@ public class BatteringRam extends Weapon {
 		if (target != null) {
 			double angle = super.getAngleToTarget(target);
 			Projectile proj =
-					new MeleeProjectile(state.getNextId(), this.getPlayer().getPosition(), this
-							.getPlayer().getAngle() + angle, this);
+					new MeleeProjectile(state.getNextId(), this.getOwner().getPosition(), this
+							.getOwner().getAngle() + angle, this);
 			state.addProjectile(proj);
 		} else {
 			Projectile proj =
-					new MeleeProjectile(state.getNextId(), this.getPlayer().getPosition(), this
-							.getPlayer().getAngle(), this);
+					new MeleeProjectile(state.getNextId(), this.getOwner().getPosition(), this
+							.getOwner().getAngle(), this);
 			state.addProjectile(proj);
 		}
 	}

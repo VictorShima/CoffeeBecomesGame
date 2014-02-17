@@ -17,8 +17,10 @@ public class Mine extends Projectile {
 
 	@Override
 	public void collidesWith(State state, Player p) {
-		p.takeDamage(this.getWeapon().getDamage());
-		this.setDestroyed(true);
+		if (p.getId() != this.getWeapon().getOwner().getId()) {
+			p.takeDamage(this.getWeapon().getDamage());
+			this.setDestroyed(true);
+		}
 	}
 
 	@Override

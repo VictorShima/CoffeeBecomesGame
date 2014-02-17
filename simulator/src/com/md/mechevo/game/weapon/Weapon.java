@@ -3,25 +3,25 @@ package com.md.mechevo.game.weapon;
 import com.md.mechevo.game.*;
 
 public abstract class Weapon implements EventObservable {
-	private Player player;
+	private Player owner;
 	private int damage;
 	private double cooldown;
 	private double currentCooldown;
 	private WeaponSlot currentSlot;
 	private EventObserver report;
 
-	protected Weapon(int damage, double cooldown, Player player) {
+	protected Weapon(int damage, double cooldown, Player owner) {
 		this.damage = damage;
 		this.cooldown = cooldown;
-		this.player = player;
+		this.owner = owner;
 	}
 
-	public Player getPlayer() {
-		return player;
+	public Player getOwner() {
+		return owner;
 	}
 
-	public void setPlayer(Player player) {
-		this.player = player;
+	public void setOwner(Player player) {
+		this.owner = player;
 	}
 
 	public int getDamage() {
@@ -38,8 +38,8 @@ public abstract class Weapon implements EventObservable {
 			// VecRight is a vector pointing right
 			double vecRightX = -20;
 			double vecRightY = 0;
-			double vecX = this.getPlayer().getPosition().getX() - target.getPosition().getX();
-			double vecY = this.getPlayer().getPosition().getY() - target.getPosition().getY();
+			double vecX = this.getOwner().getPosition().getX() - target.getPosition().getX();
+			double vecY = this.getOwner().getPosition().getY() - target.getPosition().getY();
 			double cosValue =
 					((vecX * vecRightX) + (vecY * vecRightY))
 							/ (Math.sqrt(Math.pow(vecRightX, 2) + Math.pow(vecRightY, 2)) * Math
@@ -51,7 +51,7 @@ public abstract class Weapon implements EventObservable {
 			double crossProd = (vecX * vecRightY) - (vecX * vecRightX);
 			return (crossProd < 0) ? angle : -angle;
 		} else {
-			return player.getAngle();
+			return owner.getAngle();
 		}
 	}
 

@@ -9,19 +9,19 @@ import com.md.mechevo.game.projectile.Projectile;
 
 public class Minigun extends Weapon {
 	public Minigun(Player player) {
-		super(8, 0.5f, player);
+		super(20, 0.5f, player);
 	}
 
 	public void fire(State state, Solid target) {
 		if (target != null) {
 			double angle = super.getAngleToTarget(target);
 			Projectile proj =
-					new Bullet(state.getNextId(), this.getPlayer().getPosition(), this.getPlayer()
+					new Bullet(state.getNextId(), this.getOwner().getPosition(), this.getOwner()
 							.getAngle() + angle, this);
 			state.addProjectile(proj);
 		} else {
 			Projectile proj =
-					new Bullet(state.getNextId(), this.getPlayer().getPosition(), this.getPlayer()
+					new Bullet(state.getNextId(), this.getOwner().getPosition(), this.getOwner()
 							.getAngle(), this);
 			state.addProjectile(proj);
 		}
