@@ -7,8 +7,7 @@ import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
 
 /**
- * Move or sprint to the nearest obstacle in a direct line
- * //TODO Tornar isto num turn e moveInLine
+ * Move to the nearest obstacle in a direct line
  */
 public class MoveNearObstacle extends Action {
 	private static final boolean CANCELABLE = true;

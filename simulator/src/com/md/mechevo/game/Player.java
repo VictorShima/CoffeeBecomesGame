@@ -91,8 +91,6 @@ public class Player extends Solid {
 		return algorithm;
 	}
 
-	// TODO can this angle be negative? I needed it to be :'(
-    // TODO Use cross product
 	public double getAngleToTarget(Solid target) {
 		// VecRight is a vector pointing right
 		double vecRightX = -20;
@@ -104,7 +102,10 @@ public class Player extends Solid {
 						/ (Math.sqrt(Math.pow(vecRightX, 2) + Math.pow(vecRightY, 2)) * Math
 								.sqrt(Math.pow(vecX, 2) + Math.pow(vecY, 2)));
 		double angle = Math.toDegrees(Math.acos(cosValue));
-		return angle;
+
+        // Rotate clockwise/counter-clockwise is determined by sign of cross-product
+        double crossProd = (vecX * vecRightY) - (vecX * vecRightX);
+		return (crossProd < 0) ? angle : -angle;
 	}
 
 	public Position getLeftWeaponPosition() {
@@ -337,14 +338,16 @@ public class Player extends Solid {
 		if (!isParalysed()) {
 
 			// try to cancel the action and find a new one (if no current action or cancelable)
-			// TODO: add a method to signal that the action has been Canceled, or finished!
-			if (this.currentOrder == null || this.currentOrder.getAction() == null
-					|| this.currentOrder.getAction().isCancelable()) {
-				AISuggestion suggestion = this.algorithm.calculateBestAction(state);
-				if (this.currentOrder == null
-						|| suggestion.getAiEntry() != this.currentOrder.getAiEntry()) {
-					this.currentOrder = suggestion;
-				}
+            AISuggestion suggestion = this.algorithm.calculateBestAction(state);
+            if (this.currentOrder != null && this.currentOrder.getAction() != null &&
+                    this.currentOrder.getAction().isCancelable() && (!suggestion.getAiEntry().equals(
+                    this.currentOrder.getAiEntry()))) {
+                this.currentOrder.getAction().end(state);
+                this.currentOrder = suggestion;
+            }
+
+			if (this.currentOrder == null || this.currentOrder.getAction() == null) {
+                this.currentOrder = suggestion;
 			}
 
 			if (this.currentOrder.getAction() != null) {

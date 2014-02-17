@@ -31,13 +31,13 @@ public class MoveToEnemy extends Action {
 	private void convertParam() throws InvalidActionParameter {
 		ArrayList<String> params = this.getParam();
 		if (params.size() != 1) {
-			throw new InvalidActionParameter(MoveInLine.class.getName());
+			throw new InvalidActionParameter(MoveToEnemy.class.getName());
 		}
 
 		try {
 			this.mode = Mode.valueOf(params.get(0));
 		} catch (IllegalArgumentException e) {
-			throw new InvalidActionParameter(MoveInLine.class.getName());
+			throw new InvalidActionParameter(MoveToEnemy.class.getName());
 		}
 	}
 
