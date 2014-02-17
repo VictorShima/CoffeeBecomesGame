@@ -57,16 +57,13 @@ public class MoveInLine extends Action {
     }
 
     /**
-     * TODO Should be compared with all the other solids.
-     *
      * @return if it can move in the wished direction
      */
     @Override
     public boolean check(State state) {
-		//TODO if he wants to sprint but the heat is at max he cant
-        return (direction.equals(Direction.FORWARD)) ?
-                state.getMap().canSolidMove(this.getOwner(), this.getOwner().getAngle(), true) :
-                state.getMap().canSolidMove(this.getOwner(), this.getOwner().getAngle(), false);
+		boolean canMove =  state.getMap().canSolidMove(this.getOwner(), direction.equals(Direction.FORWARD));
+		boolean canSprint = (mode.equals(Mode.SPRINT)) && (this.getOwner().getHeat() < Player.MAX_HEAT);
+		return canMove || canSprint;
     }
 
     /**
@@ -89,7 +86,6 @@ public class MoveInLine extends Action {
      */
     @Override
     public void update(State state, double dtime) {
-		//TODO this has to increase heat while it's sprinting
         Player owner = this.getOwner();
         Position oldPos = owner.getPosition();
         owner.move(owner.getAngle(), (mode == Mode.MOVE) ? Player.MOVE_SPEED : Player.SPRINT_SPEED,
@@ -97,7 +93,9 @@ public class MoveInLine extends Action {
 
         double distX = owner.getPosition().getX() - oldPos.getX();
         double distY = owner.getPosition().getY() - oldPos.getY();
-        this.distanceAlreadyMoved += Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
+		double distance = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
+        this.distanceAlreadyMoved += distance;
+		this.getOwner().increaseHeat(distance * Player.HEAT_RATE);
     }
 
     /**

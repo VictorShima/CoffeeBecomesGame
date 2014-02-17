@@ -37,7 +37,7 @@ public class Player extends Solid {
 
 	private static final int WEAPON_TRANSLATION = 15;
 
-	private static final double MAX_HEAT = 100;
+	public static final double MAX_HEAT = 100;
 
 	private int teamId;
 	private int health;

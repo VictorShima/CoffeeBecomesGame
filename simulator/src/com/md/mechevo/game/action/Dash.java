@@ -7,14 +7,13 @@ import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
 
 /**
- * Sideways dash. //TODO param left or right is sent by JSON?
+ * Sideways dash. (LEFT or RIGHT)
  */
 public class Dash extends Action {
 	private static final double DURATION = 0.2;
 	private static final boolean CANCELABLE = false;
-	private static final double HEAT_INCREASE = 70; // /< the increase in the player's heat by
-													// executing this action
-	private static final double DASH_DIST = 60;
+	private static final double HEAT_INCREASE = 70; // /< the increase in the player's heat by executing this action
+	private static final double DISTANCE = 60;
 
 	private Side side;
 
@@ -44,8 +43,7 @@ public class Dash extends Action {
 	 */
 	@Override
 	public boolean hasFinished() {
-		return (DURATION <= this.getOwner().getCurrentOrder().getCurrentActionTime())
-				&& (this.getOwner().getHeat() > this.getOwner().getMaxHeat());
+		return Dash.DURATION <= this.getOwner().getCurrentOrder().getCurrentActionTime();
 	}
 
 	/**
@@ -56,7 +54,7 @@ public class Dash extends Action {
 	 */
 	@Override
 	public boolean check(State state) {
-		return this.getOwner().getHeat() + this.HEAT_INCREASE > this.getOwner().getMaxHeat();
+		return this.getOwner().getHeat() + this.HEAT_INCREASE < this.getOwner().getMaxHeat();
 	}
 
 	/**
@@ -66,6 +64,8 @@ public class Dash extends Action {
 	 */
 	@Override
 	public void begin(State state) {
+		this.getOwner().increaseHeat(Dash.HEAT_INCREASE);
+
 		EventData eventData =
 				new EventData("startDashing").addAttribute("id", getOwner().getId()).addAttribute(
 						"side", this.side.toString());
@@ -80,12 +80,10 @@ public class Dash extends Action {
 	 */
 	@Override
 	public void update(State state, double dtime) {
-		// TODO don't forget Player#increaseHeat
 		double angle =
 				(this.side == Side.LEFT) ? ((this.getOwner().getAngle() + 90) % 360) : ((this
 						.getOwner().getAngle() - 90) % 360);
-		this.getOwner().increaseHeat(HEAT_INCREASE);
-		this.getOwner().move(angle, DASH_DIST, true);
+		this.getOwner().move(angle, Dash.DISTANCE * dtime / Dash.DURATION, true);
 	}
 
 	/**

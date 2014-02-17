@@ -34,7 +34,7 @@ public class EnemySpotted extends Condition {
 		// TODO the preferredEnemy can be the closest or the farthest
 		ArrayList<Player> players = getOwner().fieldOfView(state, Player.FieldOfViewAngle.VIEW);
 		if (!players.isEmpty()) {
-			double nearestDist = 99999;
+			double nearestDist = Double.MAX_VALUE;
 			double dist;
 			for (Player p : players) {
 				double distX = this.getOwner().getPosition().getX() - p.getPosition().getX();
