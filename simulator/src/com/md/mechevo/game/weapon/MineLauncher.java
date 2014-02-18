@@ -14,11 +14,13 @@ public class MineLauncher extends Weapon {
 
 	@Override
 	public void fire(State state, Solid target) {
-		// double angle = super.getAngleToTarget(target);
 		Projectile proj =
 				new Mine(state.getNextId(), this.getOwner().getPosition(), this.getOwner()
-						.getAngle()/* + angle */, this);
+						.getAngle(), this);
+		proj.registerEventObserver(state.getReport());
+		proj.begin(state);
 		state.addProjectile(proj);
 
+		this.increaseCurrentcooldown();
 	}
 }

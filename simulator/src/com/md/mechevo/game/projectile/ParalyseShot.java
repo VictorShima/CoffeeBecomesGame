@@ -20,7 +20,6 @@ public class ParalyseShot extends Projectile {
 		super.move(this.getAngle(), this.getSpeed(), dtime, true);
 	}
 
-
 	@Override
 	public void collidesWith(State state, Player p) {
 		if (p.getId() != this.getWeapon().getOwner().getId()) {

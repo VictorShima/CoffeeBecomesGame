@@ -14,12 +14,14 @@ public class HomingBombLauncher extends Weapon {
 	@Override
 	public void fire(State state, Solid target) {
 		if (target != null) {
-			double angle = super.getAngleToTarget(target);
 			Projectile proj =
 					new HomingBomb(state.getNextId(), this.getOwner().getPosition(), this
-							.getOwner().getAngle() + angle, this, target);
+							.getOwner().getAngle() + super.getAngleToTarget(target), this, target);
+			proj.registerEventObserver(state.getReport());
+			proj.begin(state);
 			state.addProjectile(proj);
-		}
 
+			this.increaseCurrentcooldown();
+		}
 	}
 }

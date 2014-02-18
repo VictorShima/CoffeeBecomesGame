@@ -68,6 +68,10 @@ public abstract class Weapon implements EventObservable {
 		}
 	}
 
+	public void increaseCurrentcooldown() {
+		this.currentCooldown += this.cooldown;
+	}
+
 	public WeaponSlot getCurrentSlot() {
 		return this.currentSlot;
 	}

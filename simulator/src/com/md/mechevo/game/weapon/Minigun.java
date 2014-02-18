@@ -8,22 +8,24 @@ import com.md.mechevo.game.projectile.Bullet;
 import com.md.mechevo.game.projectile.Projectile;
 
 public class Minigun extends Weapon {
+	private static final int DAMAGE = 20;
+	private static final double COOLDOWN = 0.5;
+
 	public Minigun(Player player) {
-		super(20, 0.5f, player);
+		super(Minigun.DAMAGE, Minigun.COOLDOWN, player);
 	}
 
 	public void fire(State state, Solid target) {
-		if (target != null) {
-			double angle = super.getAngleToTarget(target);
-			Projectile proj =
-					new Bullet(state.getNextId(), this.getOwner().getPosition(), this.getOwner()
-							.getAngle() + angle, this);
-			state.addProjectile(proj);
-		} else {
-			Projectile proj =
-					new Bullet(state.getNextId(), this.getOwner().getPosition(), this.getOwner()
-							.getAngle(), this);
-			state.addProjectile(proj);
-		}
+		Projectile proj =
+				(target != null)
+						? new Bullet(state.getNextId(), this.getOwner().getPosition(), this
+								.getOwner().getAngle() + super.getAngleToTarget(target), this)
+						: new Bullet(state.getNextId(), this.getOwner().getPosition(), this
+								.getOwner().getAngle(), this);
+		proj.registerEventObserver(state.getReport());
+		proj.begin(state);
+		state.addProjectile(proj);
+
+		this.increaseCurrentcooldown();
 	}
 }

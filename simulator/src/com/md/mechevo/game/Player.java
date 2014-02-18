@@ -378,6 +378,8 @@ public class Player extends Solid {
                 this.currentOrder = suggestion;
 			}
 
+			// TODO Check if action can be performed
+
 			if (this.currentOrder.getAction() != null) {
 				// perform the current action
 				if (this.currentOrder.isActionStart()) {

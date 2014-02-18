@@ -13,17 +13,16 @@ public class ParalyseShotLauncher extends Weapon {
 
 	@Override
 	public void fire(State state, Solid target) {
-		if (target != null) {
-			double angle = super.getAngleToTarget(target);
-			Projectile proj =
-					new ParalyseShot(state.getNextId(), this.getOwner().getPosition(), this
-							.getOwner().getAngle() + angle, this);
-			state.addProjectile(proj);
-		} else {
-			Projectile proj =
-					new ParalyseShot(state.getNextId(), this.getOwner().getPosition(), this
-							.getOwner().getAngle(), this);
-			state.addProjectile(proj);
-		}
+		Projectile proj =
+				(target != null)
+						? new ParalyseShot(state.getNextId(), this.getOwner().getPosition(), this
+								.getOwner().getAngle() + super.getAngleToTarget(target), this)
+						: new ParalyseShot(state.getNextId(), this.getOwner().getPosition(), this
+								.getOwner().getAngle(), this);
+		proj.registerEventObserver(state.getReport());
+		proj.begin(state);
+		state.addProjectile(proj);
+
+		this.increaseCurrentcooldown();
 	}
 }
