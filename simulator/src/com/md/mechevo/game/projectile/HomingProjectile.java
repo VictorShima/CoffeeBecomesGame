@@ -114,9 +114,9 @@ public class HomingProjectile extends Projectile {
 
 	@Override
 	public void end(State state) {
-		String pathString = "M " + this.path.get(0).getX() + " " + this.path.get(0).getY();
+		String pathString = "M " + (int) this.path.get(0).getX() + " " + (int) this.path.get(0).getY();
 		for (int i = 1; i < path.size(); i++) {
-			pathString += " L " + this.path.get(i).getX() + " " + this.path.get(i).getY();
+			pathString += " L " + (int) this.path.get(i).getX() + " " + (int) this.path.get(i).getY();
 		}
 		EventData event =
 				new EventData("homingPath").addAttribute("id", this.getId()).addAttribute("path",

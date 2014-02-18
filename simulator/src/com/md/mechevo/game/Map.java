@@ -113,6 +113,7 @@ public class Map {
 		// remove elements that are dead
 		for (int i = 0; i < elements.size();) {
 			if (elements.get(i).isDestroyed()) {
+				elements.get(i).end(state);
 				elements.remove(i);
 			} else {
 				i += 1;
