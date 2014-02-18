@@ -2,6 +2,7 @@ package com.md.mechevo.game;
 
 import java.util.ArrayList;
 
+import com.md.mechevo.game.action.Action;
 import com.md.mechevo.game.ai.AIAlgorithm;
 import com.md.mechevo.game.ai.AISuggestion;
 import com.md.mechevo.game.projectile.Projectile;
@@ -367,25 +368,24 @@ public class Player extends Solid {
 
 			// try to cancel the action and find a new one (if no current action or cancelable)
             AISuggestion suggestion = this.algorithm.calculateBestAction(state);
-            if (this.currentOrder != null && this.currentOrder.getAction() != null &&
-                    this.currentOrder.getAction().isCancelable() && (!suggestion.getAiEntry().equals(
-                    this.currentOrder.getAiEntry()))) {
-                this.currentOrder.getAction().end(state);
-                this.currentOrder = suggestion;
+			if (this.currentOrder != null && this.currentOrder.getAction(state) != null
+					&& this.currentOrder.getAction(state).isCancelable()
+					&& (!suggestion.getAiEntry().equals(                    this.currentOrder.getAiEntry()))) {
+				this.currentOrder.getAction(state).end(state);
+				this.currentOrder = suggestion;
             }
 
-			if (this.currentOrder == null || this.currentOrder.getAction() == null) {
-                this.currentOrder = suggestion;
+			if (this.currentOrder == null || this.currentOrder.getAction(state) == null) {
+				this.currentOrder = suggestion;
 			}
 
-			// TODO Check if action can be performed
-
-			if (this.currentOrder.getAction() != null) {
+			Action action = this.currentOrder.getAction(state);
+			if (action != null) {
 				// perform the current action
 				if (this.currentOrder.isActionStart()) {
-					this.currentOrder.getAction().begin(state);
+					action.begin(state);
 				}
-				this.currentOrder.getAction().update(state, dtime);
+				action.update(state, dtime);
 
 				// post-update
 				this.currentOrder.addActionTime(dtime);

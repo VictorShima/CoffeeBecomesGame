@@ -2,6 +2,7 @@ package com.md.mechevo.game.ai;
 
 import com.md.mechevo.game.Player;
 import com.md.mechevo.game.Position;
+import com.md.mechevo.game.State;
 import com.md.mechevo.game.action.Action;
 
 /**
@@ -87,16 +88,17 @@ public final class AISuggestion {
 		return (this.action != null && this.currentActionTime == 0);
 	}
 
-
 	/**
-	 * Retrieve the current action of the entry.
+	 * Retrieve the first action that can be performed or null if none exists
 	 * 
 	 * @return Current action in the entry
 	 */
-	public Action getAction() {
+	public Action getAction(State state) {
+		while ((this.action != null) && (!this.action.check(state))) {
+			this.action = this.action.getNext();
+		}
 		return this.action;
 	}
-
 
 	/**
 	 * Get the preferred target Player

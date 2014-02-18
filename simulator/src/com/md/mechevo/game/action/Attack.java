@@ -67,8 +67,7 @@ public class Attack extends Action {
 	 */
 	@Override
 	public boolean check(State state) {
-		return (this.getOwner().getCurrentOrder().getCurrentActionTime() < DURATION)
-				&& (this.getWeapon().getCooldown() < 0);
+		return this.getWeapon().getCurrentCooldown() == 0;
 	}
 
 	/**
