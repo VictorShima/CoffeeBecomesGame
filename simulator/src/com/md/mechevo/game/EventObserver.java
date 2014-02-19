@@ -64,7 +64,7 @@ public class EventObserver {
 			// build the head of an Event entry
 			JsonObject event = new JsonObject();
 			event.addProperty("time", entry.getKey());
-			event.addProperty("title", entry.getValue().getTitle());
+			event.addProperty("name", entry.getValue().getTitle());
 
 			// build its attributes
 			JsonObject attributes = new JsonObject();

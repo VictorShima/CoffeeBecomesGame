@@ -44,7 +44,7 @@ build() {
 # run
 run() {
 	output "RUN"
-	java -cp $(find $HOME_DIR/lib -name *.jar | tr "\\n" ":")build com.md.mechevo.Main
+	java -cp $(find $HOME_DIR/lib -name *.jar | tr "\\n" ":")build com.md.mechevo.Main 
 	#echo $(find $HOME_DIR/lib -name *.jar | tr "\\n" ":")build
 	#echo HOME: $HOME_DIR
 	#echo $(find $HOME_DIR/build -name *.class)
@@ -78,7 +78,6 @@ case "$1" in
 		;;
 	run)
 		init
-		run
 		;;
 	clean)
 		init
@@ -96,7 +95,7 @@ case "$1" in
 		info
 		;;
 	*)
-		echo $"Usage: $0 (compile|build|run|clean|all|info)"
+		echo $"Usage: $0 ( compile | build | run [args] | clean | all [run-args] | info)"
 		exit 1
 esac
 

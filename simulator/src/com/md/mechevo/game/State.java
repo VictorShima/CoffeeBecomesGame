@@ -120,7 +120,8 @@ public class State implements EventObservable {
 	}
 
 	/**
-	 * A game has finished when all players for a team are destroyed.
+	 * A game has finished when all players for a team are destroyed
+	 * or a set timelimit is passed
 	 */
 	public boolean gameHasFinished() {
 		boolean[] teamAlive = new boolean[NUM_TEAMS];
