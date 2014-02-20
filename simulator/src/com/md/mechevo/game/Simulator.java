@@ -24,7 +24,7 @@ public class Simulator {
 	
 		double timeElapsed = 0;
 		// game loop
-		while (!state.gameHasFinished() && timeElapsed <= Simulator.TIMELIMIT) {
+		while (!state.gameHasFinished() && timeElapsed < Simulator.TIMELIMIT) {
 			state.update(TIME_BETWEEN_ROUNDS);
 			timeElapsed += TIME_BETWEEN_ROUNDS;
 		}

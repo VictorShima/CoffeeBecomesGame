@@ -63,14 +63,5 @@ public abstract class Sentry extends Solid {
 	}
 
 	@Override
-	public void update(State state, double dtime) {
-		this.timeToLive -= dtime;
-
-		if (this.timeToLive <= 0) {
-			owner.removeSentry(this);
-			return;
-		}
-
-		// TODO
-	}
+	public void update(State state, double dtime) {}
 }

@@ -10,16 +10,23 @@ import com.md.mechevo.io.Importer;
 
 public class Main {
 
-	static String convertStreamToString(java.io.InputStream is) {
-		 java.util.Scanner s = new java.util.Scanner(is,"UTF-8").useDelimiter("\\A");
+	static String convertStreamToString(InputStream is) {
+		Scanner s = new Scanner(is, "UTF-8").useDelimiter("\\A");
 		 return s.hasNext() ? s.next() : "";
 	}
 
 	public static void main(String[] args) {
-	
-		// Read the JSON from stdin, more robust since now the JSON can include any spaces
-		String content = Main.convertStreamToString(System.in);
-		State initialState = Importer.createInitialState(content);
+		String content;
+
+		// Read from args if there's any argument
+		if (args.length != 0) {
+			content = args[0];
+		} else {
+			// Read the JSON from stdin, more robust since now the JSON can include any spaces
+			content = Main.convertStreamToString(System.in);
+		}
+
+	State initialState = Importer.createInitialState(content);
 	
 		//if (args.length != 1) {
 		//	System.out.println("Invalid number of arguments: " + args.length);

@@ -48,6 +48,7 @@ public class MainTest {
                 "  ]" +
                 "}";
 
+
         Main.main(new String[] {
                 JSON
         });
@@ -189,8 +190,8 @@ public class MainTest {
 				"        \"\"" +
 				"      ]," +
 				"      \"x\": 550," +
-				"      \"y\": 500," +
-				"      \"angle\": 180," +
+ "      \"y\": 490,"
+						+				"      \"angle\": 180," +
 				"      \"algorithm\": [" +
 				"        {" +
 				"          \"conditions\": [" +

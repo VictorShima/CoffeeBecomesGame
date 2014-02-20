@@ -215,14 +215,6 @@ public class Player extends Solid {
 		this.confused = confused;
 	}
 
-	public void addSentry(Sentry s) {
-		sentries.add(s);
-	}
-
-	public void removeSentry(Sentry s) {
-		sentries.remove(s);
-	}
-
 	public ArrayList<Weapon> getWeapons() {
 		return weapons;
 	}
@@ -232,6 +224,13 @@ public class Player extends Solid {
 		s.collidesWith(state, this);
 	}
 
+	/**
+	 * This method is called then two players collide. Each player moves backwards half the distance needed to
+	 * seperate.
+	 *
+	 * @param state the current state of the game
+	 * @param p the other player involved in the collision
+	 */
 	@Override
 	public void collidesWith(State state, Player p) {
 		// vec is the distance vector
@@ -240,11 +239,11 @@ public class Player extends Solid {
 		double tangentAlfa = vecY / vecX;
 		double angle = Math.atan(tangentAlfa);
 		double dist = Math.sqrt(Math.pow(vecX, 2) + Math.pow(vecY, 2));
+
 		// distance shouldn't count the radius of the solid
 		dist = -(dist - (this.getRadius() * 2));
 		this.move(angle, dist / 2, true);
 		p.move(angle, dist / 2, false);
-
 	}
 
 	@Override
@@ -265,13 +264,12 @@ public class Player extends Solid {
 	}
 
 	/**
-	 * fieldOfView returns all players that are in the field of view or in the field of fire
-	 * @param state
+	 * @param state the current state of the game
 	 * @param angle FieldOfViewAngle.FIRE or FieldOfViewAngle.VIEW
-	 * @return
+	 * @return all the players that are in the field of view or in the field of fire
 	 */
 	public ArrayList<Player> fieldOfView(State state, FieldOfViewAngle angle) {
-		//A front; B player; C target
+		// A front; B player; C target
 		double frontPointX = this.getPosition().getX() + Math.cos(Math.toRadians(this.getAngle()));
 		double frontPointY = this.getPosition().getY() + Math.sin(Math.toRadians(this.getAngle()));
 		ArrayList<Player> playersInView = new ArrayList<>();
@@ -290,49 +288,37 @@ public class Player extends Solid {
 			}
 		}
 		return playersInView;
-
-		/*// vectorPlayer is the vector where the player is looking
-		ArrayList<Player> playersInView = new ArrayList<>();
-		double vectorPlayerX = Math.cos(Math.toRadians(this.getAngle()));
-		double vectorPlayerY = Math.sin(Math.toRadians(this.getAngle()));
-		ArrayList<Player> players = state.getPlayers();
-		for (Player p : players) {
-			if (this.getId() != p.getId()) {
-				double vecX = this.getPosition().getX() - p.getPosition().getX();
-				double vecY = this.getPosition().getY() - p.getPosition().getY();
-				double cosValue =
-						((vectorPlayerX * vecX) + (vectorPlayerY * vecY))
-								/ ((Math.sqrt(Math.pow(vecX, 2) + Math.pow(vecY, 2))) * (Math
-										.sqrt(Math.pow(vectorPlayerX, 2)
-												+ Math.pow(vectorPlayerY, 2))));
-				double angleToPlayer = Math.toDegrees(Math.acos(cosValue));
-				if (angleToPlayer < angle.getAngle()) {
-					playersInView.add(p);
-				}
-			}
-		}
-		return playersInView;*/
 	}
 
+	/**
+	 * @param state the current state of the game
+	 * @param angle FieldOfViewAngle.FIRE or FieldOfViewAngle.VIEW
+	 * @return all the obstacles in the FOV or in the FOF
+	 */
 	public ArrayList<Obstacle> fieldOfViewObstacles(State state, FieldOfViewAngle angle) {
-		// vectorPlayer is the vector where the player is looking
+		// A front; B player; C target
+		double frontPointX = this.getPosition().getX() + Math.cos(Math.toRadians(this.getAngle()));
+		double frontPointY = this.getPosition().getY() + Math.sin(Math.toRadians(this.getAngle()));
 		ArrayList<Obstacle> obstaclesInView = new ArrayList<>();
-		double vectorPlayerX = Math.cos(Math.toRadians(this.getAngle()));
-		double vectorPlayerY = Math.sin(Math.toRadians(this.getAngle()));
-
-		for (Obstacle o : state.getObstacles()) {
-			double vecX = this.getPosition().getX() - o.getPosition().getX();
-			double vecY = this.getPosition().getY() - o.getPosition().getY();
-			double cosValue =
-					((vectorPlayerX * vecX) + (vectorPlayerY * vecY))
-							/ ((Math.sqrt(Math.pow(vecX, 2) + Math.pow(vecY, 2))) * (Math.sqrt(Math
-									.pow(vectorPlayerX, 2) + Math.pow(vectorPlayerY, 2))));
-			double angleToObstacle = Math.acos(cosValue);
-			if (angleToObstacle < angle.getAngle()) {
+		ArrayList<Obstacle> obstacles = state.getObstacles();
+		for (Obstacle o : obstacles) {
+			double distBA =
+					Math.sqrt(Math.pow((this.getPosition().getX() - o.getPosition().getX()), 2)
+							+ (Math.pow((this.getPosition().getY() - o.getPosition().getY()), 2)));
+			double distBC =
+					Math.sqrt(Math.pow((this.getPosition().getX() - frontPointX), 2)
+							+ (Math.pow((this.getPosition().getY() - frontPointY), 2)));
+			double dotProd =
+					((frontPointX - this.getPosition().getX())
+							* (o.getPosition().getX() - this.getPosition().getX()) + (frontPointY - this
+							.getPosition().getY())
+							* (o.getPosition().getY() - this.getPosition().getY()));
+			double cosValue = (dotProd / (distBA * distBC));
+			double angleToPlayer = Math.toDegrees(Math.acos(cosValue));
+			if (angleToPlayer < angle.getAngle()) {
 				obstaclesInView.add(o);
 			}
 		}
-
 		return obstaclesInView;
 	}
 
@@ -343,8 +329,7 @@ public class Player extends Solid {
 						.addAttribute("x", this.getPosition().getX())
 						.addAttribute("y", this.getPosition().getY())
 						.addAttribute("angle", this.getAngle())
-						//TODO add color
-						.addAttribute("color", "shimMuchGaySuchWow")
+						.addAttribute("color", "")
 						.addAttribute("weaponLeft", this.getWeapons().get(0).getClass().getSimpleName())
 						.addAttribute("weaponRight", this.getWeapons().get(1).getClass().getSimpleName())
 						.addAttribute("weaponCenter", this.getWeapons().get(2).getClass().getSimpleName())

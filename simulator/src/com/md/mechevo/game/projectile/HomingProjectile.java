@@ -69,35 +69,36 @@ public class HomingProjectile extends Projectile {
 	 */
 	@Override
 	public void update(State state, double dtime) {
-		double vecToTargetX = this.getTarget().getPosition().getX() - this.getPosition().getX();
-		double vecToTargetY = this.getTarget().getPosition().getY() - this.getPosition().getY();
+		final Position myPos = this.getPosition();
+		final Position targetPos = this.getTarget().getPosition();
+		final double frontPointX =
+				this.getPosition().getX() + Math.cos(Math.toRadians(this.getAngle()));
+		final double frontPointY =
+				this.getPosition().getY() + Math.sin(Math.toRadians(this.getAngle()));
 
-		double vecX = Math.cos(Math.toRadians(this.getAngle()));
-		double vecY = Math.sin(Math.toRadians(this.getAngle()));
-
-		double cosValue =
-				((vecToTargetX * vecX) + (vecToTargetY * vecY))
-						/ (Math.sqrt(Math.pow(vecX, 2f) + Math.pow(vecY, 2f)) * Math.sqrt(Math.pow(
-								vecToTargetX, 2f) + Math.pow(vecToTargetY, 2f)));
-
-		double rotationAngle = Math.toDegrees(Math.acos(cosValue));
-		rotationAngle *= dtime;
+		double distBA =
+				Math.sqrt(Math.pow((myPos.getX() - targetPos.getX()), 2)
+						+ (Math.pow((myPos.getY() - targetPos.getY()), 2)));
+		double distBC =
+				Math.sqrt(Math.pow((myPos.getX() - frontPointX), 2)
+						+ (Math.pow((myPos.getY() - frontPointY), 2)));
+		double dotProd =
+				((frontPointX - myPos.getX()) * (targetPos.getX() - myPos.getX()) + (frontPointY - myPos
+						.getY()) * (targetPos.getY() - myPos.getY()));
+		double cosValue = (dotProd / (distBA * distBC));
+		double rotationAngle = Math.toDegrees(Math.acos(cosValue)) * dtime;
 
 		// Rotate clockwise/counter-clockwise is determined by sign of cross-product
-		double crossProd = (vecToTargetX * vecY) - (vecToTargetY * vecX);
+		double vecToTargetX = targetPos.getX() - myPos.getX();
+		double vecToTargetY = targetPos.getY() - myPos.getY();
+		double crossProd = (vecToTargetX * frontPointY) - (vecToTargetY * frontPointX);
 
-		if (rotationAngle < rotSpeed * dtime) {
-			if (crossProd < 0) {
-				this.setAngle(this.getAngle() + rotationAngle);
-			} else {
-				this.setAngle(this.getAngle() - rotationAngle);
-			}
+		if (crossProd > 0) {
+			this.setAngle(this.getAngle()
+					+ ((rotationAngle < rotSpeed * dtime) ? rotationAngle : rotSpeed * dtime));
 		} else {
-			if (crossProd < 0) {
-				this.setAngle(this.getAngle() + rotSpeed * dtime);
-			} else {
-				this.setAngle(this.getAngle() - rotSpeed * dtime);
-			}
+			this.setAngle(this.getAngle()
+					- ((rotationAngle < rotSpeed * dtime) ? rotationAngle : rotSpeed*dtime));
 		}
 
 		// After calculating the new angle we simply move forward the missile like a regular solid

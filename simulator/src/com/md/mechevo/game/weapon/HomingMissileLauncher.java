@@ -8,7 +8,7 @@ import com.md.mechevo.game.projectile.Projectile;
 
 public class HomingMissileLauncher extends Weapon {
 	public HomingMissileLauncher(Player player) {
-		super(20, 5, player);
+		super(100, 5, player);
 	}
 
 	@Override
