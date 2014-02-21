@@ -91,20 +91,26 @@ public class Player extends Solid {
 	}
 
 	public double getAngleToTarget(Solid target) {
-		// VecRight is a vector pointing right
-		double vecRightX = -20;
-		double vecRightY = 0;
-		double vecX = this.getPosition().getX() - target.getPosition().getX();
-		double vecY = this.getPosition().getY() - target.getPosition().getY();
-		double cosValue =
-				((vecX * vecRightX) + (vecY * vecRightY))
-						/ (Math.sqrt(Math.pow(vecRightX, 2) + Math.pow(vecRightY, 2)) * Math
-								.sqrt(Math.pow(vecX, 2) + Math.pow(vecY, 2)));
-		double angle = Math.toDegrees(Math.acos(cosValue));
+		// If target is null then return the player's angle
+		if (target != null) {
+			//rightPoint is a point always 20px to the absolute right of the player
+			double rightPointX = this.getPosition().getX() + 20;
+			double rightPointY = this.getPosition().getY();
 
-        // Rotate clockwise/counter-clockwise is determined by sign of cross-product
-        double crossProd = (vecX * vecRightY) - (vecX * vecRightX);
-		return (crossProd < 0) ? angle : -angle;
+			double distBA = Math.sqrt(Math.pow((this.getPosition().getX() - target.getPosition().getX()), 2) + (Math.pow((this.getPosition().getY() - target.getPosition().getY()), 2)));
+			double distBC = Math.sqrt(Math.pow((this.getPosition().getX() - rightPointX), 2) + (Math.pow((this.getPosition().getY() - rightPointY), 2)));
+			double dotProd = ((rightPointX - this.getPosition().getX()) * (target.getPosition().getX() - this.getPosition().getX())
+					+ (rightPointY - this.getPosition().getY()) * (target.getPosition().getY() - this.getPosition().getY()));
+			double cosValue = (dotProd / (distBA * distBC));
+			double angle = Math.toDegrees(Math.acos(cosValue));
+
+			// Rotate clockwise/counter-clockwise is determined by sign of cross-product
+			double crossProd = ((rightPointX - this.getPosition().getX()) * (target.getPosition().getY() - this.getPosition().getY()) - (rightPointY - this.getPosition().getY()) * (target.getPosition().getX() - this.getPosition().getX()));
+
+			return (crossProd > 0) ? angle : -angle;
+		} else {
+			return getAngle();
+		}
 	}
 
 	public Position getLeftWeaponPosition() {
