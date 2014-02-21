@@ -68,6 +68,20 @@ public class AIEntry {
 	}
 
 	/**
+	 *
+	 * @param state the current state of the game
+	 * @return true if at least one of the actions can be performed, false otherwise.
+	 */
+	public boolean canPerformAnyAction(State state) {
+		for (Action action : this.actions) {
+			if (action.check(state)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Since Conditions may change the target, ask them which one should be targetted. This function
 	 * expects that checkRequirements to return true
 	 * 

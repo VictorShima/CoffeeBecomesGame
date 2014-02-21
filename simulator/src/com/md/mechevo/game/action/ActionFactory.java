@@ -22,6 +22,7 @@ public class ActionFactory {
 			case "Scout":
 				return new Turn(player, new ArrayList<String>() {
 					{
+						add("RIGHT");
 						add("360");
 					}
 				});

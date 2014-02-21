@@ -365,16 +365,14 @@ public class Player extends Solid {
 			}
 
 			Action action = this.currentOrder.getAction(state);
-			if (action != null) {
-				// perform the current action
-				if (this.currentOrder.isActionStart()) {
-					action.begin(state);
-				}
-				action.update(state, dtime);
-
-				// post-update
-				this.currentOrder.addActionTime(dtime);
+			// perform the current action
+			if (this.currentOrder.isActionStart()) {
+				action.begin(state);
 			}
+			action.update(state, dtime);
+
+			// post-update
+			this.currentOrder.addActionTime(dtime);
 		}
 	}
 

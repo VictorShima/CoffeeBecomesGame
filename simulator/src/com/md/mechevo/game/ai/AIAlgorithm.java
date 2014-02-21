@@ -61,7 +61,7 @@ public final class AIAlgorithm {
 	 */
 	public AISuggestion calculateBestAction(State state) {
 		for (AIEntry entry : this.entries) {
-			if (entry.checkRequirements(state)) {
+			if (entry.checkRequirements(state) && entry.canPerformAnyAction(state)) {
 				return new AISuggestion(entry, entry.findPreferredTarget(state));
 			}
 		}
@@ -76,7 +76,4 @@ public final class AIAlgorithm {
 	public ArrayList<AIEntry> getEntries() {
 		return this.entries;
 	}
-
-
-
 }

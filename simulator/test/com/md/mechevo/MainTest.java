@@ -298,4 +298,57 @@ public class MainTest {
 
 		Main.main(new String[] {JSON});
 	}
+
+	/**
+	 * Another interesting battle.
+	 */
+	@Test
+	public void testMain5() {
+		final String JSON =
+				"{" + "  \"map\": {" + "    \"width\": 800," + "    \"height\": 800" + "  },"
+						+ "  \"obstacles\": []," + "  \"players\": [" + "    {"
+						+ "      \"teamId\": 0," + "      \"weapons\": ["
+						+ "        \"RocketLauncher\"," + "        \"RocketLauncher\","
+						+ "        \"MineLauncher\"" + "      ]," + "      \"x\": 300,"
+						+ "      \"y\": 500," + "      \"angle\": 0," + "      \"algorithm\": ["
+						+ "        {" + "          \"conditions\": [" + "            {"
+						+ "              \"name\": \"EnemySpotted\","
+						+ "              \"param\": [\"\"]" + "            }" + "          ],"
+						+ "          \"actions\": [" + "            {"
+						+ "              \"name\": \"FaceOpponent\","
+						+ "              \"param\": []" + "            }," + "            {"
+						+ "              \"name\": \"Attack\","
+						+ "              \"param\": [\"LEFT\"]" + "            },"
+						+ "            {" + "              \"name\": \"Attack\","
+						+ "              \"param\": [\"RIGHT\"]" + "            }" + "          ]"
+						+ "        }," + "        {" + "          \"conditions\": ["
+						+ "            {" + "              \"name\": \"TrueCondition\","
+						+ "              \"param\": [\"\"]" + "            }" + "          ],"
+						+ "          \"actions\": [" + "            {"
+						+ "              \"name\": \"Scout\"," + "              \"param\": []"
+						+ "            }" + "          ]" + "        }" + "      ]" + "    },"
+						+ "    {" + "      \"teamId\": 1," + "      \"weapons\": ["
+						+ "        \"Minigun\"," + "        \"Minigun\","
+						+ "        \"MineLauncher\"" + "      ]," + "      \"x\": 500,"
+						+ "      \"y\": 700," + "      \"angle\": 0," + "      \"algorithm\": ["
+						+ "        {" + "          \"conditions\": [" + "            {"
+						+ "              \"name\": \"EnemySpotted\","
+						+ "              \"param\": [\"\"]" + "            }" + "          ],"
+						+ "          \"actions\": [" + "            {"
+						+ "              \"name\": \"FaceOpponent\","
+						+ "              \"param\": []" + "            }," + "            {"
+						+ "              \"name\": \"Attack\","
+						+ "              \"param\": [\"LEFT\"]" + "            },"
+						+ "            {" + "              \"name\": \"Attack\","
+						+ "              \"param\": [\"RIGHT\"]" + "            }" + "          ]"
+						+ "        }," + "        {" + "          \"conditions\": ["
+						+ "            {" + "              \"name\": \"TrueCondition\","
+						+ "              \"param\": [\"\"]" + "            }" + "          ],"
+						+ "          \"actions\": [" + "            {"
+						+ "              \"name\": \"Scout\"," + "              \"param\": []"
+						+ "            }" + "          ]" + "        }" + "      ]" + "    }"
+						+ "  ]" + "}";
+
+		Main.main(new String[] {JSON});
+	}
 }
