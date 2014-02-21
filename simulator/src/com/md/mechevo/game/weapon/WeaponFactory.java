@@ -23,6 +23,8 @@ public class WeaponFactory {
 				return new ParalyseShotLauncher(player);
 			case "TurretLauncher":
 				return new TurretLauncher(player);
+			case "RocketLauncher":
+				return new RocketLauncher(player);
 			case "":
 				return new NullWeapon(player);
 			default:
