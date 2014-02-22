@@ -12,7 +12,6 @@ import com.md.mechevo.game.weapon.Weapon;
  * Attack will shoot with the selected weapon, first by checking if it's cooldown is up.
  */
 public class Attack extends Action {
-	private static final double DURATION = 0.5;
 	private static final boolean CANCELABLE = false;
 	private Weapon.WeaponSlot slot;
 	private Weapon weapon;
@@ -52,11 +51,11 @@ public class Attack extends Action {
 	}
 
 	/**
-	 * Check if the the action has already finished.
+	 * After update, already finished
 	 */
 	@Override
 	public boolean hasFinished() {
-		return DURATION <= this.getOwner().getCurrentOrder().getCurrentActionTime();
+		return true;
 	}
 
 	/**

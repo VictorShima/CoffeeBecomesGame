@@ -17,11 +17,8 @@ public class RocketLauncher extends Weapon {
 	@Override
 	public void fire(State state, Solid target) {
 		Projectile proj =
-				(target != null)
-						? new Missile(state.getNextId(), this.getOwner().getPosition(), this
-								.getOwner().getAngle() + super.getAngleToTarget(target), this)
-						: new Missile(state.getNextId(), this.getOwner().getPosition(), this
-								.getOwner().getAngle(), this);
+				new Missile(state.getNextId(), this.getOwner().getPosition(), this.getOwner()
+						.getAngle(), this);
 		proj.registerEventObserver(state.getReport());
 		proj.begin(state);
 		state.addProjectile(proj);

@@ -32,29 +32,6 @@ public abstract class Weapon implements EventObservable {
 		return cooldown;
 	}
 
-	public double getAngleToTarget(Solid target) {
-		// If target is null then return the player's angle
-		if (target != null) {
-			//rightPoint is a point always 20px to the absolute right of the player
-			double rightPointX = this.getOwner().getPosition().getX() + 20;
-			double rightPointY = this.getOwner().getPosition().getY();
-
-			double distBA = Math.sqrt(Math.pow((this.getOwner().getPosition().getX() - target.getPosition().getX()), 2) + (Math.pow((this.getOwner().getPosition().getY() - target.getPosition().getY()), 2)));
-			double distBC = Math.sqrt(Math.pow((this.getOwner().getPosition().getX() - rightPointX), 2) + (Math.pow((this.getOwner().getPosition().getY() - rightPointY), 2)));
-			double dotProd = ((rightPointX - this.getOwner().getPosition().getX()) * (target.getPosition().getX() - this.getOwner().getPosition().getX())
-					+ (rightPointY - this.getOwner().getPosition().getY()) * (target.getPosition().getY() - this.getOwner().getPosition().getY()));
-			double cosValue = (dotProd / (distBA * distBC));
-			double angle = Math.toDegrees(Math.acos(cosValue));
-
-			// Rotate clockwise/counter-clockwise is determined by sign of cross-product
-			double crossProd = ((rightPointX - this.getOwner().getPosition().getX()) * (target.getPosition().getY() - this.getOwner().getPosition().getY()) - (rightPointY - this.getOwner().getPosition().getY()) * (target.getPosition().getX() - this.getOwner().getPosition().getX()));
-
-			return (crossProd > 0) ? angle : -angle;
-		} else {
-			return owner.getAngle();
-		}
-	}
-
 	public abstract void fire(State state, Solid target);
 
 	public double getCurrentCooldown() {

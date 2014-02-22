@@ -2,6 +2,7 @@ package com.md.mechevo.game.action;
 
 import java.util.ArrayList;
 
+import com.md.mechevo.game.Map;
 import com.md.mechevo.game.Obstacle;
 import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
@@ -73,7 +74,7 @@ public class MoveNearObstacle extends Action {
 		final double distToObstacle = nearestDist;
 		Action firstAction = new Turn(this.getOwner(), new ArrayList<String>() {
 			{
-				add(Double.toString(owner.getAngleToTarget(target)));
+				add(Double.toString(Map.getAngleToTarget(owner, target)));
 			}
 		});
 		Action secondAction = new MoveInLine(this.getOwner(), new ArrayList<String>() {

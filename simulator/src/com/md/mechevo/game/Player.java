@@ -22,7 +22,7 @@ public class Player extends Solid {
 	 */
 	public static final double MOVE_SPEED = 50;
 
-	public static final double ROT_SPEED = 10;
+	public static final double ROT_SPEED = 100;
 
 	/**
 	 * Sprint speed is measured by MapUnits per second.
@@ -88,29 +88,6 @@ public class Player extends Solid {
 
 	public AIAlgorithm getAlgorithm() {
 		return algorithm;
-	}
-
-	public double getAngleToTarget(Solid target) {
-		// If target is null then return the player's angle
-		if (target != null) {
-			//rightPoint is a point always 20px to the absolute right of the player
-			double rightPointX = this.getPosition().getX() + 20;
-			double rightPointY = this.getPosition().getY();
-
-			double distBA = Math.sqrt(Math.pow((this.getPosition().getX() - target.getPosition().getX()), 2) + (Math.pow((this.getPosition().getY() - target.getPosition().getY()), 2)));
-			double distBC = Math.sqrt(Math.pow((this.getPosition().getX() - rightPointX), 2) + (Math.pow((this.getPosition().getY() - rightPointY), 2)));
-			double dotProd = ((rightPointX - this.getPosition().getX()) * (target.getPosition().getX() - this.getPosition().getX())
-					+ (rightPointY - this.getPosition().getY()) * (target.getPosition().getY() - this.getPosition().getY()));
-			double cosValue = (dotProd / (distBA * distBC));
-			double angle = Math.toDegrees(Math.acos(cosValue));
-
-			// Rotate clockwise/counter-clockwise is determined by sign of cross-product
-			double crossProd = ((rightPointX - this.getPosition().getX()) * (target.getPosition().getY() - this.getPosition().getY()) - (rightPointY - this.getPosition().getY()) * (target.getPosition().getX() - this.getPosition().getX()));
-
-			return (crossProd > 0) ? angle : -angle;
-		} else {
-			return getAngle();
-		}
 	}
 
 	public Position getLeftWeaponPosition() {
@@ -276,19 +253,26 @@ public class Player extends Solid {
 	 */
 	public ArrayList<Player> fieldOfView(State state, FieldOfViewAngle angle) {
 		// A front; B player; C target
-		double frontPointX = this.getPosition().getX() + Math.cos(Math.toRadians(this.getAngle()));
-		double frontPointY = this.getPosition().getY() + Math.sin(Math.toRadians(this.getAngle()));
 		ArrayList<Player> playersInView = new ArrayList<>();
 		ArrayList<Player> players = state.getPlayers();
 		for (Player p : players){
 			if (this.getId() != p.getId()) {
-				double distBA = Math.sqrt(Math.pow((this.getPosition().getX() - p.getPosition().getX()), 2) + (Math.pow((this.getPosition().getY() - p.getPosition().getY()), 2)));
-				double distBC = Math.sqrt(Math.pow((this.getPosition().getX() - frontPointX), 2) + (Math.pow((this.getPosition().getY() - frontPointY), 2)));
-				double dotProd = ((frontPointX - this.getPosition().getX()) * (p.getPosition().getX() - this.getPosition().getX())
-						+ (frontPointY - this.getPosition().getY()) * (p.getPosition().getY() - this.getPosition().getY()));
-				double cosValue = (dotProd / (distBA * distBC));
-				double angleToPlayer = Math.toDegrees(Math.acos(cosValue));
-				if (angleToPlayer < angle.getAngle()) {
+				double angleToPlayer = Map.getAngleToTarget(this, p);
+				double[] firstInterval =
+						{this.getAngle() - angle.getAngle(), this.getAngle() + angle.getAngle()};
+				double[] secondInterval = {0, 360};
+				if (firstInterval[0] < 0) {
+					secondInterval[1] = firstInterval[0] + 360;
+					firstInterval[0] = 0;
+				}
+				if (firstInterval[1] > 360) {
+					secondInterval[0] = firstInterval[1] - 360;
+					firstInterval[1] = 360;
+				}
+
+				if ((firstInterval[0] <= angleToPlayer && angleToPlayer <= firstInterval[1])
+						|| (secondInterval[0] >= angleToPlayer)
+						|| (secondInterval[1] <= angleToPlayer)) {
 					playersInView.add(p);
 				}
 			}
@@ -302,26 +286,25 @@ public class Player extends Solid {
 	 * @return all the obstacles in the FOV or in the FOF
 	 */
 	public ArrayList<Obstacle> fieldOfViewObstacles(State state, FieldOfViewAngle angle) {
-		// A front; B player; C target
-		double frontPointX = this.getPosition().getX() + Math.cos(Math.toRadians(this.getAngle()));
-		double frontPointY = this.getPosition().getY() + Math.sin(Math.toRadians(this.getAngle()));
 		ArrayList<Obstacle> obstaclesInView = new ArrayList<>();
 		ArrayList<Obstacle> obstacles = state.getObstacles();
 		for (Obstacle o : obstacles) {
-			double distBA =
-					Math.sqrt(Math.pow((this.getPosition().getX() - o.getPosition().getX()), 2)
-							+ (Math.pow((this.getPosition().getY() - o.getPosition().getY()), 2)));
-			double distBC =
-					Math.sqrt(Math.pow((this.getPosition().getX() - frontPointX), 2)
-							+ (Math.pow((this.getPosition().getY() - frontPointY), 2)));
-			double dotProd =
-					((frontPointX - this.getPosition().getX())
-							* (o.getPosition().getX() - this.getPosition().getX()) + (frontPointY - this
-							.getPosition().getY())
-							* (o.getPosition().getY() - this.getPosition().getY()));
-			double cosValue = (dotProd / (distBA * distBC));
-			double angleToPlayer = Math.toDegrees(Math.acos(cosValue));
-			if (angleToPlayer < angle.getAngle()) {
+			double angleToObstacle = Map.getAngleToTarget(this, o);
+			double[] firstInterval =
+					{this.getAngle() - angle.getAngle(), this.getAngle() + angle.getAngle()};
+			double[] secondInterval = {0, 360};
+			if (firstInterval[0] < 0) {
+				secondInterval[1] = firstInterval[0] + 360;
+				firstInterval[0] = 0;
+			}
+			if (firstInterval[1] > 360) {
+				secondInterval[0] = firstInterval[1] - 360;
+				firstInterval[1] = 360;
+			}
+
+			if ((firstInterval[0] <= angleToObstacle && angleToObstacle <= firstInterval[1])
+					|| (secondInterval[0] >= angleToObstacle)
+					|| (secondInterval[1] <= angleToObstacle)) {
 				obstaclesInView.add(o);
 			}
 		}
@@ -361,16 +344,18 @@ public class Player extends Solid {
             AISuggestion suggestion = this.algorithm.calculateBestAction(state);
 			if (this.currentOrder != null && this.currentOrder.getAction(state) != null
 					&& this.currentOrder.getAction(state).isCancelable()
-					&& (!suggestion.getAiEntry().equals(                    this.currentOrder.getAiEntry()))) {
+					&& (!suggestion.getAiEntry().equals(this.currentOrder.getAiEntry()))) {
 				this.currentOrder.getAction(state).end(state);
 				this.currentOrder = suggestion;
-            }
+			}
 
+			// choose the suggestion when it's the first one or when there are no more actions to execute
 			if (this.currentOrder == null || this.currentOrder.getAction(state) == null) {
 				this.currentOrder = suggestion;
 			}
 
 			Action action = this.currentOrder.getAction(state);
+
 			// perform the current action
 			if (this.currentOrder.isActionStart()) {
 				action.begin(state);
@@ -379,6 +364,15 @@ public class Player extends Solid {
 
 			// post-update
 			this.currentOrder.addActionTime(dtime);
+
+			// switch to next action when it has finished
+			if (action != null && action.hasFinished()) {
+				action.end(state);
+				Action nextAction;
+				do {
+					nextAction = this.currentOrder.switchAction(state);
+				} while (nextAction != null && !nextAction.check(state));
+			}
 		}
 	}
 

@@ -9,7 +9,7 @@ import com.md.mechevo.game.weapon.Weapon;
 
 public class Bullet extends Projectile {
 	public static final double RADIUS = 30;
-	public static final double SPEED = 30;
+	public static final double SPEED = 300;
 
 	public Bullet(int id, Position position, double angle, Weapon weapon) {
 		super(id, position, RADIUS, SPEED, angle, weapon);

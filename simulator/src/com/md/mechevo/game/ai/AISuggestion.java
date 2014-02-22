@@ -63,16 +63,9 @@ public final class AISuggestion {
 
 	/**
 	 * Add time to the current action
-	 * If the action has ended automatically set the next one.
 	 */
 	public void addActionTime(double dtime) {
 		this.currentActionTime += dtime;
-
-		// switch actions if they already finished
-		if (this.action != null && this.action.hasFinished()) {
-			this.action = this.action.getNext();
-			this.currentActionTime = 0;
-		}
 	}
 
 	public double getCurrentActionTime() {
@@ -90,11 +83,20 @@ public final class AISuggestion {
 
 	/**
 	 * Retrieve the first action that can be performed or null if none exists
-	 * 
+	 *
 	 * @return Current action in the entry
 	 */
 	public Action getAction(State state) {
-		while ((this.action != null) && (!this.action.check(state))) {
+		return this.action;
+	}
+
+	/**
+	 * @param state the current state of the game
+	 * @return the next action that can be executed or null if none exists
+	 */
+	public Action switchAction(State state) {
+		this.currentActionTime = 0;
+		if (this.action != null) {
 			this.action = this.action.getNext();
 		}
 		return this.action;

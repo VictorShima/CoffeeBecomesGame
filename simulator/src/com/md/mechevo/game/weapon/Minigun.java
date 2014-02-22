@@ -17,11 +17,8 @@ public class Minigun extends Weapon {
 
 	public void fire(State state, Solid target) {
 		Projectile proj =
-				(target != null)
-						? new Bullet(state.getNextId(), this.getOwner().getPosition(), this
-								.getOwner().getAngle() + super.getAngleToTarget(target), this)
-						: new Bullet(state.getNextId(), this.getOwner().getPosition(), this
-								.getOwner().getAngle(), this);
+				new Bullet(state.getNextId(), this.getOwner().getPosition(), this.getOwner()
+						.getAngle(), this);
 		proj.registerEventObserver(state.getReport());
 		proj.begin(state);
 		state.addProjectile(proj);

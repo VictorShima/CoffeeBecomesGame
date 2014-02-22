@@ -47,6 +47,9 @@ public class AIEntry {
 	}
 
 	public void addAction(Action action) {
+		if (actions.size() > 0) {
+			actions.get(actions.size() - 1).setNext(action);
+		}
 		actions.add(action);
 	}
 

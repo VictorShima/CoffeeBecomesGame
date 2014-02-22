@@ -3,8 +3,8 @@ package com.md.mechevo.game.action;
 import java.util.ArrayList;
 
 import com.md.mechevo.game.EventData;
+import com.md.mechevo.game.Map;
 import com.md.mechevo.game.Player;
-import com.md.mechevo.game.Simulator;
 import com.md.mechevo.game.State;
 
 /**
@@ -78,7 +78,7 @@ public class MoveToEnemy extends Action {
 	public void update(State state, double dtime) {
 
 		// Turn at half the speed
-		double angleToTarget = this.getOwner().getAngleToTarget(target);
+		double angleToTarget = Map.getAngleToTarget(this.getOwner(), target);
 		double updatedAngle = this.getOwner().getAngle();
 		double rotation = dtime * Player.ROT_SPEED / 2;
 

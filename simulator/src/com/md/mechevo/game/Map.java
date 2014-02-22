@@ -120,4 +120,49 @@ public class Map {
 			}
 		}
 	}
+
+	/**
+	 *
+	 * @param s1 the first solid
+	 * @param s2 the solid target where s1 wants to turn to
+	 * @return the angle between the s1 and the s2
+	 */
+	public static double getAngleToTarget(Solid s1, Solid s2) {
+		// If s2 is null then return the player's angle
+		if (s2 != null) {
+			// rightPoint is a point always 20px to the absolute right of the player
+			double rightPointX = s1.getPosition().getX() + 20;
+			double rightPointY = s1.getPosition().getY();
+
+			double distBA =
+					Math.sqrt(Math.pow((s1.getPosition().getX() - s2.getPosition().getX()), 2)
+							+ (Math.pow((s1.getPosition().getY() - s2.getPosition().getY()), 2)));
+			double distBC =
+					Math.sqrt(Math.pow((s1.getPosition().getX() - rightPointX), 2)
+							+ (Math.pow((s1.getPosition().getY() - rightPointY), 2)));
+			double dotProd =
+					((rightPointX - s1.getPosition().getX())
+							* (s2.getPosition().getX() - s1.getPosition().getX()) + (rightPointY - s1
+							.getPosition().getY())
+							* (s2.getPosition().getY() - s1.getPosition().getY()));
+			double cosValue = (dotProd / (distBA * distBC));
+			double angle = Math.toDegrees(Math.acos(cosValue));
+
+			// Rotate clockwise/counter-clockwise is determined by sign of cross-product
+			double crossProd =
+					((rightPointX - s1.getPosition().getX())
+							* (s2.getPosition().getY() - s1.getPosition().getY()) - (rightPointY - s1
+							.getPosition().getY())
+							* (s2.getPosition().getX() - s1.getPosition().getX()));
+			// Change signal when cross product is positive
+			if (crossProd > 0) {
+				angle *= -1;
+			}
+
+			return (angle + 360) % 360;
+
+		} else {
+			return s1.getAngle();
+		}
+	}
 }
