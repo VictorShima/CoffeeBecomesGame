@@ -9,12 +9,11 @@ import com.md.mechevo.game.weapon.Weapon;
 
 
 /**
- * Attack will shoot with the selected weapon, first by checking if it's cooldown is up.
+ * Attack will shoot with the selected weapon[s], first by checking if their cooldown is 0.
  */
 public class Attack extends Action {
 	private static final boolean CANCELABLE = false;
-	private Weapon.WeaponSlot slot;
-	private Weapon weapon;
+	private ArrayList<Weapon> weapons;
 	private Player target;
 
 	/**
@@ -22,27 +21,29 @@ public class Attack extends Action {
 	 */
 	public Attack(Player owner, ArrayList<String> param) {
 		super(owner, param, Attack.CANCELABLE);
-		convertParam();
+		this.weapons = new ArrayList<>();
+		convertParams();
 	}
 
-	public Weapon getWeapon() {
-		return weapon;
+	public ArrayList<Weapon> getWeapons() {
+		return weapons;
 	}
 
 	public Player getTarget() {
 		return target;
 	}
 
-	public void convertParam() {
-		if (this.getParam().size() != 1) {
+	public void convertParams() {
+		if (this.getParam().size() == 0) {
 			throw new InvalidActionParameter(Attack.class.getSimpleName());
 		}
 		try {
-			ArrayList<Weapon> weapons = this.getOwner().getWeapons();
-			slot = Weapon.WeaponSlot.valueOf(this.getParam().get(0).toUpperCase());
-			for (Weapon w : weapons) {
-				if (w.getCurrentSlot() == slot) {
-					this.weapon = w;
+			for (String param : getParam()) {
+				Weapon.WeaponSlot slot = Weapon.WeaponSlot.valueOf(param.toUpperCase());
+				for (Weapon w : this.getOwner().getWeapons()) {
+					if (w.getCurrentSlot() == slot) {
+						this.weapons.add(w);
+					}
 				}
 			}
 		} catch (IllegalArgumentException e) {
@@ -59,14 +60,17 @@ public class Attack extends Action {
 	}
 
 	/**
-	 * Check if the required condition for an action applies.
-	 *
 	 * @param state Current State of the game
-	 * @return True if the condition applies
+	 * @return True if the at least one weapon has the current cooldown equal to 0, false otherwise.
 	 */
 	@Override
 	public boolean check(State state) {
-		return this.getWeapon().getCurrentCooldown() == 0;
+		for (Weapon w : this.weapons) {
+			if (w.getCurrentCooldown() == 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -78,8 +82,13 @@ public class Attack extends Action {
 	public void begin(State state) {
 		target = this.getOwner().getCurrentOrder().getPreferredTarget();
 		EventData eventData =
-				new EventData("startAttacking").addAttribute("id", getOwner().getId())
-						.addAttribute("slot", this.slot.toString());
+				new EventData("startAttacking").addAttribute("id", getOwner().getId());
+
+		for (Weapon w : this.weapons) {
+			if (w.getCurrentCooldown() == 0) {
+				eventData.addAttribute("slot" + w.getCurrentSlot().toString(), "true");
+			}
+		}
 		this.notifyEventObserver(eventData);
 	}
 
@@ -91,7 +100,11 @@ public class Attack extends Action {
 	 */
 	@Override
 	public void update(State state, double dtime) {
-		this.getWeapon().fire(state, getTarget());
+		for (Weapon w : weapons) {
+			if (w.getCurrentCooldown() == 0) {
+				w.fire(state, this.getTarget());
+			}
+		}
 	}
 
 	/**
@@ -101,9 +114,15 @@ public class Attack extends Action {
 	 */
 	@Override
 	public void end(State state) {
+		target = this.getOwner().getCurrentOrder().getPreferredTarget();
 		EventData eventData =
-				new EventData("stopAttacking").addAttribute("id", getOwner().getId()).addAttribute(
-						"slot", this.slot.toString());
+ new EventData("stopAttacking").addAttribute("id", getOwner().getId());
+
+		for (Weapon w : this.weapons) {
+			if (w.getCurrentCooldown() == w.getCooldown()) {
+				eventData.addAttribute("slot" + w.getCurrentSlot().toString(), "true");
+			}
+		}
 		this.notifyEventObserver(eventData);
 	}
 }

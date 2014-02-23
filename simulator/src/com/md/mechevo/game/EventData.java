@@ -64,6 +64,15 @@ public class EventData {
 		return this.title;
 	}
 
+	public String getAttribute(String key) {
+		for (SimpleImmutableEntry<String, String> entry : this.attributes) {
+			if (entry.getKey().equals(key)) {
+				return entry.getValue();
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * Attribute getter
 	 */
