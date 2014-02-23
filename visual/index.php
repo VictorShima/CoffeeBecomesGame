@@ -1,4 +1,5 @@
 <?php
+header('content-type', 'text/html; charset=utf-8');
 session_name("MEVO");
 session_start();
 
@@ -13,8 +14,12 @@ if (!isset($_GET['page'])) {
 
 <head>
 	<title>Coffee Becomes Game</title>
+	
 	<script type="application/javascript" src="jquery-1.9.1.js"></script>
+	<script type="application/javascript" src="jquery-ui-1.10.4.min.js"></script>
 	<script type="application/javascript" src="mechevo-visual.js"></script>
+	
+	<link type="text/css" rel="stylesheet" href="jquery-ui-1.10.4.min.css" />
 	<link type="text/css" rel="stylesheet" href="reset.css" />
 	<link type="text/css" rel="stylesheet" href="style.css" />
 </head>
