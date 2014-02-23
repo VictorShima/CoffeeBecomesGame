@@ -188,6 +188,15 @@ public abstract class Solid implements CollisionVisitor, EventObservable {
 		this.setAngle((this.getAngle() + amount + 360) % 360);
 	}
 
+	/**
+	 *
+	 * @param pos the position
+	 * @return true if this solid contains the pos inside its area, false otherwise.
+	 */
+	public boolean intersectsWith(Position pos) {
+		return Map.getDistance(this.getPosition(), pos) < this.getRadius();
+	}
+
 	// interface CollisionVisitor
 	@Override
 	public abstract void collidesWith(State state, Player p);

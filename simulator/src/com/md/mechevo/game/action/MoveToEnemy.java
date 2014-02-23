@@ -106,7 +106,8 @@ public class MoveToEnemy extends Action {
 		this.notifyEventObserver(eventData, this.getOwner().getReport().getCurrentTime() + (dtime / 2));
 
 		// Move at half the time
-		double distanceToTarget = state.getMap().getDistance(this.getOwner(), this.target);
+		double distanceToTarget =
+				Map.getDistance(this.getOwner().getPosition(), this.target.getPosition());
 		double moveDistance = dtime * this.speed / 2;
 
 		if (distanceToTarget < moveDistance) {

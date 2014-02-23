@@ -2,6 +2,7 @@ package com.md.mechevo.game.condition;
 
 import java.util.ArrayList;
 
+import com.md.mechevo.game.Map;
 import com.md.mechevo.game.Player;
 import com.md.mechevo.game.State;
 
@@ -65,7 +66,8 @@ public class DistanceToEnemy extends Condition {
 		}
 
 		return this.target != null
-				&& state.getMap().getDistance(this.getOwner(), this.target) < this.getDistance();
+				&& Map.getDistance(this.getOwner().getPosition(), this.target.getPosition()) < this
+						.getDistance();
 	}
 
 	/**

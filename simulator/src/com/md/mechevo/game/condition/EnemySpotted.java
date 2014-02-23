@@ -1,9 +1,9 @@
 package com.md.mechevo.game.condition;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import com.md.mechevo.game.Player;
-import com.md.mechevo.game.State;
+import com.md.mechevo.game.*;
 
 /**
  * Selects the closest/farthest visible enemy
@@ -21,6 +21,47 @@ public class EnemySpotted extends Condition {
 
 	public void setPreferredEnemy(Player preferredEnemy) {
 		this.preferredEnemy = preferredEnemy;
+	}
+
+	/**
+	 * This works because the target is already in the Field Of View
+	 * @param target the target the player wants to see
+	 * @param state the current state of the game
+	 * @return true if there is no solid between the player and the target.
+	 */
+	private boolean isTargetVisible(Solid target, State state) {
+		double angleToTarget = Map.getAngleToTarget(this.getOwner(), target);
+		Position ownerPos = this.getOwner().getPosition();
+		List<Obstacle> obstacles =
+				this.getOwner().fieldOfViewObstacles(state, Player.FieldOfViewAngle.VIEW);
+
+		/**
+		 * To create a vector pointing to the target and see if it intersects with any obstacle,
+		 * vector = cos( abs(angleToTarget - angleToObstacle) ) * distanceToObstacle
+		 *
+		 * To see if they intersect, just see if distance( Position(vector + ownerPos), obstaclePos ) < obstacleRadius
+		 */
+		for (Obstacle o : obstacles) {
+			double angleToObstacle = Map.getAngleToTarget(this.getOwner(), o);
+			double alpha = Math.abs(angleToObstacle - angleToTarget);
+			Position obstaclePos = o.getPosition();
+			double dstObstacle =
+					Math.sqrt(Math.pow(obstaclePos.getX() - ownerPos.getX(), 2)
+							+ Math.pow(obstaclePos.getY() - ownerPos.getY(), 2));
+			double vectorToTargetDst = Math.cos(Math.toRadians(alpha)) * dstObstacle;
+
+			double playerToTargetAngle = Math.abs(angleToTarget - this.getOwner().getAngle());
+			Position vectorToTargetPos =
+					new Position(ownerPos.getX() + Math.cos(Math.toRadians(playerToTargetAngle))
+							* vectorToTargetDst, ownerPos.getY()
+							+ Math.sin(Math.toRadians(playerToTargetAngle)) * vectorToTargetDst);
+
+			// if the point intersects with the obstacle
+			if (o.intersectsWith(vectorToTargetPos)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -42,12 +83,11 @@ public class EnemySpotted extends Condition {
 				dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
 				if (dist < nearestDist) {
 					nearestDist = dist;
-					this.setPreferredEnemy(p);
+					this.preferredEnemy = p;
 				}
 			}
-			return true;
 		}
-		return false;
+		return (this.preferredEnemy != null) && isTargetVisible(this.preferredEnemy, state);
 	}
 
 	/**
