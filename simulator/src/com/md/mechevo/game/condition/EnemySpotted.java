@@ -50,11 +50,10 @@ public class EnemySpotted extends Condition {
 							+ Math.pow(obstaclePos.getY() - ownerPos.getY(), 2));
 			double vectorToTargetDst = Math.cos(Math.toRadians(alpha)) * dstObstacle;
 
-			double playerToTargetAngle = Math.abs(angleToTarget - this.getOwner().getAngle());
 			Position vectorToTargetPos =
-					new Position(ownerPos.getX() + Math.cos(Math.toRadians(playerToTargetAngle))
+					new Position(ownerPos.getX() + Math.cos(Math.toRadians(angleToTarget))
 							* vectorToTargetDst, ownerPos.getY()
-							+ Math.sin(Math.toRadians(playerToTargetAngle)) * vectorToTargetDst);
+							+ Math.sin(Math.toRadians(angleToTarget)) * vectorToTargetDst);
 
 			// if the point intersects with the obstacle
 			if (o.intersectsWith(vectorToTargetPos)) {
